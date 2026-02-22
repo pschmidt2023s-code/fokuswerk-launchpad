@@ -13,7 +13,7 @@ const features = [
   { icon: Maximize2, title: "90x45 cm Vollflächig", desc: "Bedeckt deinen gesamten Arbeitsplatz" },
   { icon: MousePointer, title: "Präzise Tracking-Oberfläche", desc: "Ultra-glatte Mikrofaser" },
   { icon: ShieldCheck, title: "Anti-Rutsch-Gummibasis", desc: "Bleibt genau dort, wo du sie platzierst" },
-  { icon: Layers, title: "3 mm Komfort-Dicke", desc: "Entwickelt für ganztägige Nutzung" },
+  { icon: Layers, title: "4 mm Komfort-Dicke", desc: "Entwickelt für ganztägige Nutzung" },
   { icon: Square, title: "Tiefes Mattschwarz", desc: "Dezentes tonales Logo" },
 ];
 
