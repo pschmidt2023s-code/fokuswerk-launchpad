@@ -2,12 +2,25 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2, Minus, Plus, ArrowRight } from "lucide-react";
+import { Trash2, Minus, Plus, ArrowRight, Tag, X } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const CartPage = () => {
-  const { items, removeItem, updateQuantity, subtotal, shippingCost, total } = useCart();
+  const { items, removeItem, updateQuantity, subtotal, shippingCost, total, discount, discountCode, applyDiscount, removeDiscount } = useCart();
   const [coupon, setCoupon] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const { toast } = useToast();
+
+  const handleApplyCoupon = () => {
+    setCouponError("");
+    if (applyDiscount(coupon.trim())) {
+      toast({ title: "Rabattcode angewendet", description: "10 % Rabatt auf deine Bestellung." });
+      setCoupon("");
+    } else {
+      setCouponError("Ungültiger Rabattcode.");
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -72,16 +85,22 @@ const CartPage = () => {
         </div>
 
         {/* Summary */}
-        <div className="border border-border p-6">
+        <div className="border border-border p-6 h-fit">
           <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Bestellübersicht</p>
           <div className="mt-6 space-y-3 text-sm">
             <div className="flex justify-between text-muted-foreground">
               <span>Zwischensumme</span>
               <span>{subtotal.toFixed(2).replace(".", ",")} &euro;</span>
             </div>
+            {discount > 0 && (
+              <div className="flex justify-between text-green-700">
+                <span>Rabatt (−10 %)</span>
+                <span>−{discount.toFixed(2).replace(".", ",")} €</span>
+              </div>
+            )}
             <div className="flex justify-between text-muted-foreground">
               <span>Versand</span>
-              <span>{shippingCost === 0 ? "Kostenlos" : `${shippingCost.toFixed(2).replace(".", ",")} \u20AC`}</span>
+              <span>{shippingCost === 0 ? "Kostenlos" : `${shippingCost.toFixed(2).replace(".", ",")} €`}</span>
             </div>
             <div className="border-t border-border pt-3">
               <div className="flex justify-between font-semibold text-foreground">
@@ -92,16 +111,32 @@ const CartPage = () => {
             </div>
           </div>
 
-          <div className="mt-6 flex gap-2">
-            <Input
-              placeholder="Rabattcode"
-              value={coupon}
-              onChange={(e) => setCoupon(e.target.value)}
-              className="rounded-none text-sm"
-            />
-            <Button variant="outline" className="shrink-0 rounded-none text-xs uppercase tracking-wider">
-              Einlösen
-            </Button>
+          {/* Coupon */}
+          <div className="mt-6">
+            {discountCode ? (
+              <div className="flex items-center justify-between border border-green-200 bg-green-50 px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <Tag className="h-3.5 w-3.5 text-green-700" />
+                  <span className="text-xs font-medium text-green-800">{discountCode} (−10 %)</span>
+                </div>
+                <button onClick={removeDiscount} className="text-green-600 hover:text-green-800">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Rabattcode"
+                  value={coupon}
+                  onChange={(e) => { setCoupon(e.target.value); setCouponError(""); }}
+                  className="rounded-none text-sm"
+                />
+                <Button variant="outline" className="shrink-0 rounded-none text-xs uppercase tracking-wider" onClick={handleApplyCoupon}>
+                  Einlösen
+                </Button>
+              </div>
+            )}
+            {couponError && <p className="mt-1 text-xs text-destructive">{couponError}</p>}
           </div>
 
           <Button asChild size="lg" className="mt-6 w-full rounded-none text-sm uppercase tracking-[0.15em]">

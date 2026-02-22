@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      abandoned_carts: {
+        Row: {
+          created_at: string
+          customer_name: string | null
+          email: string
+          id: string
+          items: Json
+          reminder_sent: boolean
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name?: string | null
+          email: string
+          id?: string
+          items?: Json
+          reminder_sent?: boolean
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string | null
+          email?: string
+          id?: string
+          items?: Json
+          reminder_sent?: boolean
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -38,6 +71,30 @@ export type Database = {
           is_read?: boolean
           message?: string
           name?: string
+        }
+        Relationships: []
+      }
+      email_subscribers: {
+        Row: {
+          created_at: string
+          discount_code: string | null
+          email: string
+          id: string
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          discount_code?: string | null
+          email: string
+          id?: string
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          discount_code?: string | null
+          email?: string
+          id?: string
+          source?: string | null
         }
         Relationships: []
       }
