@@ -12,7 +12,7 @@ const LegalPage = ({ title, children }: { title: string; children: React.ReactNo
 export const LegalNotice = () => (
   <LegalPage title="Impressum">
     <p><strong className="text-foreground">FOKUSWERK</strong></p>
-    <p>FOKUSWERK<br />BGM.-Scheller-Str 14<br /96215 Lichtenfels<br />Deutschland</p>
+    <p>FOKUSWERK<br />BGM.-Scheller-Str 14<br />96215 Lichtenfels<br />Deutschland</p>
     <p>Vertreten durch: Patric-Maurice Schmidt</p>
     <p>E-Mail: support@fokuswerk.com<br /></p>
     <p className="text-xs"></p>
