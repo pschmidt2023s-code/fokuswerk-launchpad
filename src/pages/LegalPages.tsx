@@ -12,11 +12,10 @@ const LegalPage = ({ title, children }: { title: string; children: React.ReactNo
 export const LegalNotice = () => (
   <LegalPage title="Impressum">
     <p><strong className="text-foreground">FOKUSWERK</strong></p>
-    <p>Muster GmbH<br />Musterstraße 1<br />10115 Berlin<br />Deutschland</p>
-    <p>Vertreten durch: Max Mustermann</p>
-    <p>E-Mail: hello@fokuswerk.com<br />Telefon: +49 30 123456789</p>
-    <p>Handelsregister: Amtsgericht Berlin, HRB 123456<br />USt-IdNr.: DE123456789</p>
-    <p className="text-xs">Platzhalter — durch tatsächliche Angaben ersetzen.</p>
+    <p>FOKUSWERK<br />BGM.-Scheller-Str 14<br /96215 Lichtenfels<br />Deutschland</p>
+    <p>Vertreten durch: Patric-Maurice Schmidt</p>
+    <p>E-Mail: support@fokuswerk.com<br /></p>
+    <p className="text-xs"></p>
   </LegalPage>
 );
 
