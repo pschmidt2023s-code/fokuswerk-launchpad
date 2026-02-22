@@ -67,28 +67,54 @@ export const products: Product[] = [
   },
 ];
 
-export const faqData = [
-  {
-    question: "Ist das ein Gaming-Mousepad?",
-    answer: "Es ist für Präzision optimiert, aber für hochwertige Arbeitsplätze designt. Keine Gaming-Ästhetik.",
-  },
-  {
-    question: "Ist es waschbar?",
-    answer: "Ja, Handwäsche wird empfohlen. Flach trocknen lassen. Nicht in der Maschine waschen oder bügeln.",
-  },
-  {
-    question: "Verrutscht es auf dem Schreibtisch?",
-    answer: "Nein. Die Anti-Rutsch-Gummibasis hält es genau dort, wo du es platzierst.",
-  },
-  {
-    question: "Wie lang ist die Lieferzeit?",
-    answer: "5–8 Werktage innerhalb der EU. Wir versenden aus Deutschland.",
-  },
-  {
-    question: "Wie ist die Rückgabepolitik?",
-    answer: "14 Tage Rückgaberecht. Ohne Angabe von Gründen. Details auf unserer Widerrufsseite.",
-  },
-];
+export const faqData = {
+  produkt: [
+    {
+      question: "Ist es ein Gaming-Mousepad?",
+      answer: "Es ist für Präzision optimiert, aber für hochwertige Arbeitsplätze designt. Keine Gaming-Ästhetik.",
+    },
+    {
+      question: "Verrutscht es?",
+      answer: "Nein. Die Anti-Rutsch-Gummibasis hält es genau dort, wo du es platzierst.",
+    },
+    {
+      question: "Ist es waschbar?",
+      answer: "Ja, Handwäsche wird empfohlen. Flach trocknen lassen. Nicht in der Maschine waschen oder bügeln.",
+    },
+    {
+      question: "Wie dick ist es?",
+      answer: "4 mm Komfort-Dicke — entwickelt für ganztägige Nutzung.",
+    },
+    {
+      question: "Warum kostet es 69€?",
+      answer: "Weil Qualität kein Feature ist. Sie ist Standard.",
+    },
+  ],
+  versand: [
+    {
+      question: "Wie lang ist die Lieferzeit?",
+      answer: "5–8 Werktage innerhalb der EU. Wir versenden aus Deutschland.",
+    },
+    {
+      question: "Was kosten die Versandkosten?",
+      answer: "Kostenloser Versand innerhalb der EU. Keine versteckten Gebühren.",
+    },
+    {
+      question: "Wohin wird versendet?",
+      answer: "Wir versenden aktuell in alle EU-Länder. Versand aus Deutschland.",
+    },
+  ],
+  rueckgabe: [
+    {
+      question: "Wie ist die Rückgabepolitik?",
+      answer: "14 Tage Rückgaberecht. Ohne Angabe von Gründen. Details auf unserer Widerrufsseite.",
+    },
+    {
+      question: "In welchem Zustand muss das Produkt sein?",
+      answer: "Das Produkt muss unbenutzt und in der Originalverpackung zurückgesendet werden.",
+    },
+  ],
+};
 
 export const reviewsData = [
   { name: "Alexander M.", rating: 5, text: "Endlich eine Schreibtischunterlage, die zu meinem Setup passt. Keine Logos, kein RGB. Einfach clean.", date: "Feb 2026" },

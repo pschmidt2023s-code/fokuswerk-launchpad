@@ -187,19 +187,28 @@ const Index = () => {
         <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-foreground">
           Häufige Fragen
         </h2>
-        <div className="mx-auto mt-12 max-w-2xl">
-          <Accordion type="single" collapsible>
-            {faqData.map((f, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                <AccordionTrigger className="text-sm text-foreground hover:no-underline">
-                  {f.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">
-                  {f.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+        <div className="mx-auto mt-12 max-w-2xl space-y-12">
+          {([
+            { title: "Produkt", items: faqData.produkt },
+            { title: "Versand", items: faqData.versand },
+            { title: "Rückgabe", items: faqData.rueckgabe },
+          ] as const).map((section) => (
+            <div key={section.title}>
+              <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">{section.title}</p>
+              <Accordion type="single" collapsible className="mt-4">
+                {section.items.map((f, i) => (
+                  <AccordionItem key={i} value={`${section.title}-${i}`} className="border-border">
+                    <AccordionTrigger className="text-sm text-foreground hover:no-underline">
+                      {f.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-sm text-muted-foreground">
+                      {f.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          ))}
         </div>
       </section>
     </div>
