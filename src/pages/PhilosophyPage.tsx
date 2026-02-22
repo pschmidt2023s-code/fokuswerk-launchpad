@@ -43,8 +43,9 @@ const PhilosophyPage = () => (
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl text-center">
+        <p className="mb-6 text-sm text-muted-foreground">Wenn Fokus gebaut wird, beginnt er hier.</p>
         <Button asChild size="lg" className="rounded-none px-10 text-sm uppercase tracking-[0.15em]">
-          <Link to="/shop">Jetzt entdecken <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          <Link to="/shop">DESK MAT 01 ENTDECKEN <ArrowRight className="ml-2 h-4 w-4" /></Link>
         </Button>
       </div>
     </section>
