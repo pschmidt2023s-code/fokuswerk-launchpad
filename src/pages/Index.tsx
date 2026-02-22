@@ -32,7 +32,7 @@ const Index = () => {
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" className="rounded-none bg-white px-10 text-sm uppercase tracking-[0.15em] text-black hover:bg-white/90">
-              <Link to="/shop">Jetzt entdecken <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link to="/shop">DESK MAT 01 ENTDECKEN <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-none border-white/20 bg-transparent px-10 text-sm uppercase tracking-[0.15em] text-white hover:bg-white/10">
               <Link to="/philosophy">Unsere Philosophie</Link>
