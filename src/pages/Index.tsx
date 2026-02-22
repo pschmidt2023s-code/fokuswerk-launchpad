@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square } from "lucide-react";
+import deskMatHero from "@/assets/desk-mat-hero.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -40,11 +41,11 @@ const Index = () => {
 
           {/* Product Image Placeholder */}
           <div className="mt-16 w-full max-w-3xl">
-            <div className="aspect-[16/9] w-full border border-white/10 bg-white/5">
-              <div className="flex h-full items-center justify-center text-sm text-white/30">
-                Produktbild — DESK MAT 01
-              </div>
-            </div>
+            <img
+              src={deskMatHero}
+              alt="FOKUSWERK DESK MAT 01 — Premium-Schreibtischunterlage auf einem minimalistischen Schreibtisch"
+              className="w-full"
+            />
           </div>
         </div>
       </section>
