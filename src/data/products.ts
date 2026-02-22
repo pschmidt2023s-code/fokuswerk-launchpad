@@ -32,7 +32,7 @@ export const products: Product[] = [
     shortDescription: "Premium-Schreibtischunterlage. 90x45 cm. Tiefes Mattschwarz.",
     tagline: "Strukturiere deinen Arbeitsplatz.",
     variants: [
-      { id: "desk-mat-01", name: "DESK MAT 01", price: 39, sku: "FW-DM-01", stock: 25 },
+      { id: "desk-mat-01", name: "DESK MAT 01", price: 69, sku: "FW-DM-01", stock: 25 },
     ],
     images: [
       "/placeholder.svg",
