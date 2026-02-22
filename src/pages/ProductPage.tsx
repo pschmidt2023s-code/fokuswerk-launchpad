@@ -181,6 +181,15 @@ const ProductPage = () => {
                 ))}
               </ul>
             </div>
+
+            <div className="mt-8 border-t border-border pt-8">
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                FOKUSWERK wurde entwickelt, um Ablenkung zu reduzieren.
+              </p>
+              <p className="mt-2 text-sm font-medium text-foreground">
+                Jede Oberfläche, jede Kante, jede Entscheidung dient einem Zweck: Kontrolle.
+              </p>
+            </div>
           </div>
         </div>
       </div>
