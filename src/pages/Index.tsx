@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square } from "lucide-react";
 import deskMatHero from "@/assets/desk-mat-hero.png";
 import deskBefore from "@/assets/desk-before.png";
+import deskAfter from "@/assets/desk-after.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -69,10 +70,8 @@ const Index = () => {
           <div className="border border-border overflow-hidden">
             <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch" className="w-full h-full object-cover aspect-[4/3]" />
           </div>
-          <div className="border border-foreground bg-card p-8">
-            <div className="flex aspect-[4/3] items-center justify-center text-sm text-foreground">
-              Nachher — FOKUSWERK Setup
-            </div>
+          <div className="border border-foreground overflow-hidden">
+            <img src={deskAfter} alt="Nachher — FOKUSWERK Setup" className="w-full h-full object-cover aspect-[4/3]" />
           </div>
         </div>
       </section>
