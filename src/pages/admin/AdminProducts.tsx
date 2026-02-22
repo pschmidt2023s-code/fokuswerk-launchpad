@@ -13,16 +13,7 @@ import type { Tables, TablesInsert } from "@/integrations/supabase/types";
 type Product = Tables<"products">;
 
 const emptyProduct: Partial<TablesInsert<"products">> = {
-  name: "",
-  slug: "",
-  price: 0,
-  stock: 0,
-  description: "",
-  short_description: "",
-  tagline: "",
-  is_active: true,
-  seo_title: "",
-  seo_description: "",
+  name: "", slug: "", price: 0, stock: 0, description: "", short_description: "", tagline: "", is_active: true, seo_title: "", seo_description: "",
 };
 
 const AdminProducts = () => {
@@ -42,26 +33,16 @@ const AdminProducts = () => {
     mutationFn: async (p: Partial<Product>) => {
       if (isNew) {
         await supabase.from("products").insert({
-          name: p.name!,
-          slug: p.slug!,
-          price: p.price ?? 0,
-          stock: p.stock ?? 0,
-          description: p.description,
-          short_description: p.short_description,
-          tagline: p.tagline,
-          is_active: p.is_active ?? true,
-          seo_title: p.seo_title,
-          seo_description: p.seo_description,
+          name: p.name!, slug: p.slug!, price: p.price ?? 0, stock: p.stock ?? 0,
+          description: p.description, short_description: p.short_description, tagline: p.tagline,
+          is_active: p.is_active ?? true, seo_title: p.seo_title, seo_description: p.seo_description,
         });
       } else {
         const { id, created_at, updated_at, ...rest } = p as Product;
         await supabase.from("products").update(rest).eq("id", id);
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
-      setEditing(null);
-    },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-products"] }); setEditing(null); },
   });
 
   const toggleActive = useMutation({
@@ -76,17 +57,18 @@ const AdminProducts = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-foreground">Produkte</h1>
           <p className="mt-1 text-xs text-muted-foreground">Produkte verwalten</p>
         </div>
         <Button onClick={openNew} className="rounded-none text-xs uppercase tracking-wider">
-          <Plus className="mr-2 h-4 w-4" /> Neues Produkt
+          <Plus className="mr-1 h-4 w-4 sm:mr-2" /> <span className="hidden sm:inline">Neues Produkt</span><span className="sm:hidden">Neu</span>
         </Button>
       </div>
 
-      <div className="mt-6 border border-border">
+      {/* Desktop table */}
+      <div className="mt-6 hidden sm:block border border-border">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-card text-left">
@@ -94,7 +76,7 @@ const AdminProducts = () => {
               <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Preis</th>
               <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Bestand</th>
               <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Aktiv</th>
-              <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground"></th>
+              <th className="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
@@ -121,6 +103,28 @@ const AdminProducts = () => {
         </table>
       </div>
 
+      {/* Mobile cards */}
+      <div className="mt-6 space-y-2 sm:hidden">
+        {isLoading ? (
+          <p className="py-8 text-center text-xs text-muted-foreground">Laden...</p>
+        ) : products?.length === 0 ? (
+          <p className="py-8 text-center text-xs text-muted-foreground">Keine Produkte</p>
+        ) : (
+          products?.map((p) => (
+            <div key={p.id} className="border border-border p-3 space-y-2" onClick={() => openEdit(p)}>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-foreground">{p.name}</p>
+                <Switch checked={p.is_active} onCheckedChange={(v) => { v; toggleActive.mutate({ id: p.id, is_active: v }); }} onClick={(e) => e.stopPropagation()} />
+              </div>
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>{Number(p.price).toFixed(2).replace(".", ",")} €</span>
+                <span>Bestand: {p.stock}</span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
       {/* Edit/Create Dialog */}
       <Dialog open={!!editing} onOpenChange={() => setEditing(null)}>
         <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto rounded-none">
@@ -130,10 +134,7 @@ const AdminProducts = () => {
             </DialogTitle>
           </DialogHeader>
           {editing && (
-            <form
-              onSubmit={(e) => { e.preventDefault(); upsert.mutate(editing); }}
-              className="space-y-4"
-            >
+            <form onSubmit={(e) => { e.preventDefault(); upsert.mutate(editing); }} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label className="text-xs uppercase tracking-wider text-muted-foreground">Name</Label>
@@ -144,7 +145,7 @@ const AdminProducts = () => {
                   <Input className="rounded-none" value={editing.slug ?? ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} required />
                 </div>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 grid-cols-2">
                 <div className="space-y-2">
                   <Label className="text-xs uppercase tracking-wider text-muted-foreground">Preis (€)</Label>
                   <Input className="rounded-none" type="number" step="0.01" value={editing.price ?? 0} onChange={(e) => setEditing({ ...editing, price: parseFloat(e.target.value) })} />

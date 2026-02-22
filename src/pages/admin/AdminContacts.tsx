@@ -35,7 +35,8 @@ const AdminContacts = () => {
       <h1 className="text-xl font-bold text-foreground">Kontaktanfragen</h1>
       <p className="mt-1 text-xs text-muted-foreground">Eingegangene Nachrichten</p>
 
-      <div className="mt-6 border border-border">
+      {/* Desktop table */}
+      <div className="mt-6 hidden sm:block border border-border">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-card text-left">
@@ -72,6 +73,30 @@ const AdminContacts = () => {
         </table>
       </div>
 
+      {/* Mobile cards */}
+      <div className="mt-6 space-y-2 sm:hidden">
+        {isLoading ? (
+          <p className="py-8 text-center text-xs text-muted-foreground">Laden...</p>
+        ) : messages?.length === 0 ? (
+          <p className="py-8 text-center text-xs text-muted-foreground">Keine Anfragen</p>
+        ) : (
+          messages?.map((m) => (
+            <div
+              key={m.id}
+              className={`border border-border p-3 space-y-1 ${!m.is_read ? "bg-accent/50" : ""}`}
+              onClick={() => openMessage(m)}
+            >
+              <div className="flex items-center gap-2">
+                {m.is_read ? <MailOpen className="h-3.5 w-3.5 text-muted-foreground" /> : <Mail className="h-3.5 w-3.5 text-foreground" />}
+                <p className={`text-sm ${!m.is_read ? "font-semibold text-foreground" : "text-foreground"}`}>{m.name}</p>
+              </div>
+              <p className="text-xs text-muted-foreground line-clamp-2">{m.message}</p>
+              <p className="text-[10px] text-muted-foreground">{new Date(m.created_at).toLocaleDateString("de-DE")}</p>
+            </div>
+          ))
+        )}
+      </div>
+
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-lg rounded-none">
           <DialogHeader>
@@ -79,9 +104,9 @@ const AdminContacts = () => {
           </DialogHeader>
           {selected && (
             <div className="space-y-4 text-sm">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div><p className="text-xs text-muted-foreground">Name</p><p className="text-foreground">{selected.name}</p></div>
-                <div><p className="text-xs text-muted-foreground">E-Mail</p><p className="text-foreground">{selected.email}</p></div>
+                <div><p className="text-xs text-muted-foreground">E-Mail</p><p className="text-foreground break-all">{selected.email}</p></div>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Nachricht</p>
