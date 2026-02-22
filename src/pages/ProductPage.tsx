@@ -67,20 +67,24 @@ const ProductPage = () => {
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
             {/* Low stock */}
-            {variant.stock <= 100 && (
-              <div className="mt-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  DESK MAT 01 — Limitiert
-                </p>
-                <div className="mt-2 h-1 w-full bg-muted">
-                  <div
-                    className="h-full bg-foreground transition-all"
-                    style={{ width: `${variant.stock}%` }}
-                  />
+            {variant.stock <= 25 && (() => {
+              const totalStock = 25;
+              const remaining = Math.round((variant.stock / totalStock) * 100);
+              return (
+                <div className="mt-4">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    DESK MAT 01 — Limitiert
+                  </p>
+                  <div className="mt-2 h-1 w-full bg-muted">
+                    <div
+                      className="h-full bg-foreground transition-all"
+                      style={{ width: `${remaining}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{remaining}% verfügbar</p>
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">{variant.stock}% verfügbar</p>
-              </div>
-            )}
+              );
+            })()}
 
             <p className="mt-8 text-4xl font-bold text-foreground">
               {variant.price},00 &euro;
@@ -130,14 +134,38 @@ const ProductPage = () => {
 
             {/* Specs */}
             <div className="mt-8 border-t border-border pt-8">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Spezifikationen</p>
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Performance</p>
               <ul className="mt-4 space-y-2">
-                {product.specs.map((s, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
-                    {s}
-                  </li>
-                ))}
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  90 × 45 cm Vollfläche
+                </li>
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  4 mm Komfort-Dicke
+                </li>
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  Ultra-glatte Mikrofaser
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-8 border-t border-border pt-8">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Kontrolle</p>
+              <ul className="mt-4 space-y-2">
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  Anti-Rutsch-Gummibasis
+                </li>
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  Tiefes Mattschwarz
+                </li>
+                <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                  Dezentes tonales Logo
+                </li>
               </ul>
             </div>
 
