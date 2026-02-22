@@ -41,21 +41,19 @@ const ProductPage = () => {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Gallery */}
           <div>
-            <div className="border border-border p-8">
-              <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-                Produktbild {mainImage + 1}
-              </div>
+            <div className="border border-border overflow-hidden">
+              <img src={shopImages[mainImage]} alt={`FOKUSWERK DESK MAT 01 — Bild ${mainImage + 1}`} className="w-full aspect-square object-contain bg-white" />
             </div>
-            <div className="mt-4 grid grid-cols-4 gap-3">
-              {product.images.map((_, i) => (
+            <div className="mt-4 grid grid-cols-5 gap-3">
+              {shopImages.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setMainImage(i)}
-                  className={`border p-3 text-xs text-muted-foreground transition-colors ${
+                  className={`border overflow-hidden transition-colors ${
                     mainImage === i ? "border-foreground" : "border-border hover:border-muted-foreground"
                   }`}
                 >
-                  {i + 1}
+                  <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full aspect-square object-contain bg-white" />
                 </button>
               ))}
             </div>
