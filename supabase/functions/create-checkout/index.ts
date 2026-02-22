@@ -92,7 +92,7 @@ serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "FOKUSWERK <noreply@fokuswerk.de>",
+          from: "FOKUSWERK <noreply@aldenairperfumes.de>",
           to: [customer.email],
           subject: `Bestellbestätigung — FOKUSWERK`,
           html: `<div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
