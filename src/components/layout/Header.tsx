@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 
 const navLinks = [
@@ -12,6 +13,7 @@ const navLinks = [
 
 const Header = () => {
   const { totalItems } = useCart();
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -45,6 +47,9 @@ const Header = () => {
               {l.label}
             </Link>
           ))}
+          <Link to={user ? "/account" : "/auth"} className="text-muted-foreground transition-colors hover:text-foreground">
+            <User className="h-5 w-5" strokeWidth={1.5} />
+          </Link>
           <Link to="/cart" className="relative text-foreground">
             <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
             {totalItems > 0 && (
@@ -57,6 +62,9 @@ const Header = () => {
 
         {/* Mobile */}
         <div className="flex items-center gap-4 md:hidden">
+          <Link to={user ? "/account" : "/auth"} className="text-muted-foreground">
+            <User className="h-5 w-5" strokeWidth={1.5} />
+          </Link>
           <Link to="/cart" className="relative text-foreground">
             <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
             {totalItems > 0 && (
@@ -85,6 +93,13 @@ const Header = () => {
                 {l.label}
               </Link>
             ))}
+            <Link
+              to={user ? "/account" : "/auth"}
+              onClick={() => setMenuOpen(false)}
+              className="text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {user ? "Mein Konto" : "Anmelden"}
+            </Link>
           </nav>
         </div>
       )}

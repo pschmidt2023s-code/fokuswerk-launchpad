@@ -15,6 +15,8 @@ import OrderCancel from "./pages/OrderCancel";
 import ContactPage from "./pages/ContactPage";
 import PhilosophyPage from "./pages/PhilosophyPage";
 import AboutPage from "./pages/AboutPage";
+import AuthPage from "./pages/AuthPage";
+import AccountPage from "./pages/AccountPage";
 import { LegalNotice, PrivacyPolicy, TermsPage, ReturnsPage } from "./pages/LegalPages";
 import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -55,6 +57,8 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/philosophy" element={<PhilosophyPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/legal-notice" element={<LegalNotice />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsPage />} />
