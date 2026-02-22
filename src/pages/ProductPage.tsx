@@ -4,8 +4,14 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import shop1 from "@/assets/shop-1.png";
+import shop2 from "@/assets/shop-2.png";
+import shop3 from "@/assets/shop-3.png";
+import shop4 from "@/assets/shop-4.png";
+import shop5 from "@/assets/shop-5.png";
 
 const product = products[0];
+const shopImages = [shop1, shop2, shop3, shop4, shop5];
 
 const ProductPage = () => {
   const [mainImage, setMainImage] = useState(0);
