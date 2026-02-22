@@ -4,19 +4,28 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactPage = () => {
   const [sending, setSending] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
+    const fd = new FormData(e.currentTarget);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: fd.get("name") as string,
+      email: fd.get("email") as string,
+      message: fd.get("message") as string,
+    });
+    setSending(false);
+    if (error) {
+      toast({ title: "Fehler", description: "Nachricht konnte nicht gesendet werden.", variant: "destructive" });
+    } else {
       toast({ title: "Nachricht gesendet", description: "Wir melden uns in Kürze bei dir." });
       (e.target as HTMLFormElement).reset();
-    }, 1000);
+    }
   };
 
   return (
@@ -30,15 +39,15 @@ const ContactPage = () => {
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div className="space-y-2">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Name</Label>
-            <Input className="rounded-none" placeholder="Dein Name" required maxLength={100} />
+            <Input name="name" className="rounded-none" placeholder="Dein Name" required maxLength={100} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">E-Mail</Label>
-            <Input className="rounded-none" type="email" placeholder="du@beispiel.de" required maxLength={255} />
+            <Input name="email" className="rounded-none" type="email" placeholder="du@beispiel.de" required maxLength={255} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground">Nachricht</Label>
-            <Textarea className="min-h-[120px] rounded-none" placeholder="Deine Nachricht..." required maxLength={1000} />
+            <Textarea name="message" className="min-h-[120px] rounded-none" placeholder="Deine Nachricht..." required maxLength={1000} />
           </div>
           <Button type="submit" className="w-full rounded-none text-sm uppercase tracking-[0.15em]" disabled={sending}>
             {sending ? "Wird gesendet..." : "Nachricht senden"}
