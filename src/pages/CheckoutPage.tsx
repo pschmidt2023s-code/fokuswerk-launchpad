@@ -36,10 +36,18 @@ const CheckoutPage = () => {
   const [couponError, setCouponError] = useState("");
   const [addressErrors, setAddressErrors] = useState<string[]>([]);
   const abandonedSaved = useRef(false);
-  const [form, setForm] = useState({
-    firstName: "", lastName: "", email: "",
-    address: "", zip: "", city: "", country: "Deutschland",
+  const [form, setForm] = useState(() => {
+    const saved = sessionStorage.getItem("checkout_form");
+    if (saved) {
+      try { return JSON.parse(saved); } catch {}
+    }
+    return { firstName: "", lastName: "", email: "", address: "", zip: "", city: "", country: "Deutschland" };
   });
+
+  // Persist form to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem("checkout_form", JSON.stringify(form));
+  }, [form]);
 
   // Pre-fill from profile if logged in
   const { data: profile } = useQuery({
