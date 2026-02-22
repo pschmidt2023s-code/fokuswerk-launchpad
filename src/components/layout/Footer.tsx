@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <p className="text-sm font-bold tracking-[0.3em] text-white">FOKUSWERK</p>
+            <p className="text-sm font-bold tracking-[0.3em] text-white">FOCUSWERK</p>
             <p className="mt-3 max-w-sm text-sm text-[hsl(var(--section-dark-muted))]">
               Premium-Arbeitsplatz-Essentials für Klarheit und Kontrolle.
             </p>
@@ -66,7 +66,7 @@ const Footer = () => {
         {/* Social + Copyright */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} FOKUSWERK. Alle Rechte vorbehalten.
+            &copy; {new Date().getFullYear()} FOCUSWERK. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white">

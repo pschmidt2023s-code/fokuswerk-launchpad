@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const DISMISSED_KEY = "fokuswerk_popup_dismissed";
+const DISMISSED_KEY = "focuswerk_popup_dismissed";
 
 const EmailCapturePopup = () => {
   const [show, setShow] = useState(false);
@@ -81,7 +81,7 @@ const EmailCapturePopup = () => {
           </div>
         ) : (
           <div>
-            <p className="text-center text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">First Drop</p>
+            <p className="text-center text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">Pre-Order</p>
             <p className="mt-3 text-center text-xl font-bold text-foreground">10 % Rabatt</p>
             <p className="mt-2 text-center text-sm text-muted-foreground">
               Trag dich ein und erhalte 10 % auf deine erste Bestellung.
