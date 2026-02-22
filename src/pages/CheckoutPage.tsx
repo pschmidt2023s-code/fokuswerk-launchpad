@@ -6,34 +6,54 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { CreditCard } from "lucide-react";
 
 const CheckoutPage = () => {
-  const { items, subtotal, shippingCost, total } = useCart();
+  const { items, subtotal, shippingCost, total, clearCart } = useCart();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<"stripe" | "paypal" | null>(null);
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "",
     address: "", zip: "", city: "", country: "Deutschland",
   });
 
   const update = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
+  const isValid = form.firstName && form.lastName && form.email && form.address && form.zip && form.city;
+
+  const cartItems = items.map((i) => ({ name: i.name, price: i.price, quantity: i.quantity }));
+  const customer = { name: `${form.firstName} ${form.lastName}`, email: form.email };
+  const shippingAddress = { address: form.address, zip: form.zip, city: form.city, country: form.country };
 
   const handleStripe = async () => {
-    setLoading(true);
+    setLoading("stripe");
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          items: items.map((i) => ({ name: i.name, price: i.price, quantity: i.quantity })),
-          customer: { name: `${form.firstName} ${form.lastName}`, email: form.email },
-          shippingAddress: { address: form.address, zip: form.zip, city: form.city, country: form.country },
-        },
+        body: { items: cartItems, customer, shippingAddress },
       });
       if (error) throw error;
       if (data?.url) window.location.href = data.url;
-    } catch (err) {
-      toast({ title: "Fehler", description: "Zahlung konnte nicht gestartet werden.", variant: "destructive" });
+    } catch {
+      toast({ title: "Fehler", description: "Stripe-Zahlung konnte nicht gestartet werden.", variant: "destructive" });
     }
-    setLoading(false);
+    setLoading(null);
+  };
+
+  const handlePayPal = async () => {
+    setLoading("paypal");
+    try {
+      // Create PayPal order
+      const { data: createData, error: createErr } = await supabase.functions.invoke("paypal-checkout", {
+        body: { action: "create", items: cartItems, customer, shippingAddress },
+      });
+      if (createErr) throw createErr;
+
+      // Redirect to PayPal approval
+      const approvalUrl = `https://www.paypal.com/checkoutnow?token=${createData.id}`;
+      window.location.href = approvalUrl;
+    } catch {
+      toast({ title: "Fehler", description: "PayPal-Zahlung konnte nicht gestartet werden.", variant: "destructive" });
+    }
+    setLoading(null);
   };
 
   if (items.length === 0) {
@@ -46,8 +66,6 @@ const CheckoutPage = () => {
       </div>
     );
   }
-
-  const isValid = form.firstName && form.lastName && form.email && form.address && form.zip && form.city;
 
   return (
     <div className="container py-12">
@@ -88,16 +106,33 @@ const CheckoutPage = () => {
             <Input className="rounded-none" value="Deutschland" readOnly />
           </div>
 
-          <Button
-            size="lg"
-            className="mt-4 w-full rounded-none text-sm uppercase tracking-[0.15em]"
-            onClick={handleStripe}
-            disabled={loading || !isValid}
-          >
-            {loading ? "Weiterleitung..." : "Mit Stripe bezahlen"}
-          </Button>
+          {/* Payment Methods */}
+          <div className="mt-6 space-y-3">
+            <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Zahlungsmethode</p>
+            
+            <Button
+              size="lg"
+              className="w-full rounded-none text-sm uppercase tracking-[0.15em]"
+              onClick={handleStripe}
+              disabled={!!loading || !isValid}
+            >
+              <CreditCard className="mr-2 h-4 w-4" />
+              {loading === "stripe" ? "Weiterleitung..." : "Mit Kreditkarte bezahlen"}
+            </Button>
+
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full rounded-none text-sm uppercase tracking-[0.15em] border-[#0070ba] text-[#0070ba] hover:bg-[#0070ba]/10"
+              onClick={handlePayPal}
+              disabled={!!loading || !isValid}
+            >
+              {loading === "paypal" ? "Weiterleitung..." : "Mit PayPal bezahlen"}
+            </Button>
+          </div>
+
           <p className="text-center text-xs text-muted-foreground">
-            Du wirst für die sichere Zahlung zu Stripe weitergeleitet.
+            Sichere Zahlung über Stripe oder PayPal. Deine Daten sind verschlüsselt.
           </p>
         </div>
 
