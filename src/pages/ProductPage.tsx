@@ -64,7 +64,7 @@ const ProductPage = () => {
         name: product.name,
         variantName: variant.name,
         price: variant.price,
-        image: product.images[0],
+        image: shopImages[0],
       },
       quantity
     );
