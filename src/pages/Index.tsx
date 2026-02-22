@@ -3,6 +3,7 @@ import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square 
 import deskMatHero from "@/assets/desk-mat-hero.png";
 import deskBefore from "@/assets/desk-before.png";
 import deskAfter from "@/assets/desk-after.png";
+import deskTexture from "@/assets/desk-texture.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -105,10 +106,8 @@ const Index = () => {
               Vollflächige Abdeckung
             </div>
           </div>
-          <div className="border border-border p-6">
-            <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-              Textur-Nahaufnahme
-            </div>
+          <div className="border border-border overflow-hidden">
+            <img src={deskTexture} alt="Textur-Nahaufnahme" className="w-full aspect-square object-cover" />
           </div>
           <div className="border border-border p-6">
             <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
