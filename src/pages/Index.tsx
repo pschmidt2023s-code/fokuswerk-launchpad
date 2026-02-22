@@ -3,6 +3,7 @@ import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square 
 import deskMatHero from "@/assets/desk-mat-hero.png";
 import deskBefore from "@/assets/desk-before.png";
 import deskAfter from "@/assets/desk-after.png";
+import deskTexture from "@/assets/desk-texture.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
