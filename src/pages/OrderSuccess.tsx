@@ -4,14 +4,13 @@ import { Button } from "@/components/ui/button";
 
 const OrderSuccess = () => (
   <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-    <CheckCircle className="mb-6 h-12 w-12 text-foreground" />
-    <h1 className="text-2xl font-bold text-foreground">Vielen Dank für deine Bestellung!</h1>
+    <CheckCircle className="mb-6 h-12 w-12 text-foreground" strokeWidth={1.5} />
+    <h1 className="text-2xl font-bold text-foreground">Thank you for your order.</h1>
     <p className="mt-3 max-w-md text-sm text-muted-foreground">
-      Wir haben deine Bestellung erhalten und bearbeiten sie so schnell wie möglich.
-      Du erhältst in Kürze eine Bestätigungsmail.
+      Your order has been received. You will receive a confirmation email shortly.
     </p>
-    <Button asChild className="mt-8 rounded-none px-8 text-sm uppercase tracking-wider">
-      <Link to="/">Zurück zum Shop</Link>
+    <Button asChild className="mt-8 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
+      <Link to="/">Back to Home</Link>
     </Button>
   </div>
 );

@@ -1,21 +1,36 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
-  { label: "Shop", href: "/product/fokuswerk-snap-system" },
-  { label: "Kontakt", href: "/kontakt" },
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
+  { label: "Philosophy", href: "/philosophy" },
+  { label: "About", href: "/about" },
 ];
 
 const Header = () => {
   const { totalItems } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-border bg-background/95 backdrop-blur-md"
+          : "bg-transparent"
+      }`}
+    >
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="text-lg font-bold tracking-[0.2em] text-foreground">
+        <Link to="/" className="text-sm font-bold tracking-[0.3em] text-foreground">
           FOKUSWERK
         </Link>
 
@@ -25,13 +40,13 @@ const Header = () => {
             <Link
               key={l.href}
               to={l.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
             >
               {l.label}
             </Link>
           ))}
           <Link to="/cart" className="relative text-foreground">
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
             {totalItems > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[10px] font-bold text-background">
                 {totalItems}
@@ -43,7 +58,7 @@ const Header = () => {
         {/* Mobile */}
         <div className="flex items-center gap-4 md:hidden">
           <Link to="/cart" className="relative text-foreground">
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
             {totalItems > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[10px] font-bold text-background">
                 {totalItems}
@@ -59,13 +74,13 @@ const Header = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="border-t border-border bg-background md:hidden">
-          <nav className="container flex flex-col gap-4 py-6">
+          <nav className="container flex flex-col gap-6 py-8">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 to={l.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
               >
                 {l.label}
               </Link>
