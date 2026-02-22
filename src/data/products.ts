@@ -89,6 +89,10 @@ export const faqData = {
       question: "Warum kostet es 55€?",
       answer: "Weil Qualität kein Feature ist. Sie ist Standard.",
     },
+    {
+      question: "Warum produziert ihr nur 25 Stück?",
+      answer: "Wir produzieren bewusst in kleinen Stückzahlen. So können wir Qualität, Material und Verarbeitung kompromisslos kontrollieren. Jede Charge wird geprüft, bevor sie weitergeführt wird. Fokus entsteht nicht durch Masse – sondern durch Präzision.",
+    },
   ],
   versand: [
     {
