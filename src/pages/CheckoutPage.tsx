@@ -10,9 +10,9 @@ const CheckoutPage = () => {
   if (items.length === 0) {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-        <p className="text-lg font-semibold text-foreground">Dein Warenkorb ist leer</p>
-        <Button asChild className="mt-6 rounded-none px-8 text-sm uppercase tracking-wider">
-          <Link to="/">Zurück zum Shop</Link>
+        <p className="text-lg font-semibold text-foreground">Your cart is empty</p>
+        <Button asChild className="mt-6 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
+          <Link to="/shop">Back to Shop</Link>
         </Button>
       </div>
     );
@@ -20,80 +20,78 @@ const CheckoutPage = () => {
 
   return (
     <div className="container py-12">
-      <h1 className="text-2xl font-bold text-foreground">Kasse</h1>
+      <h1 className="text-2xl font-bold text-foreground">Checkout</h1>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-3">
-        {/* Form */}
         <div className="space-y-6 lg:col-span-2">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Vorname</Label>
-              <Input className="rounded-none" placeholder="Max" />
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">First Name</Label>
+              <Input className="rounded-none" placeholder="John" />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Nachname</Label>
-              <Input className="rounded-none" placeholder="Mustermann" />
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Last Name</Label>
+              <Input className="rounded-none" placeholder="Doe" />
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">E-Mail</Label>
-            <Input className="rounded-none" type="email" placeholder="max@beispiel.de" />
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Email</Label>
+            <Input className="rounded-none" type="email" placeholder="john@example.com" />
           </div>
           <div className="space-y-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Straße & Hausnummer</Label>
-            <Input className="rounded-none" placeholder="Musterstraße 1" />
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Address</Label>
+            <Input className="rounded-none" placeholder="Street and number" />
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">PLZ</Label>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Postal Code</Label>
               <Input className="rounded-none" placeholder="10115" />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Stadt</Label>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">City</Label>
               <Input className="rounded-none" placeholder="Berlin" />
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Land</Label>
-            <Input className="rounded-none" value="Deutschland" readOnly />
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Country</Label>
+            <Input className="rounded-none" value="Germany" readOnly />
           </div>
 
-          <Button size="lg" className="mt-4 w-full rounded-none text-sm uppercase tracking-wider">
-            Jetzt kostenpflichtig bestellen
+          <Button size="lg" className="mt-4 w-full rounded-none text-sm uppercase tracking-[0.15em]">
+            Place Order
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Nach Klick wirst du zu Stripe weitergeleitet, um die Zahlung sicher abzuschließen.
+            You will be redirected to Stripe for secure payment.
           </p>
         </div>
 
-        {/* Order Summary */}
-        <div className="rounded-sm border border-border bg-card p-6">
-          <p className="text-sm font-semibold uppercase tracking-wider text-foreground">Bestellübersicht</p>
+        <div className="border border-border p-6">
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Order Summary</p>
           <div className="mt-4 divide-y divide-border">
             {items.map((item) => (
               <div key={item.variantId} className="flex justify-between py-3 text-sm">
                 <div>
                   <p className="text-foreground">{item.name}</p>
-                  <p className="text-xs text-muted-foreground">{item.variantName} × {item.quantity}</p>
+                  <p className="text-xs text-muted-foreground">x{item.quantity}</p>
                 </div>
-                <p className="text-foreground">{(item.price * item.quantity).toFixed(2).replace(".", ",")} €</p>
+                <p className="text-foreground">{(item.price * item.quantity).toFixed(2).replace(".", ",")} &euro;</p>
               </div>
             ))}
           </div>
           <div className="mt-4 space-y-2 border-t border-border pt-4 text-sm">
             <div className="flex justify-between text-muted-foreground">
-              <span>Zwischensumme</span>
-              <span>{subtotal.toFixed(2).replace(".", ",")} €</span>
+              <span>Subtotal</span>
+              <span>{subtotal.toFixed(2).replace(".", ",")} &euro;</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Versand</span>
-              <span>{shippingCost === 0 ? "Kostenlos" : `${shippingCost.toFixed(2).replace(".", ",")} €`}</span>
+              <span>Shipping</span>
+              <span>{shippingCost === 0 ? "Free" : `${shippingCost.toFixed(2).replace(".", ",")} \u20AC`}</span>
             </div>
             <div className="flex justify-between border-t border-border pt-2 font-semibold text-foreground">
-              <span>Gesamt</span>
-              <span>{total.toFixed(2).replace(".", ",")} €</span>
+              <span>Total</span>
+              <span>{total.toFixed(2).replace(".", ",")} &euro;</span>
             </div>
-            <p className="text-xs text-muted-foreground">inkl. MwSt.</p>
+            <p className="text-xs text-muted-foreground">incl. VAT</p>
           </div>
         </div>
       </div>

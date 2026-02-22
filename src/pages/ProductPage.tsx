@@ -1,185 +1,164 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check, ShoppingBag } from "lucide-react";
+import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const product = products[0];
 
 const ProductPage = () => {
-  const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [mainImage, setMainImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
   const { toast } = useToast();
+  const variant = product.variants[0];
 
   const handleAddToCart = () => {
-    addItem({
-      variantId: selectedVariant.id,
-      productId: product.id,
-      name: product.name,
-      variantName: selectedVariant.name,
-      price: selectedVariant.price,
-      image: product.images[0],
-    });
-    toast({ title: "Zum Warenkorb hinzugefügt", description: `${product.name} — ${selectedVariant.name}` });
+    addItem(
+      {
+        variantId: variant.id,
+        productId: product.id,
+        name: product.name,
+        variantName: variant.name,
+        price: variant.price,
+        image: product.images[0],
+      },
+      quantity
+    );
+    toast({ title: "Added to cart", description: `${product.name} x${quantity}` });
   };
 
   return (
-    <div className="container py-12">
-      <div className="grid gap-12 lg:grid-cols-2">
-        {/* Gallery */}
-        <div>
-          <div className="aspect-square rounded-sm border border-border bg-card p-8">
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              Hauptbild {mainImage + 1}
+    <div>
+      <div className="container py-12 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* Gallery */}
+          <div>
+            <div className="border border-border p-8">
+              <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
+                Product Image {mainImage + 1}
+              </div>
             </div>
-          </div>
-          <div className="mt-4 grid grid-cols-4 gap-2">
-            {product.images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setMainImage(i)}
-                className={`aspect-square rounded-sm border bg-card p-2 text-xs text-muted-foreground transition-colors ${
-                  mainImage === i ? "border-foreground" : "border-border hover:border-muted-foreground"
-                }`}
-              >
-                Bild {i + 1}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Info */}
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">FOKUSWERK</p>
-          <h1 className="mt-2 text-3xl font-bold text-foreground">{product.name}</h1>
-          <p className="mt-4 text-muted-foreground">{product.description}</p>
-
-          {/* Variants */}
-          <div className="mt-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Variante</p>
-            <div className="flex gap-3">
-              {product.variants.map((v) => (
+            <div className="mt-4 grid grid-cols-4 gap-3">
+              {product.images.map((_, i) => (
                 <button
-                  key={v.id}
-                  onClick={() => setSelectedVariant(v)}
-                  className={`rounded-sm border px-5 py-3 text-sm transition-colors ${
-                    selectedVariant.id === v.id
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border text-foreground hover:border-muted-foreground"
+                  key={i}
+                  onClick={() => setMainImage(i)}
+                  className={`border p-3 text-xs text-muted-foreground transition-colors ${
+                    mainImage === i ? "border-foreground" : "border-border hover:border-muted-foreground"
                   }`}
                 >
-                  {v.name}
+                  {i + 1}
                 </button>
               ))}
             </div>
           </div>
 
-          <p className="mt-6 text-3xl font-bold text-foreground">
-            {selectedVariant.price.toFixed(2).replace(".", ",")} €
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">inkl. MwSt., zzgl. Versand</p>
+          {/* Info */}
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">FOKUSWERK</p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{product.name}</h1>
 
-          <Button
-            onClick={handleAddToCart}
-            size="lg"
-            className="mt-8 w-full rounded-none text-sm uppercase tracking-wider md:w-auto md:px-12"
-          >
-            <ShoppingBag className="mr-2 h-4 w-4" /> In den Warenkorb
-          </Button>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
-          {/* Benefits */}
-          <ul className="mt-8 space-y-2">
-            {product.benefits.map((b, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" />
-                {b}
-              </li>
-            ))}
-          </ul>
+            {/* Low stock */}
+            {variant.stock <= 50 && (
+              <p className="mt-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Limited — Only {variant.stock} left
+              </p>
+            )}
 
-          {/* Tabs */}
-          <Tabs defaultValue="lieferumfang" className="mt-10">
-            <TabsList className="w-full justify-start rounded-none border-b border-border bg-transparent p-0">
-              <TabsTrigger value="lieferumfang" className="rounded-none border-b-2 border-transparent px-4 pb-3 pt-2 text-xs uppercase tracking-wider data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none">
-                Lieferumfang
-              </TabsTrigger>
-              <TabsTrigger value="kompatibilitaet" className="rounded-none border-b-2 border-transparent px-4 pb-3 pt-2 text-xs uppercase tracking-wider data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none">
-                Kompatibilität
-              </TabsTrigger>
-              <TabsTrigger value="pflege" className="rounded-none border-b-2 border-transparent px-4 pb-3 pt-2 text-xs uppercase tracking-wider data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none">
-                Pflege
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="lieferumfang" className="pt-4">
-              <ul className="space-y-2">
-                {product.deliveryContents.map((d, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-                    {d}
+            <p className="mt-8 text-4xl font-bold text-foreground">
+              {variant.price},00 &euro;
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">incl. VAT, free shipping EU</p>
+
+            {/* Quantity */}
+            <div className="mt-8 flex items-center gap-4">
+              <div className="flex items-center border border-border">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="flex h-12 w-12 items-center justify-center text-foreground hover:bg-muted"
+                >
+                  <Minus className="h-4 w-4" />
+                </button>
+                <span className="flex h-12 w-16 items-center justify-center border-x border-border text-sm font-medium text-foreground">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="flex h-12 w-12 items-center justify-center text-foreground hover:bg-muted"
+                >
+                  <Plus className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            <Button
+              onClick={handleAddToCart}
+              size="lg"
+              className="mt-6 w-full rounded-none py-6 text-sm uppercase tracking-[0.15em] md:w-auto md:px-16"
+            >
+              <ShoppingBag className="mr-2 h-4 w-4" /> Add to Cart
+            </Button>
+
+            {/* Shipping info */}
+            <div className="mt-8 space-y-3 border-t border-border pt-8">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Truck className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                <span>5-8 business days EU shipping</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <RotateCcw className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                <span>14-day return policy</span>
+              </div>
+            </div>
+
+            {/* Specs */}
+            <div className="mt-8 border-t border-border pt-8">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Specifications</p>
+              <ul className="mt-4 space-y-2">
+                {product.specs.map((s, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
+                    {s}
                   </li>
                 ))}
               </ul>
-            </TabsContent>
-            <TabsContent value="kompatibilitaet" className="pt-4">
-              <ul className="space-y-2">
-                {product.compatibility.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+            </div>
+
+            {/* Care */}
+            <div className="mt-8 border-t border-border pt-8">
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Care</p>
+              <ul className="mt-4 space-y-2">
+                {product.careInstructions.map((c, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
                     {c}
                   </li>
                 ))}
               </ul>
-            </TabsContent>
-            <TabsContent value="pflege" className="pt-4">
-              <ul className="space-y-2">
-                {product.care.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Cross-sell */}
-      <section className="mt-20 border-t border-border pt-12">
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-          Ergänzend dazu
-        </p>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {product.variants.filter((v) => v.id !== selectedVariant.id).map((v) => (
-            <div key={v.id} className="rounded-sm border border-border bg-card p-6">
-              <p className="font-semibold text-foreground">{v.name}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{v.price.toFixed(2).replace(".", ",")} €</p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4 rounded-none text-xs uppercase tracking-wider"
-                onClick={() => {
-                  addItem({
-                    variantId: v.id,
-                    productId: product.id,
-                    name: product.name,
-                    variantName: v.name,
-                    price: v.price,
-                    image: product.images[0],
-                  });
-                  toast({ title: "Hinzugefügt", description: `${v.name}` });
-                }}
-              >
-                Hinzufügen
-              </Button>
-            </div>
-          ))}
+      {/* Sticky mobile ATC */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background p-4 md:hidden">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-bold text-foreground">{variant.price},00 &euro;</p>
+            <p className="text-xs text-muted-foreground">{product.name}</p>
+          </div>
+          <Button onClick={handleAddToCart} className="rounded-none px-8 text-xs uppercase tracking-wider">
+            <ShoppingBag className="mr-2 h-4 w-4" /> Add to Cart
+          </Button>
         </div>
-      </section>
+      </div>
+
+      {/* Bottom spacer for mobile sticky */}
+      <div className="h-20 md:hidden" />
     </div>
   );
 };

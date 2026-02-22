@@ -12,27 +12,27 @@ export interface Product {
   name: string;
   description: string;
   shortDescription: string;
+  tagline: string;
   variants: ProductVariant[];
   images: string[];
-  benefits: string[];
-  deliveryContents: string[];
-  compatibility: string[];
-  care: string[];
+  features: { title: string; desc: string }[];
+  specs: string[];
+  careInstructions: string[];
   seoTitle: string;
   seoDescription: string;
 }
 
 export const products: Product[] = [
   {
-    id: "fokuswerk-snap-system",
-    slug: "fokuswerk-snap-system",
-    name: "FOKUSWERK Snap System",
+    id: "fokuswerk-desk-mat-01",
+    slug: "fokuswerk-desk-mat-01",
+    name: "FOKUSWERK DESK MAT 01",
     description:
-      "Das magnetische Kabelmanagement-System für deinen Schreibtisch. Kein Kabelchaos mehr — jedes Kabel hat seinen Platz, sofort griffbereit durch die Magnetkraft. Premium matt-schwarzes Finish, passend zu jedem Setup.",
-    shortDescription: "Magnetisches Kabelmanagement-System. Premium. Matt-Schwarz. Sofort Ordnung.",
+      "This is not a gaming mousepad. This is a foundation for your workspace. A premium full-desk performance mat designed for clarity and control.",
+    shortDescription: "Premium full-desk performance mat. 36x18 inches. Deep matte black.",
+    tagline: "Structure Your Workspace.",
     variants: [
-      { id: "snap-3", name: "Set 3 Clips", price: 14.9, sku: "FW-SNAP-3", stock: 100 },
-      { id: "snap-5", name: "Set 5 Clips", price: 24.9, sku: "FW-SNAP-5", stock: 100 },
+      { id: "desk-mat-01", name: "DESK MAT 01", price: 39, sku: "FW-DM-01", stock: 50 },
     ],
     images: [
       "/placeholder.svg",
@@ -40,63 +40,59 @@ export const products: Product[] = [
       "/placeholder.svg",
       "/placeholder.svg",
     ],
-    benefits: [
-      "Sofort Ordnung auf dem Schreibtisch",
-      "Schneller Zugriff — Magnetischer Snap-Mechanismus",
-      "Premium matt-schwarzes Finish",
-      "3M VHB Klebepad — hält auf allen glatten Oberflächen",
-      "Universell — USB-C, Lightning, Micro-USB, Klinke",
+    features: [
+      { title: "36x18 Full Desk Coverage", desc: "Covers your entire workspace" },
+      { title: "Precision Tracking Surface", desc: "Ultra smooth microfiber" },
+      { title: "Anti-Slip Rubber Base", desc: "Stays exactly where you put it" },
+      { title: "3mm Comfort Thickness", desc: "Engineered for all-day use" },
+      { title: "Deep Matte Black Finish", desc: "Subtle tonal logo" },
     ],
-    deliveryContents: [
-      "Magnetische Kabelclips (je nach Variante 3 oder 5 Stück)",
-      "3M VHB Klebepads (vormontiert)",
-      "Kurzanleitung",
-      "Branded Verpackung",
+    specs: [
+      "36 x 18 inches (900 x 450 mm)",
+      "Ultra smooth microfiber surface",
+      "Non-slip rubber base",
+      "3mm thickness",
+      "Deep matte black",
+      "Subtle tonal logo",
     ],
-    compatibility: [
-      "USB-C Kabel (bis 4mm Durchmesser)",
-      "Lightning Kabel",
-      "Micro-USB Kabel",
-      "3,5mm Klinke / AUX",
-      "Dünne Ladekabel aller Art",
+    careInstructions: [
+      "Hand wash recommended",
+      "Air dry flat",
+      "Do not machine wash",
+      "Do not iron",
     ],
-    care: [
-      "Mit feuchtem Tuch abwischen",
-      "Keine aggressiven Reinigungsmittel verwenden",
-      "Magnetkraft bleibt dauerhaft erhalten",
-      "Klebepad bei Bedarf austauschbar (3M VHB Ersatzpads separat erhältlich)",
-    ],
-    seoTitle: "FOKUSWERK Snap System — Magnetisches Kabelmanagement",
+    seoTitle: "FOKUSWERK DESK MAT 01 — Premium Workspace Mat",
     seoDescription:
-      "Premium magnetische Kabelclips für deinen Schreibtisch. Matt-schwarzes Finish. Sofort Ordnung, kein Chaos. Jetzt bestellen.",
+      "A premium full-desk performance mat designed for clarity and control. 36x18 inches. Deep matte black. Structure your workspace.",
   },
 ];
 
 export const faqData = [
   {
-    question: "Wie lange dauert der Versand?",
-    answer: "Wir versenden innerhalb von 1–2 Werktagen nach Bestelleingang. Die Lieferung innerhalb Deutschlands dauert in der Regel 2–4 Werktage.",
+    question: "Is this a gaming mousepad?",
+    answer: "It is optimized for precision, but designed for premium workspaces. Not gaming aesthetics.",
   },
   {
-    question: "Kann ich meine Bestellung zurückgeben?",
-    answer: "Ja, du hast ein 14-tägiges Widerrufsrecht. Die Rücksendung ist unkompliziert — alle Details findest du auf unserer Widerrufsseite.",
+    question: "Is it washable?",
+    answer: "Yes, hand wash recommended. Air dry flat. Do not machine wash or iron.",
   },
   {
-    question: "Wie stark ist die Magnetkraft?",
-    answer: "Die Magnete sind stark genug, um jedes gängige Kabel sicher zu halten, aber leicht genug, um das Kabel mit einer Hand zu lösen. Perfekte Balance.",
+    question: "Does it move on the desk?",
+    answer: "No. The anti-slip rubber base keeps it exactly where you place it.",
   },
   {
-    question: "Welche Kabeltypen passen?",
-    answer: "USB-C, Lightning, Micro-USB, 3,5mm Klinke und alle Kabel mit bis zu 4mm Durchmesser. Praktisch alle gängigen Kabel.",
+    question: "What is the shipping time?",
+    answer: "5-8 business days within the EU. We ship from Germany.",
   },
   {
-    question: "Hält das Klebepad auf jeder Oberfläche?",
-    answer: "Das 3M VHB Klebepad hält auf allen glatten, sauberen Oberflächen wie Holz, Metall, Glas und Kunststoff. Nicht geeignet für raue oder texturierte Oberflächen.",
+    question: "What is the return policy?",
+    answer: "14-day return policy. No questions asked. See our returns page for details.",
   },
 ];
 
 export const reviewsData = [
-  { name: "Max K.", rating: 5, text: "Endlich Ordnung auf meinem Schreibtisch. Das Snap System ist genial einfach.", date: "12.01.2026" },
-  { name: "Laura S.", rating: 5, text: "Premium Qualität, sieht super aus und funktioniert einwandfrei. Kaufe mir noch ein Set.", date: "28.12.2025" },
-  { name: "Tim R.", rating: 4, text: "Sehr gute Verarbeitung. Einziger Wunsch: Mehr Farben! Aber in Schwarz passt es perfekt.", date: "05.01.2026" },
+  { name: "Alexander M.", rating: 5, text: "Finally a desk mat that matches my setup. No logos, no RGB. Just clean.", date: "Feb 2026" },
+  { name: "Sophie K.", rating: 5, text: "The surface quality is incredible. My workspace feels intentional now.", date: "Jan 2026" },
+  { name: "David R.", rating: 5, text: "Ordered two. One for the office, one for home. Premium in every detail.", date: "Jan 2026" },
+  { name: "Lena W.", rating: 4, text: "Exactly what I was looking for. Minimal, functional, beautiful.", date: "Dec 2025" },
 ];
