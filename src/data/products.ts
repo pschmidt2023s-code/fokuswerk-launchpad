@@ -28,7 +28,7 @@ export const products: Product[] = [
     slug: "fokuswerk-desk-mat-01",
     name: "FOKUSWERK DESK MAT 01",
     description:
-      "Das ist kein Gaming-Mousepad. Das ist das Fundament für deinen Arbeitsplatz. Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle.",
+      "Kein Gaming-Mousepad. Ein Fundament für Fokus.",
     shortDescription: "Premium-Schreibtischunterlage. 90x45 cm. Tiefes Mattschwarz.",
     tagline: "Strukturiere deinen Arbeitsplatz.",
     variants: [
