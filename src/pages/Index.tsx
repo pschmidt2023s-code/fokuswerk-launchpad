@@ -28,7 +28,7 @@ const Index = () => {
             Kontrolle beginnt auf<br />deinem Schreibtisch.
           </h1>
           <p className="mt-6 max-w-lg text-base text-[hsl(var(--section-dark-muted))] md:text-lg">
-            Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle.
+            90×45 cm kompromisslose Struktur für deinen Arbeitsplatz.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" className="rounded-none bg-white px-10 text-sm uppercase tracking-[0.15em] text-black hover:bg-white/90">
