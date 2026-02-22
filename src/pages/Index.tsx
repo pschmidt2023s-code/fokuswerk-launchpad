@@ -25,7 +25,7 @@ const Index = () => {
             First Drop — Limitierte Stückzahl
           </p>
           <h1 className="mt-6 text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-7xl lg:text-8xl">
-            Strukturiere deinen<br />Arbeitsplatz.
+            Kontrolle beginnt auf<br />deinem Schreibtisch.
           </h1>
           <p className="mt-6 max-w-lg text-base text-[hsl(var(--section-dark-muted))] md:text-lg">
             Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle.
