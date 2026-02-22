@@ -100,7 +100,7 @@ const Index = () => {
 
       {/* Product Showcase */}
       <section className="container py-24">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           <div className="border border-border p-6">
             <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
               Vollflächige Abdeckung
@@ -108,11 +108,6 @@ const Index = () => {
           </div>
           <div className="border border-border overflow-hidden">
             <img src={deskTexture} alt="Textur-Nahaufnahme" className="w-full aspect-square object-cover" />
-          </div>
-          <div className="border border-border p-6">
-            <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-              Seitenansicht — 3 mm Dicke
-            </div>
           </div>
         </div>
       </section>
