@@ -3,19 +3,48 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CreditCard } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { CreditCard, User } from "lucide-react";
 
 const CheckoutPage = () => {
   const { items, subtotal, shippingCost, total, clearCart } = useCart();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [loading, setLoading] = useState<"stripe" | "paypal" | null>(null);
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "",
     address: "", zip: "", city: "", country: "Deutschland",
   });
+
+  // Pre-fill from profile if logged in
+  const { data: profile } = useQuery({
+    queryKey: ["profile", user?.id],
+    queryFn: async () => {
+      const { data } = await supabase.from("profiles").select("*").eq("user_id", user!.id).single();
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  useEffect(() => {
+    if (profile) {
+      setForm((f) => ({
+        firstName: profile.first_name || f.firstName,
+        lastName: profile.last_name || f.lastName,
+        email: user?.email || f.email,
+        address: profile.address || f.address,
+        zip: profile.zip || f.zip,
+        city: profile.city || f.city,
+        country: profile.country || f.country,
+      }));
+    } else if (user) {
+      setForm((f) => ({ ...f, email: user.email || f.email }));
+    }
+  }, [profile, user]);
 
   const update = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
   const isValid = form.firstName && form.lastName && form.email && form.address && form.zip && form.city;
@@ -70,6 +99,20 @@ const CheckoutPage = () => {
   return (
     <div className="container py-12">
       <h1 className="text-2xl font-bold text-foreground">Kasse</h1>
+
+      {/* Account hint */}
+      {!user && (
+        <div className="mt-4 flex items-center gap-3 border border-border p-4">
+          <User className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+          <div className="flex-1">
+            <p className="text-sm text-foreground">Schneller bezahlen mit einem Konto</p>
+            <p className="text-xs text-muted-foreground">Adresse speichern und Bestellungen einsehen.</p>
+          </div>
+          <Button asChild variant="outline" size="sm" className="rounded-none text-xs uppercase tracking-wider">
+            <Link to="/auth">Anmelden</Link>
+          </Button>
+        </div>
+      )}
 
       <div className="mt-8 grid gap-12 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">

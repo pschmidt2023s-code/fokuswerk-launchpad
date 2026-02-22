@@ -142,7 +142,7 @@ const Index = () => {
               First Drop
             </p>
             <h3 className="mt-3 text-2xl font-bold text-foreground">{product.name}</h3>
-            <p className="mt-3 text-muted-foreground">{product.shortDescription}</p>
+            <p className="mt-3 whitespace-pre-line text-muted-foreground">{product.shortDescription}</p>
             <p className="mt-6 text-3xl font-bold text-foreground">
               {product.variants[0].price},00 &euro;
             </p>
