@@ -3,7 +3,7 @@ import { ShoppingBag, Menu, X, User } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
-import focuswerkLogo from "@/assets/focuswerk-logo.png";
+
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -34,7 +34,7 @@ const Header = () => {
     >
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src={focuswerkLogo} alt="FOCUSWERK" className="h-5" />
+          <span className="text-lg font-bold tracking-[0.2em] text-foreground">FOCUSWERK</span>
         </Link>
 
         {/* Desktop Nav */}
