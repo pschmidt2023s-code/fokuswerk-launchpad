@@ -169,7 +169,7 @@ async function createAgbPdf(): Promise<Uint8Array> {
   y -= 25;
 
   title("§ 1 Geltungsbereich");
-  para("(1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Verträge, die ein Verbraucher oder Unternehmer (nachfolgend „Kunde") mit FOCUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend „Anbieter") über den Onlineshop unter focuswerk.de schließt.");
+  para('(1) Diese Allgemeinen Geschaeftsbedingungen (nachfolgend "AGB") gelten fuer alle Vertraege, die ein Verbraucher oder Unternehmer (nachfolgend "Kunde") mit FOCUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend "Anbieter") ueber den Onlineshop unter focuswerk.de schliesst.');
   para("(2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.");
   para("(3) Verbraucher im Sinne dieser AGB ist jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die überwiegend weder ihrer gewerblichen noch ihrer selbständigen beruflichen Tätigkeit zugerechnet werden können (§ 13 BGB).");
 
