@@ -67,10 +67,19 @@ const ProductPage = () => {
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
             {/* Low stock */}
-            {variant.stock <= 50 && (
-              <p className="mt-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Limitiert — Nur noch {variant.stock} verfügbar
-              </p>
+            {variant.stock <= 100 && (
+              <div className="mt-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  DESK MAT 01 — Limitiert
+                </p>
+                <div className="mt-2 h-1 w-full bg-muted">
+                  <div
+                    className="h-full bg-foreground transition-all"
+                    style={{ width: `${variant.stock}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">{variant.stock}% verfügbar</p>
+              </div>
             )}
 
             <p className="mt-8 text-4xl font-bold text-foreground">
