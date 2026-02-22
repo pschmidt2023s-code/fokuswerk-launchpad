@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw } from "lucide-react";
+import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import shop1 from "@/assets/shop-1.png";
 import shop2 from "@/assets/shop-2.png";
@@ -12,6 +12,42 @@ import shop5 from "@/assets/shop-5.png";
 
 const product = products[0];
 const shopImages = [shop1, shop2, shop3, shop4, shop5];
+
+const StockBar = ({ stock }: { stock: number }) => {
+  const totalStock = 25;
+  const remaining = Math.round((stock / totalStock) * 100);
+  const [animated, setAnimated] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setAnimated(remaining); observer.disconnect(); } },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [remaining]);
+
+  return (
+    <div className="mt-4" ref={ref}>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          DESK MAT 01 — Limitiert
+        </p>
+        <p className="text-xs font-bold text-foreground">{stock} / {totalStock}</p>
+      </div>
+      <div className="mt-2 h-1.5 w-full overflow-hidden bg-muted">
+        <div
+          className="h-full bg-foreground transition-all duration-1000 ease-out"
+          style={{ width: `${animated}%` }}
+        />
+      </div>
+      <p className="mt-1 text-xs text-muted-foreground">
+        {remaining <= 20 ? "⚡ Fast ausverkauft" : `${remaining}% verfügbar`}
+      </p>
+    </div>
+  );
+};
 
 const ProductPage = () => {
   const [mainImage, setMainImage] = useState(0);
@@ -66,25 +102,8 @@ const ProductPage = () => {
 
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
-            {/* Low stock */}
-            {variant.stock <= 25 && (() => {
-              const totalStock = 25;
-              const remaining = Math.round((variant.stock / totalStock) * 100);
-              return (
-                <div className="mt-4">
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    DESK MAT 01 — Limitiert
-                  </p>
-                  <div className="mt-2 h-1 w-full bg-muted">
-                    <div
-                      className="h-full bg-foreground transition-all"
-                      style={{ width: `${remaining}%` }}
-                    />
-                  </div>
-                  <p className="mt-1 text-xs text-muted-foreground">{remaining}% verfügbar</p>
-                </div>
-              );
-            })()}
+            {/* Low stock - animated */}
+            {variant.stock <= 25 && <StockBar stock={variant.stock} />}
 
             <p className="mt-8 text-4xl font-bold text-foreground">
               {variant.price},00 &euro;
@@ -120,15 +139,23 @@ const ProductPage = () => {
               <ShoppingBag className="mr-2 h-4 w-4" /> In den Warenkorb
             </Button>
 
-            {/* Shipping info */}
-            <div className="mt-8 space-y-3 border-t border-border pt-8">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Truck className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                <span>5–8 Werktage EU-Versand</span>
+            {/* Micro-Trust Badges */}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Truck className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+                <span>Kostenloser Versand EU</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <RotateCcw className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <RotateCcw className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
                 <span>14 Tage Rückgaberecht</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+                <span>Versand aus Deutschland</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Shield className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+                <span>Sichere Zahlung</span>
               </div>
             </div>
 
