@@ -106,10 +106,8 @@ const Index = () => {
               Vollflächige Abdeckung
             </div>
           </div>
-          <div className="border border-border p-6">
-            <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-              Textur-Nahaufnahme
-            </div>
+          <div className="border border-border overflow-hidden">
+            <img src={deskTexture} alt="Textur-Nahaufnahme" className="w-full aspect-square object-cover" />
           </div>
           <div className="border border-border p-6">
             <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
