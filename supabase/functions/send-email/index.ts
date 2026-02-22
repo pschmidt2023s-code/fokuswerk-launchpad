@@ -41,6 +41,26 @@ serve(async (req) => {
           <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
         </div>
       `;
+    } else if (type === "shipping_confirmation") {
+      subject = `Deine Bestellung wurde versendet — FOKUSWERK #${data.orderId?.slice(0, 8) ?? ""}`;
+      const trackingHtml = data.trackingUrl
+        ? `<a href="${data.trackingUrl}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#0e0e0e;color:#fff;text-decoration:none;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500">Sendung verfolgen</a>
+           ${data.trackingNumber ? `<p style="font-size:12px;color:#737373;margin-top:8px">Tracking-Nummer: <strong style="color:#0e0e0e;font-family:monospace">${data.trackingNumber}</strong></p>` : ""}`
+        : "";
+
+      html = `
+        <div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
+          <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
+          <p style="font-size:15px;margin-bottom:4px">Hallo ${data.customerName},</p>
+          <p style="font-size:14px;color:#737373;margin-bottom:8px">Deine Bestellung ist auf dem Weg!</p>
+          <p style="font-size:14px;color:#737373;margin-bottom:24px">Die voraussichtliche Lieferzeit beträgt 5–8 Werktage.</p>
+          ${trackingHtml}
+          <hr style="border:none;border-top:1px solid #eee;margin:32px 0" />
+          <p style="font-size:13px;color:#737373">Du kannst den Status deiner Bestellung jederzeit in deinem <a href="${data.siteUrl || "https://fokuswerk.de"}/account" style="color:#0e0e0e;text-decoration:underline">Kundenkonto</a> einsehen.</p>
+          <hr style="border:none;border-top:1px solid #eee;margin:32px 0" />
+          <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
+        </div>
+      `;
     } else if (type === "contact_notification") {
       subject = `Neue Kontaktanfrage von ${data.name}`;
       html = `
@@ -51,6 +71,22 @@ serve(async (req) => {
           <p style="margin-top:16px"><strong>Nachricht:</strong></p>
           <p style="white-space:pre-wrap;background:#f5f5f5;padding:16px;font-size:14px">${data.message}</p>
           <p style="margin-top:16px"><a href="mailto:${data.email}">Direkt antworten</a></p>
+        </div>
+      `;
+    } else if (type === "contact_confirmation") {
+      subject = `Wir haben deine Nachricht erhalten — FOKUSWERK`;
+      html = `
+        <div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
+          <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
+          <p style="font-size:15px;margin-bottom:4px">Hallo ${data.name},</p>
+          <p style="font-size:14px;color:#737373;margin-bottom:16px">Vielen Dank für deine Nachricht. Wir haben sie erhalten und werden uns innerhalb von 24 Stunden bei dir melden.</p>
+          <div style="background:#f5f5f5;padding:16px;font-size:13px;color:#737373;margin-bottom:24px">
+            <p style="margin:0"><strong style="color:#0e0e0e">Deine Nachricht:</strong></p>
+            <p style="margin:8px 0 0;white-space:pre-wrap">${data.message}</p>
+          </div>
+          <p style="font-size:13px;color:#737373">Bei dringenden Anfragen erreichst du uns unter kontakt@fokuswerk.de</p>
+          <hr style="border:none;border-top:1px solid #eee;margin:32px 0" />
+          <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
         </div>
       `;
     } else {

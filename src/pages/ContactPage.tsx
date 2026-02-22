@@ -19,14 +19,23 @@ const ContactPage = () => {
     const message = fd.get("message") as string;
 
     const { error } = await supabase.from("contact_messages").insert({ name, email, message });
-    
+
     if (!error) {
-      // Send admin notification email (fire and forget)
+      // Send admin notification (fire and forget)
       supabase.functions.invoke("send-email", {
         body: {
           type: "contact_notification",
           to: "pschmidt2023s@gmail.com",
           data: { name, email, message },
+        },
+      });
+
+      // Send customer confirmation (fire and forget)
+      supabase.functions.invoke("send-email", {
+        body: {
+          type: "contact_confirmation",
+          to: email,
+          data: { name, message },
         },
       });
     }
@@ -35,7 +44,7 @@ const ContactPage = () => {
     if (error) {
       toast({ title: "Fehler", description: "Nachricht konnte nicht gesendet werden.", variant: "destructive" });
     } else {
-      toast({ title: "Nachricht gesendet", description: "Wir melden uns in Kürze bei dir." });
+      toast({ title: "Nachricht gesendet", description: "Du erhältst eine Bestätigung per E-Mail." });
       (e.target as HTMLFormElement).reset();
     }
   };

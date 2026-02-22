@@ -57,7 +57,7 @@ const CheckoutPage = () => {
     setLoading("stripe");
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { items: cartItems, customer, shippingAddress },
+        body: { items: cartItems, customer, shippingAddress, userId: user?.id ?? null },
       });
       if (error) throw error;
       if (data?.url) window.location.href = data.url;
@@ -72,7 +72,7 @@ const CheckoutPage = () => {
     try {
       // Create PayPal order
       const { data: createData, error: createErr } = await supabase.functions.invoke("paypal-checkout", {
-        body: { action: "create", items: cartItems, customer, shippingAddress },
+        body: { action: "create", items: cartItems, customer, shippingAddress, userId: user?.id ?? null },
       });
       if (createErr) throw createErr;
 
