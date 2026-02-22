@@ -128,7 +128,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "FOKUSWERK <noreply@fokuswerk.de>",
+        from: "FOKUSWERK <noreply@aldenairperfumes.de>",
         to: [to],
         subject,
         html,
