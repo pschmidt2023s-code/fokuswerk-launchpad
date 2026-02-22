@@ -12,9 +12,9 @@ const NotFound = () => {
   return (
     <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
       <p className="text-6xl font-bold text-foreground">404</p>
-      <p className="mt-4 text-muted-foreground">Page not found.</p>
+      <p className="mt-4 text-muted-foreground">Seite nicht gefunden.</p>
       <Button asChild className="mt-8 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
-        <Link to="/">Back to Home</Link>
+        <Link to="/">Zurück zur Startseite</Link>
       </Button>
     </div>
   );

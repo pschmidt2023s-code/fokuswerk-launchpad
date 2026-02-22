@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <p className="text-sm font-bold tracking-[0.3em] text-white">FOKUSWERK</p>
             <p className="mt-3 max-w-sm text-sm text-[hsl(var(--section-dark-muted))]">
-              Premium workspace essentials designed for clarity and control.
+              Premium-Arbeitsplatz-Essentials für Klarheit und Kontrolle.
             </p>
 
             {/* Newsletter */}
@@ -24,7 +24,7 @@ const Footer = () => {
               <div className="mt-3 flex max-w-xs gap-2">
                 <Input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="deine@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="rounded-none border-white/20 bg-transparent text-sm text-white placeholder:text-white/40"
@@ -33,7 +33,7 @@ const Footer = () => {
                   variant="outline"
                   className="shrink-0 rounded-none border-white/20 bg-transparent text-xs uppercase tracking-wider text-white hover:bg-white hover:text-black"
                 >
-                  Join
+                  Anmelden
                 </Button>
               </div>
             </div>
@@ -45,20 +45,20 @@ const Footer = () => {
             </p>
             <div className="mt-4 flex flex-col gap-3">
               <Link to="/shop" className="text-sm text-white/70 hover:text-white">Desk Mat 01</Link>
-              <Link to="/cart" className="text-sm text-white/70 hover:text-white">Cart</Link>
-              <Link to="/contact" className="text-sm text-white/70 hover:text-white">Contact</Link>
+              <Link to="/cart" className="text-sm text-white/70 hover:text-white">Warenkorb</Link>
+              <Link to="/contact" className="text-sm text-white/70 hover:text-white">Kontakt</Link>
             </div>
           </div>
 
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.15em] text-[hsl(var(--section-dark-muted))]">
-              Legal
+              Rechtliches
             </p>
             <div className="mt-4 flex flex-col gap-3">
-              <Link to="/legal-notice" className="text-sm text-white/70 hover:text-white">Legal Notice</Link>
-              <Link to="/privacy" className="text-sm text-white/70 hover:text-white">Privacy Policy</Link>
-              <Link to="/terms" className="text-sm text-white/70 hover:text-white">Terms</Link>
-              <Link to="/returns" className="text-sm text-white/70 hover:text-white">Returns</Link>
+              <Link to="/legal-notice" className="text-sm text-white/70 hover:text-white">Impressum</Link>
+              <Link to="/privacy" className="text-sm text-white/70 hover:text-white">Datenschutz</Link>
+              <Link to="/terms" className="text-sm text-white/70 hover:text-white">AGB</Link>
+              <Link to="/returns" className="text-sm text-white/70 hover:text-white">Widerruf</Link>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@ const Footer = () => {
         {/* Social + Copyright */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} FOKUSWERK. All rights reserved.
+            &copy; {new Date().getFullYear()} FOKUSWERK. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-white">
