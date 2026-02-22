@@ -44,22 +44,24 @@ const AdminDashboard = () => {
       <p className="mt-1 text-xs text-muted-foreground">Übersicht deines Shops</p>
 
       {/* Stats */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="border border-border p-5">
+          <div key={s.label} className="border border-border p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">{s.label}</p>
-              <s.icon className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">{s.label}</p>
+              <s.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" strokeWidth={1.5} />
             </div>
-            <p className="mt-2 text-2xl font-bold text-foreground">{s.value}</p>
+            <p className="mt-2 text-xl sm:text-2xl font-bold text-foreground">{s.value}</p>
           </div>
         ))}
       </div>
 
-      {/* Recent Orders */}
+      {/* Recent Orders - Card layout on mobile */}
       <div className="mt-8">
         <p className="text-sm font-semibold text-foreground">Letzte Bestellungen</p>
-        <div className="mt-3 border border-border">
+
+        {/* Desktop table */}
+        <div className="mt-3 hidden sm:block border border-border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-card text-left">
@@ -71,11 +73,7 @@ const AdminDashboard = () => {
             </thead>
             <tbody>
               {recentOrders.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-xs text-muted-foreground">
-                    Noch keine Bestellungen
-                  </td>
-                </tr>
+                <tr><td colSpan={4} className="px-4 py-8 text-center text-xs text-muted-foreground">Noch keine Bestellungen</td></tr>
               ) : (
                 recentOrders.map((o) => (
                   <tr key={o.id} className="border-b border-border last:border-0">
@@ -85,9 +83,7 @@ const AdminDashboard = () => {
                         o.status === "paid" ? "bg-green-100 text-green-800" :
                         o.status === "pending" ? "bg-yellow-100 text-yellow-800" :
                         "bg-muted text-muted-foreground"
-                      }`}>
-                        {o.status}
-                      </span>
+                      }`}>{o.status}</span>
                     </td>
                     <td className="px-4 py-3 text-foreground">{Number(o.total).toFixed(2).replace(".", ",")} €</td>
                     <td className="px-4 py-3 text-muted-foreground">{new Date(o.created_at).toLocaleDateString("de-DE")}</td>
@@ -96,6 +92,30 @@ const AdminDashboard = () => {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="mt-3 space-y-2 sm:hidden">
+          {recentOrders.length === 0 ? (
+            <p className="py-8 text-center text-xs text-muted-foreground">Noch keine Bestellungen</p>
+          ) : (
+            recentOrders.map((o) => (
+              <div key={o.id} className="border border-border p-3 space-y-1">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-foreground">{o.customer_name}</p>
+                  <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
+                    o.status === "paid" ? "bg-green-100 text-green-800" :
+                    o.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                    "bg-muted text-muted-foreground"
+                  }`}>{o.status}</span>
+                </div>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>{Number(o.total).toFixed(2).replace(".", ",")} €</span>
+                  <span>{new Date(o.created_at).toLocaleDateString("de-DE")}</span>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
