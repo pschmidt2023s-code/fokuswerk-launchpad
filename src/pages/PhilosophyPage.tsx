@@ -4,14 +4,13 @@ import { ArrowRight } from "lucide-react";
 
 const PhilosophyPage = () => (
   <div>
-    {/* Hero */}
     <section className="section-dark">
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-24 text-center">
         <p className="text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
-          Philosophy
+          Philosophie
         </p>
         <h1 className="mt-6 text-4xl font-bold tracking-tight text-white md:text-6xl">
-          Focus Is Not Found.<br />It Is Built.
+          Fokus wird nicht gefunden.<br />Er wird gebaut.
         </h1>
       </div>
     </section>
@@ -19,33 +18,33 @@ const PhilosophyPage = () => (
     <section className="container py-24 md:py-32">
       <div className="mx-auto max-w-2xl space-y-8 text-base leading-relaxed text-muted-foreground md:text-lg">
         <p>
-          Your environment shapes your output. A cluttered workspace creates a cluttered mind.
-          FOKUSWERK exists to change that equation.
+          Deine Umgebung formt dein Ergebnis. Ein chaotischer Arbeitsplatz erzeugt einen chaotischen Geist.
+          FOKUSWERK existiert, um diese Gleichung zu verändern.
         </p>
         <p>
-          We believe that every object on your desk should earn its place. Every surface should
-          serve a purpose. Every detail should support your ability to do deep, meaningful work.
+          Wir glauben, dass jedes Objekt auf deinem Schreibtisch seinen Platz verdienen muss. Jede Oberfläche
+          sollte einen Zweck erfüllen. Jedes Detail sollte deine Fähigkeit unterstützen, tiefe, bedeutungsvolle Arbeit zu leisten.
         </p>
         <p className="font-medium text-foreground">
-          Structure is not restriction. Structure is freedom.
+          Struktur ist keine Einschränkung. Struktur ist Freiheit.
         </p>
         <p>
-          When your workspace is intentional, your work becomes intentional. When distractions
-          are removed, what remains is clarity. And clarity is the foundation of everything
-          worth building.
+          Wenn dein Arbeitsplatz bewusst gestaltet ist, wird deine Arbeit bewusst. Wenn Ablenkungen
+          entfernt werden, bleibt Klarheit. Und Klarheit ist das Fundament von allem,
+          was es wert ist, gebaut zu werden.
         </p>
         <p>
-          FOKUSWERK products are designed with one principle: eliminate everything that does not
-          serve your focus. No unnecessary features. No aesthetic compromises. No noise.
+          FOKUSWERK-Produkte werden nach einem Prinzip entwickelt: Eliminiere alles, was nicht
+          deinem Fokus dient. Keine unnötigen Features. Keine ästhetischen Kompromisse. Kein Lärm.
         </p>
         <p className="font-medium text-foreground">
-          Your workspace should support your ambition. Nothing more. Nothing less.
+          Dein Arbeitsplatz sollte deine Ambitionen unterstützen. Nicht mehr. Nicht weniger.
         </p>
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl text-center">
         <Button asChild size="lg" className="rounded-none px-10 text-sm uppercase tracking-[0.15em]">
-          <Link to="/shop">Shop the First Drop <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          <Link to="/shop">Jetzt entdecken <ArrowRight className="ml-2 h-4 w-4" /></Link>
         </Button>
       </div>
     </section>

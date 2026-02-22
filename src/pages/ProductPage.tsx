@@ -26,7 +26,7 @@ const ProductPage = () => {
       },
       quantity
     );
-    toast({ title: "Added to cart", description: `${product.name} x${quantity}` });
+    toast({ title: "Zum Warenkorb hinzugefügt", description: `${product.name} x${quantity}` });
   };
 
   return (
@@ -37,7 +37,7 @@ const ProductPage = () => {
           <div>
             <div className="border border-border p-8">
               <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-                Product Image {mainImage + 1}
+                Produktbild {mainImage + 1}
               </div>
             </div>
             <div className="mt-4 grid grid-cols-4 gap-3">
@@ -65,14 +65,14 @@ const ProductPage = () => {
             {/* Low stock */}
             {variant.stock <= 50 && (
               <p className="mt-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Limited — Only {variant.stock} left
+                Limitiert — Nur noch {variant.stock} verfügbar
               </p>
             )}
 
             <p className="mt-8 text-4xl font-bold text-foreground">
               {variant.price},00 &euro;
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">incl. VAT, free shipping EU</p>
+            <p className="mt-1 text-xs text-muted-foreground">inkl. MwSt., kostenloser Versand EU</p>
 
             {/* Quantity */}
             <div className="mt-8 flex items-center gap-4">
@@ -100,24 +100,24 @@ const ProductPage = () => {
               size="lg"
               className="mt-6 w-full rounded-none py-6 text-sm uppercase tracking-[0.15em] md:w-auto md:px-16"
             >
-              <ShoppingBag className="mr-2 h-4 w-4" /> Add to Cart
+              <ShoppingBag className="mr-2 h-4 w-4" /> In den Warenkorb
             </Button>
 
             {/* Shipping info */}
             <div className="mt-8 space-y-3 border-t border-border pt-8">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Truck className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                <span>5-8 business days EU shipping</span>
+                <span>5–8 Werktage EU-Versand</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <RotateCcw className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                <span>14-day return policy</span>
+                <span>14 Tage Rückgaberecht</span>
               </div>
             </div>
 
             {/* Specs */}
             <div className="mt-8 border-t border-border pt-8">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Specifications</p>
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Spezifikationen</p>
               <ul className="mt-4 space-y-2">
                 {product.specs.map((s, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
@@ -130,7 +130,7 @@ const ProductPage = () => {
 
             {/* Care */}
             <div className="mt-8 border-t border-border pt-8">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Care</p>
+              <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Pflege</p>
               <ul className="mt-4 space-y-2">
                 {product.careInstructions.map((c, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
@@ -152,7 +152,7 @@ const ProductPage = () => {
             <p className="text-xs text-muted-foreground">{product.name}</p>
           </div>
           <Button onClick={handleAddToCart} className="rounded-none px-8 text-xs uppercase tracking-wider">
-            <ShoppingBag className="mr-2 h-4 w-4" /> Add to Cart
+            <ShoppingBag className="mr-2 h-4 w-4" /> In den Warenkorb
           </Button>
         </div>
       </div>

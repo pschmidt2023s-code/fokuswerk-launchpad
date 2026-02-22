@@ -12,10 +12,10 @@ const CartPage = () => {
   if (items.length === 0) {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-        <p className="text-lg font-semibold text-foreground">Your cart is empty</p>
-        <p className="mt-2 text-sm text-muted-foreground">Discover our products and find your essentials.</p>
+        <p className="text-lg font-semibold text-foreground">Dein Warenkorb ist leer</p>
+        <p className="mt-2 text-sm text-muted-foreground">Entdecke unsere Produkte und finde deine Essentials.</p>
         <Button asChild className="mt-6 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
-          <Link to="/shop">Shop Now</Link>
+          <Link to="/shop">Jetzt einkaufen</Link>
         </Button>
       </div>
     );
@@ -23,7 +23,7 @@ const CartPage = () => {
 
   return (
     <div className="container py-12">
-      <h1 className="text-2xl font-bold text-foreground">Cart</h1>
+      <h1 className="text-2xl font-bold text-foreground">Warenkorb</h1>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-3">
         <div className="lg:col-span-2">
@@ -69,40 +69,40 @@ const CartPage = () => {
 
         {/* Summary */}
         <div className="border border-border p-6">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Order Summary</p>
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Bestellübersicht</p>
           <div className="mt-6 space-y-3 text-sm">
             <div className="flex justify-between text-muted-foreground">
-              <span>Subtotal</span>
+              <span>Zwischensumme</span>
               <span>{subtotal.toFixed(2).replace(".", ",")} &euro;</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Shipping</span>
-              <span>{shippingCost === 0 ? "Free" : `${shippingCost.toFixed(2).replace(".", ",")} \u20AC`}</span>
+              <span>Versand</span>
+              <span>{shippingCost === 0 ? "Kostenlos" : `${shippingCost.toFixed(2).replace(".", ",")} \u20AC`}</span>
             </div>
             <div className="border-t border-border pt-3">
               <div className="flex justify-between font-semibold text-foreground">
-                <span>Total</span>
+                <span>Gesamt</span>
                 <span>{total.toFixed(2).replace(".", ",")} &euro;</span>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">incl. VAT</p>
+              <p className="mt-1 text-xs text-muted-foreground">inkl. MwSt.</p>
             </div>
           </div>
 
           <div className="mt-6 flex gap-2">
             <Input
-              placeholder="Discount code"
+              placeholder="Rabattcode"
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               className="rounded-none text-sm"
             />
             <Button variant="outline" className="shrink-0 rounded-none text-xs uppercase tracking-wider">
-              Apply
+              Einlösen
             </Button>
           </div>
 
           <Button asChild size="lg" className="mt-6 w-full rounded-none text-sm uppercase tracking-[0.15em]">
             <Link to="/checkout">
-              Checkout <ArrowRight className="ml-2 h-4 w-4" />
+              Zur Kasse <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

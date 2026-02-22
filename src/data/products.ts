@@ -28,9 +28,9 @@ export const products: Product[] = [
     slug: "fokuswerk-desk-mat-01",
     name: "FOKUSWERK DESK MAT 01",
     description:
-      "This is not a gaming mousepad. This is a foundation for your workspace. A premium full-desk performance mat designed for clarity and control.",
-    shortDescription: "Premium full-desk performance mat. 36x18 inches. Deep matte black.",
-    tagline: "Structure Your Workspace.",
+      "Das ist kein Gaming-Mousepad. Das ist das Fundament für deinen Arbeitsplatz. Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle.",
+    shortDescription: "Premium-Schreibtischunterlage. 90x45 cm. Tiefes Mattschwarz.",
+    tagline: "Strukturiere deinen Arbeitsplatz.",
     variants: [
       { id: "desk-mat-01", name: "DESK MAT 01", price: 39, sku: "FW-DM-01", stock: 50 },
     ],
@@ -41,58 +41,58 @@ export const products: Product[] = [
       "/placeholder.svg",
     ],
     features: [
-      { title: "36x18 Full Desk Coverage", desc: "Covers your entire workspace" },
-      { title: "Precision Tracking Surface", desc: "Ultra smooth microfiber" },
-      { title: "Anti-Slip Rubber Base", desc: "Stays exactly where you put it" },
-      { title: "3mm Comfort Thickness", desc: "Engineered for all-day use" },
-      { title: "Deep Matte Black Finish", desc: "Subtle tonal logo" },
+      { title: "90x45 cm Vollflächig", desc: "Bedeckt deinen gesamten Arbeitsplatz" },
+      { title: "Präzise Tracking-Oberfläche", desc: "Ultra-glatte Mikrofaser" },
+      { title: "Anti-Rutsch-Gummibasis", desc: "Bleibt genau dort, wo du sie platzierst" },
+      { title: "3 mm Komfort-Dicke", desc: "Entwickelt für ganztägige Nutzung" },
+      { title: "Tiefes Mattschwarz", desc: "Dezentes tonales Logo" },
     ],
     specs: [
-      "36 x 18 inches (900 x 450 mm)",
-      "Ultra smooth microfiber surface",
-      "Non-slip rubber base",
-      "3mm thickness",
-      "Deep matte black",
-      "Subtle tonal logo",
+      "90 x 45 cm (900 x 450 mm)",
+      "Ultra-glatte Mikrofaser-Oberfläche",
+      "Anti-Rutsch-Gummibasis",
+      "3 mm Dicke",
+      "Tiefes Mattschwarz",
+      "Dezentes tonales Logo",
     ],
     careInstructions: [
-      "Hand wash recommended",
-      "Air dry flat",
-      "Do not machine wash",
-      "Do not iron",
+      "Handwäsche empfohlen",
+      "Flach trocknen lassen",
+      "Nicht in der Maschine waschen",
+      "Nicht bügeln",
     ],
-    seoTitle: "FOKUSWERK DESK MAT 01 — Premium Workspace Mat",
+    seoTitle: "FOKUSWERK DESK MAT 01 — Premium-Schreibtischunterlage",
     seoDescription:
-      "A premium full-desk performance mat designed for clarity and control. 36x18 inches. Deep matte black. Structure your workspace.",
+      "Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle. 90x45 cm. Tiefes Mattschwarz. Strukturiere deinen Arbeitsplatz.",
   },
 ];
 
 export const faqData = [
   {
-    question: "Is this a gaming mousepad?",
-    answer: "It is optimized for precision, but designed for premium workspaces. Not gaming aesthetics.",
+    question: "Ist das ein Gaming-Mousepad?",
+    answer: "Es ist für Präzision optimiert, aber für hochwertige Arbeitsplätze designt. Keine Gaming-Ästhetik.",
   },
   {
-    question: "Is it washable?",
-    answer: "Yes, hand wash recommended. Air dry flat. Do not machine wash or iron.",
+    question: "Ist es waschbar?",
+    answer: "Ja, Handwäsche wird empfohlen. Flach trocknen lassen. Nicht in der Maschine waschen oder bügeln.",
   },
   {
-    question: "Does it move on the desk?",
-    answer: "No. The anti-slip rubber base keeps it exactly where you place it.",
+    question: "Verrutscht es auf dem Schreibtisch?",
+    answer: "Nein. Die Anti-Rutsch-Gummibasis hält es genau dort, wo du es platzierst.",
   },
   {
-    question: "What is the shipping time?",
-    answer: "5-8 business days within the EU. We ship from Germany.",
+    question: "Wie lang ist die Lieferzeit?",
+    answer: "5–8 Werktage innerhalb der EU. Wir versenden aus Deutschland.",
   },
   {
-    question: "What is the return policy?",
-    answer: "14-day return policy. No questions asked. See our returns page for details.",
+    question: "Wie ist die Rückgabepolitik?",
+    answer: "14 Tage Rückgaberecht. Ohne Angabe von Gründen. Details auf unserer Widerrufsseite.",
   },
 ];
 
 export const reviewsData = [
-  { name: "Alexander M.", rating: 5, text: "Finally a desk mat that matches my setup. No logos, no RGB. Just clean.", date: "Feb 2026" },
-  { name: "Sophie K.", rating: 5, text: "The surface quality is incredible. My workspace feels intentional now.", date: "Jan 2026" },
-  { name: "David R.", rating: 5, text: "Ordered two. One for the office, one for home. Premium in every detail.", date: "Jan 2026" },
-  { name: "Lena W.", rating: 4, text: "Exactly what I was looking for. Minimal, functional, beautiful.", date: "Dec 2025" },
+  { name: "Alexander M.", rating: 5, text: "Endlich eine Schreibtischunterlage, die zu meinem Setup passt. Keine Logos, kein RGB. Einfach clean.", date: "Feb 2026" },
+  { name: "Sophie K.", rating: 5, text: "Die Oberflächenqualität ist unglaublich. Mein Arbeitsplatz fühlt sich jetzt durchdacht an.", date: "Jan 2026" },
+  { name: "David R.", rating: 5, text: "Zwei bestellt. Eine fürs Büro, eine für zu Hause. Premium in jedem Detail.", date: "Jan 2026" },
+  { name: "Lena W.", rating: 4, text: "Genau das, was ich gesucht habe. Minimal, funktional, schön.", date: "Dez 2025" },
 ];

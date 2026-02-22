@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
-  { label: "Philosophy", href: "/philosophy" },
-  { label: "About", href: "/about" },
+  { label: "Philosophie", href: "/philosophy" },
+  { label: "Über uns", href: "/about" },
 ];
 
 const Header = () => {
