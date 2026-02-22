@@ -4,6 +4,7 @@ import deskMatHero from "@/assets/desk-mat-hero.png";
 import deskBefore from "@/assets/desk-before.png";
 import deskAfter from "@/assets/desk-after.png";
 import deskTexture from "@/assets/desk-texture.png";
+import deskFullcover from "@/assets/desk-fullcover.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -101,10 +102,8 @@ const Index = () => {
       {/* Product Showcase */}
       <section className="container py-24">
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="border border-border p-6">
-            <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-              Vollflächige Abdeckung
-            </div>
+          <div className="border border-border overflow-hidden">
+            <img src={deskFullcover} alt="Vollflächige Abdeckung" className="w-full aspect-square object-cover" />
           </div>
           <div className="border border-border overflow-hidden">
             <img src={deskTexture} alt="Textur-Nahaufnahme" className="w-full aspect-square object-cover" />
