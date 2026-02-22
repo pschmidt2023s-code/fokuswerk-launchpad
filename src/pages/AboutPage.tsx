@@ -8,7 +8,7 @@ const AboutPage = () => (
     <section className="section-dark">
       <div className="container flex min-h-[50vh] flex-col items-center justify-center py-24 text-center">
         <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
-          Über uns – FOKUSWERK
+          Über uns – FOCUSWERK
         </p>
         <h1 className="mt-6 animate-fade-in text-4xl font-bold tracking-tight text-white md:text-6xl" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
           Fokus wird nicht gefunden.
@@ -24,7 +24,7 @@ const AboutPage = () => (
       <ScrollReveal>
         <div className="mx-auto max-w-2xl space-y-6 text-base leading-relaxed text-muted-foreground md:text-lg">
           <p>
-            FOKUSWERK ist aus einer einfachen Beobachtung entstanden:<br />
+            FOCUSWERK ist aus einer einfachen Beobachtung entstanden:<br />
             Die meisten Arbeitsplätze sind laut. Visuell. Überladen. Ablenkend.
           </p>
           <p className="font-medium text-foreground">
@@ -44,7 +44,7 @@ const AboutPage = () => (
         <ScrollReveal>
           <div className="mx-auto max-w-2xl space-y-6 text-base leading-relaxed text-[hsl(var(--section-dark-muted))] md:text-lg">
             <h2 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
-              Warum FOKUSWERK existiert
+              Warum FOCUSWERK existiert
             </h2>
             <p className="font-medium text-white">Deine Umgebung formt dein Ergebnis.</p>
             <p>
@@ -52,7 +52,7 @@ const AboutPage = () => (
               Unordnung kostet Energie.<br />
               Ablenkung kostet Tiefe.
             </p>
-            <p>FOKUSWERK wurde geschaffen, um genau das zu eliminieren.</p>
+            <p>FOCUSWERK wurde geschaffen, um genau das zu eliminieren.</p>
             <p>
               Nicht durch mehr Features.<br />
               Sondern durch Reduktion.
@@ -100,7 +100,7 @@ const AboutPage = () => (
               Unser Anspruch
             </h2>
             <p>
-              FOKUSWERK ist kein Gaming-Accessoire.<br />
+              FOCUSWERK ist kein Gaming-Accessoire.<br />
               Es ist kein Trendprodukt.<br />
               Es ist ein Werkzeug.
             </p>
@@ -123,7 +123,7 @@ const AboutPage = () => (
       <ScrollReveal>
         <div className="mx-auto max-w-2xl space-y-6 text-base leading-relaxed text-muted-foreground md:text-lg">
           <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-            First Drop
+            Pre-Order
           </h2>
           <p>
             Wir starten bewusst klein.<br />
@@ -133,6 +133,9 @@ const AboutPage = () => (
           <p className="font-medium text-foreground">
             Qualität vor Quantität.<br />
             Substanz vor Hype.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Versand ab 07.04.2026.
           </p>
         </div>
       </ScrollReveal>
@@ -170,7 +173,7 @@ const AboutPage = () => (
       <ScrollReveal>
         <div className="mx-auto max-w-2xl space-y-6 text-center text-base leading-relaxed text-muted-foreground md:text-lg">
           <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-            FOKUSWERK
+            FOCUSWERK
           </h2>
           <p className="font-medium text-foreground">
             Reduktion ist kein Verzicht.<br />

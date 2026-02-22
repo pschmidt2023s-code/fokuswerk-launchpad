@@ -60,7 +60,7 @@ const ContactPage = () => {
       <section className="container -mt-12 pb-12">
         <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
           {[
-            { icon: Mail, title: "E-Mail", desc: "support@fokuswerk.com" },
+            { icon: Mail, title: "E-Mail", desc: "support@focuswerk.com" },
             { icon: Clock, title: "Antwortzeit", desc: "Innerhalb von 24 Stunden" },
             { icon: MessageSquare, title: "Sprachen", desc: "Deutsch & Englisch" },
           ].map((item, i) => (

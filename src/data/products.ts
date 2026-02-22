@@ -24,15 +24,15 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "fokuswerk-desk-mat-01",
-    slug: "fokuswerk-desk-mat-01",
-    name: "FOKUSWERK DESK MAT 01",
+    id: "focuswerk-desk-mat-01",
+    slug: "focuswerk-desk-mat-01",
+    name: "FOCUSWERK DESK MAT 01",
     description:
       "Kein Gaming-Mousepad. Ein Fundament für Fokus.",
     shortDescription: "90 × 45 cm.\nTiefes Mattschwarz.\nKeine Ablenkung.",
     tagline: "Strukturiere deinen Arbeitsplatz.",
     variants: [
-      { id: "desk-mat-01", name: "DESK MAT 01", price: 69, sku: "FW-DM-01", stock: 25 },
+      { id: "desk-mat-01", name: "DESK MAT 01", price: 55, sku: "FW-DM-01", stock: 25 },
     ],
     images: [
       "/placeholder.svg",
@@ -61,7 +61,7 @@ export const products: Product[] = [
       "Nicht in der Maschine waschen",
       "Nicht bügeln",
     ],
-    seoTitle: "FOKUSWERK DESK MAT 01 — Premium-Schreibtischunterlage",
+    seoTitle: "FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage",
     seoDescription:
       "Eine Premium-Schreibtischunterlage für Klarheit und Kontrolle. 90x45 cm. Tiefes Mattschwarz. Strukturiere deinen Arbeitsplatz.",
   },
@@ -86,14 +86,14 @@ export const faqData = {
       answer: "4 mm Komfort-Dicke — entwickelt für ganztägige Nutzung.",
     },
     {
-      question: "Warum kostet es 69€?",
+      question: "Warum kostet es 55€?",
       answer: "Weil Qualität kein Feature ist. Sie ist Standard.",
     },
   ],
   versand: [
     {
       question: "Wie lang ist die Lieferzeit?",
-      answer: "5–8 Werktage innerhalb der EU. Wir versenden aus Deutschland.",
+      answer: "Dies ist ein Pre-Order. Der Versand beginnt ab dem 07.04.2026. Danach beträgt die Lieferzeit 5–8 Werktage innerhalb der EU.",
     },
     {
       question: "Was kosten die Versandkosten?",
@@ -102,6 +102,10 @@ export const faqData = {
     {
       question: "Wohin wird versendet?",
       answer: "Wir versenden aktuell in alle EU-Länder. Versand aus Deutschland.",
+    },
+    {
+      question: "Was bedeutet Pre-Order?",
+      answer: "Du sicherst dir dein Produkt jetzt zum aktuellen Preis. Der Versand erfolgt ab dem 07.04.2026.",
     },
   ],
   rueckgabe: [

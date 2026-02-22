@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square } from "lucide-react";
+import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square, Clock } from "lucide-react";
 import deskMatHero from "@/assets/desk-mat-hero.png";
 import deskBefore from "@/assets/desk-before.png";
 import deskAfter from "@/assets/desk-after.png";
@@ -28,7 +28,7 @@ const Index = () => {
       <section className="section-dark">
         <div className="container flex min-h-[90vh] flex-col items-center justify-center py-24 text-center">
           <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
-            First Drop — Limitierte Stückzahl
+            Pre-Order — Limitierte Stückzahl
           </p>
           <h1 className="mt-6 animate-fade-in text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-7xl lg:text-8xl" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
             Kontrolle beginnt auf<br />deinem Schreibtisch.
@@ -36,9 +36,16 @@ const Index = () => {
           <p className="mt-6 max-w-lg animate-fade-in text-base text-[hsl(var(--section-dark-muted))] md:text-lg" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
             90×45 cm kompromisslose Struktur für deinen Arbeitsplatz.
           </p>
+
+          {/* Pre-Order Hint */}
+          <div className="mt-4 animate-fade-in inline-flex items-center gap-2 border border-amber-400/40 bg-amber-400/10 px-4 py-2" style={{ animationDelay: "375ms", animationFillMode: "both" }}>
+            <Clock className="h-3.5 w-3.5 text-amber-300" strokeWidth={2} />
+            <span className="text-xs font-medium text-amber-200">Pre-Order — Versand ab 07.04.2026</span>
+          </div>
+
           <div className="mt-10 flex animate-fade-in flex-col gap-4 sm:flex-row" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
             <Button asChild size="lg" className="rounded-none bg-white px-10 text-sm uppercase tracking-[0.15em] text-black hover:bg-white/90">
-              <Link to="/shop">DESK MAT 01 ENTDECKEN <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link to="/shop">JETZT VORBESTELLEN <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-none border-white/20 bg-transparent px-10 text-sm uppercase tracking-[0.15em] text-white hover:bg-white/10">
               <Link to="/philosophy">Unsere Philosophie</Link>
@@ -48,7 +55,7 @@ const Index = () => {
           <div className="mt-16 w-full max-w-3xl animate-fade-in" style={{ animationDelay: "600ms", animationFillMode: "both" }}>
             <img
               src={deskMatHero}
-              alt="FOKUSWERK DESK MAT 01 — Premium-Schreibtischunterlage auf einem minimalistischen Schreibtisch"
+              alt="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage auf einem minimalistischen Schreibtisch"
               className="w-full"
             />
           </div>
@@ -78,7 +85,7 @@ const Index = () => {
           </ScrollReveal>
           <ScrollReveal delay={250}>
             <div className="border border-foreground overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskAfter} alt="Nachher — FOKUSWERK Setup" className="w-full h-full object-cover aspect-[4/3]" />
+              <img src={deskAfter} alt="Nachher — FOCUSWERK Setup" className="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </ScrollReveal>
         </div>
@@ -134,7 +141,7 @@ const Index = () => {
                 Fokus wird gebaut.
               </h2>
               <div className="mt-8 space-y-4 text-base text-[hsl(var(--section-dark-muted))] md:text-lg">
-                <p>FOKUSWERK wurde geschaffen, um Ablenkung zu eliminieren.</p>
+                <p>FOCUSWERK wurde geschaffen, um Ablenkung zu eliminieren.</p>
                 <p>Jedes Detail dient einem Zweck: Kontrolle.</p>
                 <p className="font-medium text-white">Dein Arbeitsplatz sollte deine Ambitionen unterstützen.</p>
               </div>
@@ -151,12 +158,17 @@ const Index = () => {
         <ScrollReveal>
           <div className="mx-auto grid max-w-4xl items-center gap-12 md:grid-cols-2">
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskMatProduct} alt="FOKUSWERK DESK MAT 01" className="w-full aspect-square object-contain bg-white" />
+              <img src={deskMatProduct} alt="FOCUSWERK DESK MAT 01" className="w-full aspect-square object-contain bg-white" />
             </div>
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                First Drop
-              </p>
+              <div className="flex items-center gap-3">
+                <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+                  Pre-Order
+                </p>
+                <span className="inline-flex items-center gap-1 border border-amber-400/50 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-800">
+                  <Clock className="h-3 w-3" /> Ab 07.04.2026
+                </span>
+              </div>
               <h3 className="mt-3 text-2xl font-bold text-foreground">{product.name}</h3>
               <p className="mt-3 whitespace-pre-line text-muted-foreground">{product.shortDescription}</p>
               <p className="mt-6 text-3xl font-bold text-foreground">
@@ -164,7 +176,7 @@ const Index = () => {
               </p>
               <p className="mt-1 text-xs text-muted-foreground">Kostenloser Versand EU. 14 Tage Rückgabe.</p>
               <Button asChild size="lg" className="mt-8 rounded-none px-10 text-sm uppercase tracking-[0.15em]">
-                <Link to="/shop">Jetzt kaufen</Link>
+                <Link to="/shop">Jetzt vorbestellen</Link>
               </Button>
             </div>
           </div>

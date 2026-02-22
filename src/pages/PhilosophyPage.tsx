@@ -19,7 +19,7 @@ const PhilosophyPage = () => (
       <div className="mx-auto max-w-2xl space-y-8 text-base leading-relaxed text-muted-foreground md:text-lg">
         <p>
           Deine Umgebung formt dein Ergebnis. Ein chaotischer Arbeitsplatz erzeugt einen chaotischen Geist.
-          FOKUSWERK existiert, um diese Gleichung zu verändern.
+          FOCUSWERK existiert, um diese Gleichung zu verändern.
         </p>
         <p>
           Wir glauben, dass jedes Objekt auf deinem Schreibtisch seinen Platz verdienen muss. Jede Oberfläche
@@ -34,7 +34,7 @@ const PhilosophyPage = () => (
           was es wert ist, gebaut zu werden.
         </p>
         <p>
-          FOKUSWERK-Produkte werden nach einem Prinzip entwickelt: Eliminiere alles, was nicht
+          FOCUSWERK-Produkte werden nach einem Prinzip entwickelt: Eliminiere alles, was nicht
           deinem Fokus dient. Keine unnötigen Features. Keine ästhetischen Kompromisse. Kein Lärm.
         </p>
         <p className="font-medium text-foreground">

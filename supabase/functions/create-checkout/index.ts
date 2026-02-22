@@ -30,7 +30,7 @@ serve(async (req) => {
     }));
 
     // Determine origin for redirect URLs
-    const origin = req.headers.get("origin") || "https://fokuswerk.de";
+    const origin = req.headers.get("origin") || "https://focuswerk.de";
 
     // Create Stripe Checkout Session
     const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
@@ -92,14 +92,14 @@ serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "FOKUSWERK <noreply@aldenairperfumes.de>",
+          from: "FOCUSWERK <noreply@aldenairperfumes.de>",
           to: [customer.email],
-          subject: `Bestellbestätigung — FOKUSWERK`,
+          subject: `Bestellbestätigung — FOCUSWERK`,
           html: `<div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
-            <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
-            <p>Hallo ${customer.name}, vielen Dank für deine Bestellung!</p>
+            <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOCUSWERK</h1>
+            <p>Hallo ${customer.name}, vielen Dank für deine Vorbestellung!</p>
             <p style="font-size:14px;color:#737373">Du erhältst eine weitere Bestätigung, sobald deine Zahlung eingegangen ist.</p>
-            <p style="font-size:13px;color:#737373;margin-top:24px">Kostenloser Versand innerhalb der EU (5–8 Werktage)</p>
+            <p style="font-size:13px;color:#737373;margin-top:24px">Pre-Order — Versand ab 07.04.2026. Kostenloser Versand innerhalb der EU.</p>
           </div>`,
         }),
       }).catch(() => {});

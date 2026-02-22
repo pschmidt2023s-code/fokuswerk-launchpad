@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, MapPin } from "lucide-react";
+import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import shop1 from "@/assets/shop-1.png";
 import shop2 from "@/assets/shop-2.png";
@@ -78,7 +78,7 @@ const ProductPage = () => {
           {/* Gallery */}
           <div>
             <div className="border border-border overflow-hidden">
-              <img src={shopImages[mainImage]} alt={`FOKUSWERK DESK MAT 01 — Bild ${mainImage + 1}`} className="w-full aspect-square object-contain bg-white" />
+              <img src={shopImages[mainImage]} alt={`FOCUSWERK DESK MAT 01 — Bild ${mainImage + 1}`} className="w-full aspect-square object-contain bg-white" />
             </div>
             <div className="mt-4 grid grid-cols-5 gap-3">
               {shopImages.map((img, i) => (
@@ -97,8 +97,14 @@ const ProductPage = () => {
 
           {/* Info */}
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">FOKUSWERK</p>
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">FOCUSWERK</p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{product.name}</h1>
+
+            {/* Pre-Order Badge */}
+            <div className="mt-4 inline-flex items-center gap-2 border border-amber-400 bg-amber-50 px-3 py-1.5">
+              <Clock className="h-3.5 w-3.5 text-amber-700" strokeWidth={2} />
+              <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">Pre-Order — Versand ab 07.04.2026</span>
+            </div>
 
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
@@ -136,11 +142,15 @@ const ProductPage = () => {
               size="lg"
               className="mt-6 w-full rounded-none py-6 text-sm uppercase tracking-[0.15em] md:w-auto md:px-16"
             >
-              <ShoppingBag className="mr-2 h-4 w-4" /> In den Warenkorb
+              <ShoppingBag className="mr-2 h-4 w-4" /> Jetzt vorbestellen
             </Button>
 
             {/* Micro-Trust Badges */}
             <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Clock className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+                <span>Pre-Order — Versand ab 07.04.2026</span>
+              </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Truck className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
                 <span>Kostenloser Versand EU</span>
@@ -211,7 +221,7 @@ const ProductPage = () => {
 
             <div className="mt-8 border-t border-border pt-8">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                FOKUSWERK wurde entwickelt, um Ablenkung zu reduzieren.
+                FOCUSWERK wurde entwickelt, um Ablenkung zu reduzieren.
               </p>
               <p className="mt-2 text-sm font-medium text-foreground">
                 Jede Oberfläche, jede Kante, jede Entscheidung dient einem Zweck: Kontrolle.

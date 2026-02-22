@@ -45,7 +45,7 @@ const AdminLogin = () => {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm space-y-6 p-6 sm:p-8">
         <div className="text-center">
-          <p className="text-sm font-bold tracking-[0.3em] text-foreground">FOKUSWERK</p>
+          <p className="text-sm font-bold tracking-[0.3em] text-foreground">FOCUSWERK</p>
           <p className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">Admin-Bereich</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
