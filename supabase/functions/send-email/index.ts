@@ -17,28 +17,36 @@ const GREY = rgb(0.45, 0.45, 0.45);
 const BLACK = rgb(0.055, 0.055, 0.055);
 const LIGHT = rgb(0.64, 0.64, 0.64);
 
+async function drawPdfLogo(page: any, fontBold: any, y: number, lm: number, rm: number): Promise<number> {
+  // Draw a black rectangle as logo background
+  page.drawRectangle({ x: lm, y: y - 30, width: rm - lm, height: 40, color: BLACK });
+  const logoText = "F O K U S W E R K";
+  const logoWidth = fontBold.widthOfTextAtSize(logoText, 11);
+  page.drawText(logoText, { x: lm + (rm - lm - logoWidth) / 2, y: y - 18, size: 11, font: fontBold, color: rgb(1, 1, 1) });
+  return y - 55;
+}
+
 async function createInvoicePdf(data: any): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
   const page = doc.addPage([595.28, 841.89]); // A4
   const { height } = page.getSize();
-  let y = height - 50;
+  let y = height - 40;
   const lm = 50; // left margin
   const rm = 545; // right edge
 
   const date = new Date().toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
   const invoiceNr = `RE-${(data.orderId || "000000").slice(0, 8).toUpperCase()}`;
 
-  // Header
-  page.drawText(BRAND, { x: lm, y, size: 14, font: fontBold, color: BLACK });
-  y -= 40;
+  // Logo
+  y = await drawPdfLogo(page, fontBold, y, lm, rm);
 
   // Address block
   page.drawText("Rechnungsadresse:", { x: lm, y, size: 8, font, color: GREY });
   page.drawText(`Rechnungsnr: ${invoiceNr}`, { x: 370, y, size: 8, font, color: GREY });
   y -= 14;
-  page.drawText(data.customerName || "—", { x: lm, y, size: 10, font: fontBold, color: BLACK });
+  page.drawText(data.customerName || "\u2014", { x: lm, y, size: 10, font: fontBold, color: BLACK });
   page.drawText(`Datum: ${date}`, { x: 370, y, size: 8, font, color: GREY });
   y -= 13;
   const addr = data.shippingAddress || {};
@@ -63,7 +71,7 @@ async function createInvoicePdf(data: any): Promise<Uint8Array> {
   // Items
   const items: any[] = data.items || [];
   for (const item of items) {
-    const total = (item.price * item.quantity).toFixed(2).replace(".", ",") + " €";
+    const total = (item.price * item.quantity).toFixed(2).replace(".", ",") + " \u20AC";
     page.drawText(item.name || "", { x: lm, y, size: 9, font, color: BLACK });
     page.drawText(String(item.quantity), { x: 385, y, size: 9, font, color: BLACK });
     page.drawText(total, { x: 490, y, size: 9, font, color: BLACK });
@@ -71,21 +79,25 @@ async function createInvoicePdf(data: any): Promise<Uint8Array> {
     page.drawLine({ start: { x: lm, y: y + 6 }, end: { x: rm, y: y + 6 }, thickness: 0.3, color: LIGHT });
   }
 
+  const shipping = Number(data.shipping || 0);
+  const subtotal = Number(data.subtotal || data.total || 0);
+  const shippingLabel = shipping === 0 ? "Kostenlos" : `${shipping.toFixed(2).replace(".", ",")} \u20AC`;
+
   y -= 10;
   // Subtotal
   page.drawText("Zwischensumme", { x: 370, y, size: 9, font, color: GREY });
-  page.drawText(`${Number(data.total).toFixed(2).replace(".", ",")} €`, { x: 490, y, size: 9, font, color: BLACK });
+  page.drawText(`${subtotal.toFixed(2).replace(".", ",")} \u20AC`, { x: 490, y, size: 9, font, color: BLACK });
   y -= 16;
   page.drawText("Versand", { x: 370, y, size: 9, font, color: GREY });
-  page.drawText("Kostenlos", { x: 490, y, size: 9, font, color: BLACK });
+  page.drawText(shippingLabel, { x: 490, y, size: 9, font, color: BLACK });
   y -= 16;
   page.drawText("MwSt.", { x: 370, y, size: 9, font, color: GREY });
-  page.drawText("0,00 €", { x: 490, y, size: 9, font, color: BLACK });
+  page.drawText("0,00 \u20AC", { x: 490, y, size: 9, font, color: BLACK });
   y -= 10;
   page.drawLine({ start: { x: 370, y }, end: { x: rm, y }, thickness: 1.5, color: BLACK });
   y -= 16;
   page.drawText("Gesamtbetrag", { x: 370, y, size: 10, font: fontBold, color: BLACK });
-  page.drawText(`${Number(data.total).toFixed(2).replace(".", ",")} €`, { x: 490, y, size: 10, font: fontBold, color: BLACK });
+  page.drawText(`${Number(data.total).toFixed(2).replace(".", ",")} \u20AC`, { x: 490, y, size: 10, font: fontBold, color: BLACK });
 
   y -= 40;
   page.drawText(KU, { x: lm, y, size: 7.5, font: fontBold, color: GREY });
@@ -95,7 +107,7 @@ async function createInvoicePdf(data: any): Promise<Uint8Array> {
   y -= 30;
   page.drawLine({ start: { x: lm, y }, end: { x: rm, y }, thickness: 0.3, color: LIGHT });
   y -= 14;
-  page.drawText(`${BRAND} · kontakt@fokuswerk.de`, { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText(`${BRAND} \u00B7 kontakt@fokuswerk.de`, { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }
@@ -106,9 +118,13 @@ async function createAgbPdf(): Promise<Uint8Array> {
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
   const page = doc.addPage([595.28, 841.89]);
   const { height } = page.getSize();
-  let y = height - 50;
+  let y = height - 40;
   const lm = 50;
+  const rm = 545;
   const maxW = 495;
+
+  // Logo
+  y = await drawPdfLogo(page, fontBold, y, lm, rm);
 
   const title = (t: string) => { page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18; };
   const para = (t: string) => {
@@ -124,30 +140,30 @@ async function createAgbPdf(): Promise<Uint8Array> {
     y -= 6;
   };
 
-  page.drawText(`${BRAND} — Allgemeine Geschäftsbedingungen`, { x: lm, y, size: 12, font: fontBold, color: BLACK });
+  page.drawText("Allgemeine Gesch\u00E4ftsbedingungen", { x: lm, y, size: 14, font: fontBold, color: BLACK });
   y -= 30;
 
   title("1. Geltungsbereich");
-  para("Diese Allgemeinen Geschäftsbedingungen gelten für alle Bestellungen über unseren Onlineshop.");
+  para("Diese Allgemeinen Gesch\u00E4ftsbedingungen gelten f\u00FCr alle Bestellungen \u00FCber unseren Onlineshop.");
 
   title("2. Vertragsschluss");
-  para('Durch Klicken auf \u201EBestellung aufgeben\u201C gibst du ein verbindliches Angebot zum Kauf der Artikel in deinem Warenkorb ab. Die Bestellbestätigung per E-Mail stellt die Annahme des Vertrags dar.');
+  para('Durch Klicken auf \u201EBestellung aufgeben\u201C gibst du ein verbindliches Angebot zum Kauf der Artikel in deinem Warenkorb ab. Die Bestellbest\u00E4tigung per E-Mail stellt die Annahme des Vertrags dar.');
 
   title("3. Preise & Zahlung");
   para(`Alle Preise sind Endpreise. ${KU}`);
   para("Akzeptierte Zahlungsmittel: Kreditkarte (Stripe), PayPal, Apple Pay, Google Pay.");
 
   title("4. Lieferung");
-  para("Kostenloser Versand innerhalb der EU. Die Lieferzeit beträgt 5–8 Werktage.");
+  para("Kostenloser Versand innerhalb der EU. Die Lieferzeit betr\u00E4gt 5\u20138 Werktage.");
 
   title("5. Eigentumsvorbehalt");
-  para("Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.");
+  para("Die Ware bleibt bis zur vollst\u00E4ndigen Bezahlung unser Eigentum.");
 
   title("6. Schlussbestimmungen");
   para("Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist Berlin.");
 
   y -= 20;
-  page.drawText("Stand: Februar 2026 — Platzhalter, durch rechtskonforme AGB ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText("Stand: Februar 2026 \u2014 Platzhalter, durch rechtskonforme AGB ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }
@@ -158,9 +174,13 @@ async function createReturnsPdf(): Promise<Uint8Array> {
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
   const page = doc.addPage([595.28, 841.89]);
   const { height } = page.getSize();
-  let y = height - 50;
+  let y = height - 40;
   const lm = 50;
+  const rm = 545;
   const maxW = 495;
+
+  // Logo
+  y = await drawPdfLogo(page, fontBold, y, lm, rm);
 
   const title = (t: string) => { page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18; };
   const para = (t: string) => {
@@ -176,22 +196,22 @@ async function createReturnsPdf(): Promise<Uint8Array> {
     y -= 6;
   };
 
-  page.drawText(`${BRAND} — Widerrufsbelehrung & Rückerstattungsrichtlinien`, { x: lm, y, size: 11, font: fontBold, color: BLACK });
+  page.drawText("Widerrufsbelehrung & R\u00FCckerstattungsrichtlinien", { x: lm, y, size: 14, font: fontBold, color: BLACK });
   y -= 30;
 
   title("Widerrufsrecht");
-  para("Du hast das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab dem Tag, an dem du oder ein von dir benannter Dritter die Ware in Besitz genommen hat.");
-  para("Um dein Widerrufsrecht auszuüben, musst du uns (kontakt@fokuswerk.de) mittels einer eindeutigen Erklärung über deinen Entschluss informieren.");
+  para("Du hast das Recht, binnen 14 Tagen ohne Angabe von Gr\u00FCnden diesen Vertrag zu widerrufen. Die Widerrufsfrist betr\u00E4gt 14 Tage ab dem Tag, an dem du oder ein von dir benannter Dritter die Ware in Besitz genommen hat.");
+  para("Um dein Widerrufsrecht auszu\u00FCben, musst du uns (kontakt@fokuswerk.de) mittels einer eindeutigen Erkl\u00E4rung \u00FCber deinen Entschluss informieren.");
 
   title("Folgen des Widerrufs");
-  para("Wenn du diesen Vertrag widerrufst, haben wir dir alle Zahlungen, die wir von dir erhalten haben, unverzüglich und spätestens binnen 14 Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über deinen Widerruf bei uns eingegangen ist.");
-  para("Die Rückzahlung erfolgt über dasselbe Zahlungsmittel, das du bei der ursprünglichen Transaktion eingesetzt hast.");
+  para("Wenn du diesen Vertrag widerrufst, haben wir dir alle Zahlungen, die wir von dir erhalten haben, unverz\u00FCglich und sp\u00E4testens binnen 14 Tagen ab dem Tag zur\u00FCckzuzahlen, an dem die Mitteilung \u00FCber deinen Widerruf bei uns eingegangen ist.");
+  para("Die R\u00FCckzahlung erfolgt \u00FCber dasselbe Zahlungsmittel, das du bei der urspr\u00FCnglichen Transaktion eingesetzt hast.");
 
-  title("Rücksendung");
-  para("Du hast die Waren unverzüglich und spätestens binnen 14 Tagen ab dem Tag, an dem du uns über den Widerruf unterrichtest, an uns zurückzusenden. Die Kosten der Rücksendung trägst du.");
+  title("R\u00FCcksendung");
+  para("Du hast die Waren unverz\u00FCglich und sp\u00E4testens binnen 14 Tagen ab dem Tag, an dem du uns \u00FCber den Widerruf unterrichtest, an uns zur\u00FCckzusenden. Die Kosten der R\u00FCcksendung tr\u00E4gst du.");
 
   y -= 20;
-  page.drawText("Stand: Februar 2026 — Platzhalter, durch rechtskonforme Texte ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText("Stand: Februar 2026 \u2014 Platzhalter, durch rechtskonforme Texte ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }
@@ -256,12 +276,16 @@ serve(async (req) => {
 
     if (type === "order_confirmation") {
       subject = `Bestellbestätigung #${(data.orderId || "").slice(0, 8).toUpperCase()} — ${BRAND}`;
+      const shipping = Number(data.shipping || 0);
+      const shippingLabel = shipping === 0 ? "Kostenlos" : `${shipping.toFixed(2).replace(".", ",")} €`;
+      const subtotal = Number(data.subtotal || data.total || 0);
+
       const itemsHtml = (data.items || [])
         .map((i: any) =>
           `<tr>
-            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#0e0e0e">${i.name}</td>
-            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#737373;text-align:center">×${i.quantity}</td>
-            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#0e0e0e;text-align:right;font-weight:500">${(i.price * i.quantity).toFixed(2).replace(".", ",")} €</td>
+            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#0e0e0e;width:60%">${i.name}</td>
+            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#737373;text-align:center;width:15%;white-space:nowrap">× ${i.quantity}</td>
+            <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#0e0e0e;text-align:right;font-weight:500;width:25%;white-space:nowrap">${(i.price * i.quantity).toFixed(2).replace(".", ",")} €</td>
           </tr>`).join("");
 
       html = layout(`
@@ -269,10 +293,12 @@ serve(async (req) => {
         ${subtext("Vielen Dank für deine Bestellung. Wir haben alles erhalten und bereiten den Versand vor.")}
         <div style="background:#fafafa;padding:20px;margin-bottom:24px">
           <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:#a3a3a3;margin:0 0 12px;font-weight:600">Bestellübersicht</p>
-          <table style="width:100%;border-collapse:collapse">${itemsHtml}</table>
-          <table style="width:100%;margin-top:12px">
-            <tr><td style="font-size:13px;color:#737373;padding:4px 0">Versand</td><td style="font-size:13px;text-align:right;color:#737373;padding:4px 0">Kostenlos</td></tr>
-            <tr style="border-top:1px solid #e5e5e5"><td style="font-size:14px;font-weight:700;color:#0e0e0e;padding:12px 0">Gesamt</td><td style="font-size:14px;font-weight:700;text-align:right;color:#0e0e0e;padding:12px 0">${Number(data.total).toFixed(2).replace(".", ",")} €</td></tr>
+          <table style="width:100%;border-collapse:collapse;table-layout:fixed">${itemsHtml}</table>
+          <table style="width:100%;margin-top:16px;border-collapse:collapse">
+            <tr><td style="font-size:13px;color:#737373;padding:6px 0">Zwischensumme</td><td style="font-size:13px;text-align:right;color:#0e0e0e;padding:6px 0">${subtotal.toFixed(2).replace(".", ",")} €</td></tr>
+            <tr><td style="font-size:13px;color:#737373;padding:6px 0">Versand</td><td style="font-size:13px;text-align:right;color:#737373;padding:6px 0">${shippingLabel}</td></tr>
+            <tr><td colspan="2" style="padding:0"><hr style="border:none;border-top:1px solid #e5e5e5;margin:8px 0"></td></tr>
+            <tr><td style="font-size:14px;font-weight:700;color:#0e0e0e;padding:6px 0">Gesamt</td><td style="font-size:14px;font-weight:700;text-align:right;color:#0e0e0e;padding:6px 0">${Number(data.total).toFixed(2).replace(".", ",")} €</td></tr>
           </table>
         </div>
         <p style="font-size:11px;color:#a3a3a3;margin:0">${KU}</p>
