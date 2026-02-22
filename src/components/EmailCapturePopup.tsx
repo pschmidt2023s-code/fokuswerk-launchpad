@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,13 +15,20 @@ const EmailCapturePopup = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  const location = useLocation();
+  const excludedPaths = ["/contact", "/auth", "/account"];
+
   useEffect(() => {
+    if (excludedPaths.some((p) => location.pathname.startsWith(p))) {
+      setShow(false);
+      return;
+    }
     const dismissed = localStorage.getItem(DISMISSED_KEY);
     if (dismissed) return;
 
     const timer = setTimeout(() => setShow(true), 8000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [location.pathname]);
 
   const dismiss = () => {
     setShow(false);
