@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export interface CartItem {
   variantId: string;
@@ -20,14 +20,39 @@ interface CartContextType {
   subtotal: number;
   shippingCost: number;
   total: number;
+  discount: number;
+  discountCode: string | null;
+  applyDiscount: (code: string) => boolean;
+  removeDiscount: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const FREE_SHIPPING_THRESHOLD = 0; // Free shipping always for EU
+const STORAGE_KEY = "fokuswerk_cart";
+const DISCOUNT_KEY = "fokuswerk_discount";
+
+const loadCart = (): CartItem[] => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch { return []; }
+};
+
+const saveCart = (items: CartItem[]) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+};
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadCart);
+  const [discountCode, setDiscountCode] = useState<string | null>(() => {
+    try { return localStorage.getItem(DISCOUNT_KEY); } catch { return null; }
+  });
+
+  useEffect(() => { saveCart(items); }, [items]);
+  useEffect(() => {
+    if (discountCode) localStorage.setItem(DISCOUNT_KEY, discountCode);
+    else localStorage.removeItem(DISCOUNT_KEY);
+  }, [discountCode]);
 
   const addItem = useCallback((item: Omit<CartItem, "quantity">, quantity = 1) => {
     setItems((prev) => {
@@ -55,16 +80,30 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   }, []);
 
-  const clearCart = useCallback(() => setItems([]), []);
+  const clearCart = useCallback(() => {
+    setItems([]);
+    setDiscountCode(null);
+  }, []);
+
+  const applyDiscount = useCallback((code: string): boolean => {
+    if (code.toUpperCase() === "FIRSTDROP10") {
+      setDiscountCode("FIRSTDROP10");
+      return true;
+    }
+    return false;
+  }, []);
+
+  const removeDiscount = useCallback(() => setDiscountCode(null), []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const shippingCost = 0; // Free shipping EU
-  const total = subtotal + shippingCost;
+  const discount = discountCode === "FIRSTDROP10" ? Math.round(subtotal * 0.1 * 100) / 100 : 0;
+  const shippingCost = 0;
+  const total = subtotal - discount + shippingCost;
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, subtotal, shippingCost, total }}
+      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, subtotal, shippingCost, total, discount, discountCode, applyDiscount, removeDiscount }}
     >
       {children}
     </CartContext.Provider>

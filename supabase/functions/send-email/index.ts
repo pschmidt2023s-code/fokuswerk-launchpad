@@ -89,6 +89,34 @@ serve(async (req) => {
           <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
         </div>
       `;
+    } else if (type === "discount_welcome") {
+      subject = "Dein 10 % Rabattcode — FOKUSWERK";
+      html = `
+        <div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
+          <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
+          <p style="font-size:15px;margin-bottom:16px">Willkommen bei FOKUSWERK.</p>
+          <p style="font-size:14px;color:#737373;margin-bottom:24px">Hier ist dein persönlicher Rabattcode für 10 % auf deine erste Bestellung:</p>
+          <div style="background:#0e0e0e;color:#fff;padding:20px;text-align:center;margin-bottom:24px">
+            <p style="font-size:24px;font-weight:700;letter-spacing:0.2em;margin:0">${data.discountCode}</p>
+          </div>
+          <p style="font-size:13px;color:#737373;margin-bottom:8px">Gib den Code im Warenkorb oder an der Kasse ein.</p>
+          <p style="font-size:13px;color:#737373">Der Code gilt einmalig und ist nicht mit anderen Aktionen kombinierbar.</p>
+          <hr style="border:none;border-top:1px solid #eee;margin:32px 0" />
+          <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
+        </div>
+      `;
+    } else if (type === "abandoned_cart") {
+      subject = "Hast du etwas vergessen? — FOKUSWERK";
+      html = `
+        <div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
+          <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
+          <p style="font-size:15px;margin-bottom:4px">Hallo${data.customerName ? ` ${data.customerName}` : ""},</p>
+          <p style="font-size:14px;color:#737373;margin-bottom:24px">Dein Warenkorb wartet auf dich. Schließe deine Bestellung jetzt ab.</p>
+          <a href="${data.siteUrl || "https://fokuswerk.de"}/cart" style="display:inline-block;padding:14px 32px;background:#0e0e0e;color:#fff;text-decoration:none;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500">Zum Warenkorb</a>
+          <hr style="border:none;border-top:1px solid #eee;margin:32px 0" />
+          <p style="font-size:11px;color:#a3a3a3">FOKUSWERK — Kontrolle beginnt auf deinem Schreibtisch.</p>
+        </div>
+      `;
     } else {
       throw new Error("Unknown email type");
     }
