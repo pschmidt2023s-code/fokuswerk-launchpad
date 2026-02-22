@@ -14,11 +14,23 @@ const ContactPage = () => {
     e.preventDefault();
     setSending(true);
     const fd = new FormData(e.currentTarget);
-    const { error } = await supabase.from("contact_messages").insert({
-      name: fd.get("name") as string,
-      email: fd.get("email") as string,
-      message: fd.get("message") as string,
-    });
+    const name = fd.get("name") as string;
+    const email = fd.get("email") as string;
+    const message = fd.get("message") as string;
+
+    const { error } = await supabase.from("contact_messages").insert({ name, email, message });
+    
+    if (!error) {
+      // Send admin notification email (fire and forget)
+      supabase.functions.invoke("send-email", {
+        body: {
+          type: "contact_notification",
+          to: "pschmidt2023s@gmail.com",
+          data: { name, email, message },
+        },
+      });
+    }
+
     setSending(false);
     if (error) {
       toast({ title: "Fehler", description: "Nachricht konnte nicht gesendet werden.", variant: "destructive" });

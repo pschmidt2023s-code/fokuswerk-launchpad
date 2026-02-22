@@ -81,6 +81,29 @@ serve(async (req) => {
       }),
     });
 
+    // Send confirmation email (fire and forget)
+    const resendKey = Deno.env.get("RESEND_API_KEY");
+    if (resendKey) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "FOKUSWERK <noreply@fokuswerk.de>",
+          to: [customer.email],
+          subject: `Bestellbestätigung — FOKUSWERK`,
+          html: `<div style="font-family:'Inter',system-ui,sans-serif;max-width:560px;margin:0 auto;color:#0e0e0e">
+            <h1 style="font-size:14px;letter-spacing:0.3em;font-weight:700;margin-bottom:24px">FOKUSWERK</h1>
+            <p>Hallo ${customer.name}, vielen Dank für deine Bestellung!</p>
+            <p style="font-size:14px;color:#737373">Du erhältst eine weitere Bestätigung, sobald deine Zahlung eingegangen ist.</p>
+            <p style="font-size:13px;color:#737373;margin-top:24px">Kostenloser Versand innerhalb der EU (5–8 Werktage)</p>
+          </div>`,
+        }),
+      }).catch(() => {});
+    }
+
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
