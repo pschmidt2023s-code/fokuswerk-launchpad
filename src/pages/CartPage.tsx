@@ -30,8 +30,12 @@ const CartPage = () => {
           <div className="divide-y divide-border border-y border-border">
             {items.map((item) => (
               <div key={item.variantId} className="flex items-center gap-4 py-6">
-                <div className="h-20 w-20 shrink-0 border border-border p-2">
-                  <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">IMG</div>
+                <div className="h-20 w-20 shrink-0 border border-border overflow-hidden">
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} className="h-full w-full object-contain bg-white" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">IMG</div>
+                  )}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{item.name}</p>
