@@ -5,6 +5,7 @@ import deskBefore from "@/assets/desk-before.png";
 import deskAfter from "@/assets/desk-after.png";
 import deskTexture from "@/assets/desk-texture.png";
 import deskFullcover from "@/assets/desk-fullcover.png";
+import deskMatProduct from "@/assets/desk-mat-product.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -133,10 +134,8 @@ const Index = () => {
       {/* Product Card */}
       <section className="container py-24">
         <div className="mx-auto grid max-w-4xl items-center gap-12 md:grid-cols-2">
-          <div className="border border-border p-8">
-            <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">
-              DESK MAT 01
-            </div>
+          <div className="border border-border overflow-hidden">
+            <img src={deskMatProduct} alt="FOKUSWERK DESK MAT 01" className="w-full aspect-square object-contain bg-white" />
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
