@@ -28,7 +28,7 @@ serve(async (req) => {
   }
 
   try {
-    const { action, items, customer, shippingAddress, orderId } = await req.json();
+    const { action, items, customer, shippingAddress, orderId, userId } = await req.json();
     const { token, base } = await getPayPalAccessToken();
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -85,6 +85,7 @@ serve(async (req) => {
           payment_method: "paypal",
           paypal_order_id: order.id,
           shipping_address: shippingAddress,
+          user_id: userId || null,
         }),
       });
 

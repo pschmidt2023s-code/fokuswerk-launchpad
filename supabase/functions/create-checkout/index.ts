@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { items, customer, shippingAddress } = await req.json();
+    const { items, customer, shippingAddress, userId } = await req.json();
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("Stripe key not configured");
@@ -78,6 +78,7 @@ serve(async (req) => {
         payment_method: "stripe",
         stripe_session_id: session.id,
         shipping_address: shippingAddress,
+        user_id: userId || null,
       }),
     });
 

@@ -5,26 +5,66 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Package, Truck, CheckCircle, Clock, ExternalLink } from "lucide-react";
+
+const shippingSteps = [
+  { key: "pending", label: "Bestellt", icon: Clock },
+  { key: "processing", label: "In Bearbeitung", icon: Package },
+  { key: "shipped", label: "Versendet", icon: Truck },
+  { key: "delivered", label: "Zugestellt", icon: CheckCircle },
+];
+
+const getStepIndex = (status: string | null) => {
+  const map: Record<string, number> = { pending: 0, processing: 1, shipped: 2, delivered: 3 };
+  return map[status ?? "pending"] ?? 0;
+};
+
+const statusLabel = (s: string) => {
+  const map: Record<string, string> = { pending: "Ausstehend", paid: "Bezahlt", cancelled: "Storniert", refunded: "Erstattet" };
+  return map[s] ?? s;
+};
 
 const AccountPage = () => {
   const { user, loading, signOut } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [tab, setTab] = useState<"profile" | "orders">("profile");
 
   const { data: profile } = useQuery({
     queryKey: ["profile", user?.id],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("user_id", user!.id)
-        .single();
+      const { data } = await supabase.from("profiles").select("*").eq("user_id", user!.id).single();
       return data;
     },
     enabled: !!user,
   });
+
+  const { data: orders } = useQuery({
+    queryKey: ["my-orders", user?.id],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
+      return data ?? [];
+    },
+    enabled: !!user,
+  });
+
+  // Realtime subscription for order updates
+  useEffect(() => {
+    if (!user) return;
+    const channel = supabase
+      .channel("my-orders-realtime")
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders", filter: `user_id=eq.${user.id}` }, () => {
+        queryClient.invalidateQueries({ queryKey: ["my-orders"] });
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [user, queryClient]);
 
   const [form, setForm] = useState({
     first_name: "", last_name: "", address: "", zip: "", city: "", country: "Deutschland",
@@ -45,10 +85,7 @@ const AccountPage = () => {
 
   const updateProfile = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase
-        .from("profiles")
-        .update(form)
-        .eq("user_id", user!.id);
+      const { error } = await supabase.from("profiles").update(form).eq("user_id", user!.id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -67,54 +104,186 @@ const AccountPage = () => {
 
   return (
     <div className="container py-12 md:py-20">
-      <div className="mx-auto max-w-lg space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Mein Konto</h1>
-          <p className="mt-1 text-xs text-muted-foreground">{user.email}</p>
-        </div>
-
-        <form
-          onSubmit={(e) => { e.preventDefault(); updateProfile.mutate(); }}
-          className="space-y-5"
-        >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Vorname</Label>
-              <Input className="rounded-none" value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Nachname</Label>
-              <Input className="rounded-none" value={form.last_name} onChange={(e) => update("last_name", e.target.value)} />
-            </div>
+      <div className="mx-auto max-w-2xl">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Mein Konto</h1>
+            <p className="mt-1 text-xs text-muted-foreground">{user.email}</p>
           </div>
-          <div className="space-y-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Adresse</Label>
-            <Input className="rounded-none" value={form.address} onChange={(e) => update("address", e.target.value)} />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">PLZ</Label>
-              <Input className="rounded-none" value={form.zip} onChange={(e) => update("zip", e.target.value)} />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Stadt</Label>
-              <Input className="rounded-none" value={form.city} onChange={(e) => update("city", e.target.value)} />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Land</Label>
-            <Input className="rounded-none" value={form.country} onChange={(e) => update("country", e.target.value)} />
-          </div>
-          <Button type="submit" className="w-full rounded-none text-sm uppercase tracking-[0.15em]" disabled={updateProfile.isPending}>
-            {updateProfile.isPending ? "Speichern..." : "Profil speichern"}
-          </Button>
-        </form>
-
-        <div className="border-t border-border pt-6">
           <Button variant="outline" className="rounded-none text-xs uppercase tracking-wider" onClick={signOut}>
             Abmelden
           </Button>
         </div>
+
+        {/* Tabs */}
+        <div className="mt-8 flex gap-6 border-b border-border">
+          <button
+            onClick={() => setTab("profile")}
+            className={`pb-3 text-xs font-medium uppercase tracking-wider transition-colors ${tab === "profile" ? "border-b-2 border-foreground text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Persönliche Daten
+          </button>
+          <button
+            onClick={() => setTab("orders")}
+            className={`pb-3 text-xs font-medium uppercase tracking-wider transition-colors ${tab === "orders" ? "border-b-2 border-foreground text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Bestellungen {orders && orders.length > 0 && <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-bold text-background">{orders.length}</span>}
+          </button>
+        </div>
+
+        {/* Profile Tab */}
+        {tab === "profile" && (
+          <form onSubmit={(e) => { e.preventDefault(); updateProfile.mutate(); }} className="mt-8 space-y-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Vorname</Label>
+                <Input className="rounded-none" value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Nachname</Label>
+                <Input className="rounded-none" value={form.last_name} onChange={(e) => update("last_name", e.target.value)} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">E-Mail</Label>
+              <Input className="rounded-none" value={user.email ?? ""} disabled />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Adresse</Label>
+              <Input className="rounded-none" value={form.address} onChange={(e) => update("address", e.target.value)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">PLZ</Label>
+                <Input className="rounded-none" value={form.zip} onChange={(e) => update("zip", e.target.value)} />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label className="text-xs uppercase tracking-wider text-muted-foreground">Stadt</Label>
+                <Input className="rounded-none" value={form.city} onChange={(e) => update("city", e.target.value)} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Land</Label>
+              <Input className="rounded-none" value={form.country} onChange={(e) => update("country", e.target.value)} />
+            </div>
+            <Button type="submit" className="w-full rounded-none text-sm uppercase tracking-[0.15em]" disabled={updateProfile.isPending}>
+              {updateProfile.isPending ? "Speichern..." : "Profil speichern"}
+            </Button>
+          </form>
+        )}
+
+        {/* Orders Tab */}
+        {tab === "orders" && (
+          <div className="mt-8 space-y-6">
+            {!orders || orders.length === 0 ? (
+              <div className="py-12 text-center">
+                <Package className="mx-auto h-8 w-8 text-muted-foreground" strokeWidth={1.5} />
+                <p className="mt-3 text-sm text-muted-foreground">Noch keine Bestellungen</p>
+              </div>
+            ) : (
+              orders.map((order) => {
+                const stepIndex = getStepIndex(order.shipping_status);
+                const items = Array.isArray(order.items) ? order.items as { name: string; quantity: number; price: number }[] : [];
+
+                return (
+                  <div key={order.id} className="border border-border">
+                    {/* Order Header */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-5 py-4">
+                      <div className="flex gap-6">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Bestellung</p>
+                          <p className="text-xs font-mono text-foreground">#{order.id.slice(0, 8)}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Datum</p>
+                          <p className="text-xs text-foreground">{new Date(order.created_at).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Gesamt</p>
+                          <p className="text-xs font-semibold text-foreground">{Number(order.total).toFixed(2).replace(".", ",")} €</p>
+                        </div>
+                      </div>
+                      <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
+                        order.status === "paid" ? "bg-green-100 text-green-800" :
+                        order.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                        order.status === "cancelled" ? "bg-red-100 text-red-800" :
+                        "bg-muted text-muted-foreground"
+                      }`}>
+                        {statusLabel(order.status)}
+                      </span>
+                    </div>
+
+                    {/* Tracking Progress Bar */}
+                    <div className="px-5 py-6">
+                      <div className="flex items-center justify-between">
+                        {shippingSteps.map((step, i) => {
+                          const isActive = i <= stepIndex;
+                          const isCurrent = i === stepIndex;
+                          return (
+                            <div key={step.key} className="flex flex-1 flex-col items-center">
+                              <div className={`relative flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors ${
+                                isActive ? "border-foreground bg-foreground text-background" : "border-border bg-background text-muted-foreground"
+                              } ${isCurrent ? "ring-2 ring-foreground/20 ring-offset-2" : ""}`}>
+                                <step.icon className="h-3.5 w-3.5" strokeWidth={2} />
+                              </div>
+                              <p className={`mt-2 text-center text-[10px] font-medium uppercase tracking-wider ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+                                {step.label}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {/* Progress line */}
+                      <div className="relative mx-auto mt-[-38px] mb-8 flex h-0.5 w-[calc(100%-64px)]">
+                        <div className="h-full w-full bg-border" />
+                        <div
+                          className="absolute left-0 top-0 h-full bg-foreground transition-all duration-500"
+                          style={{ width: `${(stepIndex / (shippingSteps.length - 1)) * 100}%` }}
+                        />
+                      </div>
+
+                      {/* Tracking link */}
+                      {order.tracking_url && (
+                        <a
+                          href={order.tracking_url as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 inline-flex items-center gap-2 border border-border px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-foreground transition-colors hover:bg-accent"
+                        >
+                          <Truck className="h-4 w-4" strokeWidth={1.5} />
+                          Sendung verfolgen
+                          {order.tracking_number && <span className="font-mono text-muted-foreground">({order.tracking_number})</span>}
+                          <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Order Items */}
+                    <div className="border-t border-border px-5 py-4">
+                      <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Artikel</p>
+                      <div className="mt-2 divide-y divide-border">
+                        {items.map((item, i) => (
+                          <div key={i} className="flex justify-between py-2 text-sm">
+                            <span className="text-foreground">{item.name} <span className="text-muted-foreground">× {item.quantity}</span></span>
+                            <span className="text-foreground">{(item.price * item.quantity).toFixed(2).replace(".", ",")} €</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Timestamps */}
+                    <div className="border-t border-border bg-card px-5 py-3">
+                      <div className="flex gap-4 text-[10px] text-muted-foreground">
+                        <span>Erstellt: {new Date(order.created_at).toLocaleString("de-DE")}</span>
+                        <span>Aktualisiert: {new Date(order.updated_at).toLocaleString("de-DE")}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
