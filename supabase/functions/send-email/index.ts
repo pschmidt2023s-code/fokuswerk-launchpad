@@ -10,20 +10,42 @@ const corsHeaders = {
 const BRAND = "FOKUSWERK";
 const SITE = "https://fokuswerk.de";
 const FROM = `${BRAND} <noreply@aldenairperfumes.de>`;
-const KU = "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).";
+const KU = "Gem\u00E4\u00DF \u00A7 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).";
+const LOGO_URL = "https://lzyoxywwryzsxhxpjeeu.supabase.co/storage/v1/object/public/brand-assets/logo.png";
+const CONTACT_EMAIL = "support@fokuswerk.com";
+const COMPANY_ADDR = "FOKUSWERK \u00B7 Patric-Maurice Schmidt \u00B7 BGM.-Scheller-Str 14 \u00B7 96215 Lichtenfels";
 
 /* ── PDF helpers ────────────────────────────────────── */
 const GREY = rgb(0.45, 0.45, 0.45);
 const BLACK = rgb(0.055, 0.055, 0.055);
 const LIGHT = rgb(0.64, 0.64, 0.64);
 
-async function drawPdfLogo(page: any, fontBold: any, y: number, lm: number, rm: number): Promise<number> {
-  // Draw a black rectangle as logo background
-  page.drawRectangle({ x: lm, y: y - 30, width: rm - lm, height: 40, color: BLACK });
+let _cachedLogoPng: Uint8Array | null = null;
+async function fetchLogo(): Promise<Uint8Array | null> {
+  if (_cachedLogoPng) return _cachedLogoPng;
+  try {
+    const res = await fetch(LOGO_URL);
+    if (!res.ok) return null;
+    _cachedLogoPng = new Uint8Array(await res.arrayBuffer());
+    return _cachedLogoPng;
+  } catch { return null; }
+}
+
+async function drawPdfLogo(doc: any, page: any, fontBold: any, y: number, lm: number, rm: number): Promise<number> {
+  const logoBytes = await fetchLogo();
+  if (logoBytes) {
+    const logoImage = await doc.embedPng(logoBytes);
+    const logoHeight = 30;
+    const logoWidth = (logoImage.width / logoImage.height) * logoHeight;
+    const cx = lm + (rm - lm - logoWidth) / 2;
+    page.drawImage(logoImage, { x: cx, y: y - logoHeight, width: logoWidth, height: logoHeight });
+    return y - logoHeight - 25;
+  }
+  // Fallback to text
   const logoText = "F O K U S W E R K";
-  const logoWidth = fontBold.widthOfTextAtSize(logoText, 11);
-  page.drawText(logoText, { x: lm + (rm - lm - logoWidth) / 2, y: y - 18, size: 11, font: fontBold, color: rgb(1, 1, 1) });
-  return y - 55;
+  const tw = fontBold.widthOfTextAtSize(logoText, 12);
+  page.drawText(logoText, { x: lm + (rm - lm - tw) / 2, y: y - 14, size: 12, font: fontBold, color: BLACK });
+  return y - 45;
 }
 
 async function createInvoicePdf(data: any): Promise<Uint8Array> {
@@ -40,7 +62,7 @@ async function createInvoicePdf(data: any): Promise<Uint8Array> {
   const invoiceNr = `RE-${(data.orderId || "000000").slice(0, 8).toUpperCase()}`;
 
   // Logo
-  y = await drawPdfLogo(page, fontBold, y, lm, rm);
+  y = await drawPdfLogo(doc, page, fontBold, y, lm, rm);
 
   // Address block
   page.drawText("Rechnungsadresse:", { x: lm, y, size: 8, font, color: GREY });
@@ -107,7 +129,7 @@ async function createInvoicePdf(data: any): Promise<Uint8Array> {
   y -= 30;
   page.drawLine({ start: { x: lm, y }, end: { x: rm, y }, thickness: 0.3, color: LIGHT });
   y -= 14;
-  page.drawText(`${BRAND} \u00B7 kontakt@fokuswerk.de`, { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText(`${BRAND} \u00B7 ${CONTACT_EMAIL}`, { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }
@@ -116,54 +138,85 @@ async function createAgbPdf(): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
-  const page = doc.addPage([595.28, 841.89]);
+  let page = doc.addPage([595.28, 841.89]);
   const { height } = page.getSize();
   let y = height - 40;
   const lm = 50;
   const rm = 545;
   const maxW = 495;
 
-  // Logo
-  y = await drawPdfLogo(page, fontBold, y, lm, rm);
+  y = await drawPdfLogo(doc, page, fontBold, y, lm, rm);
 
-  const title = (t: string) => { page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18; };
+  const title = (t: string) => {
+    if (y < 80) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
+    page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18;
+  };
   const para = (t: string) => {
     const words = t.split(" ");
     let line = "";
     for (const w of words) {
       const test = line ? `${line} ${w}` : w;
       if (font.widthOfTextAtSize(test, 9) > maxW) {
+        if (y < 50) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
         page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13; line = w;
       } else { line = test; }
     }
-    if (line) { page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13; }
+    if (line) {
+      if (y < 50) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
+      page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13;
+    }
     y -= 6;
   };
 
   page.drawText("Allgemeine Gesch\u00E4ftsbedingungen", { x: lm, y, size: 14, font: fontBold, color: BLACK });
-  y -= 30;
+  y -= 10;
+  page.drawText(COMPANY_ADDR, { x: lm, y, size: 7, font, color: GREY });
+  y -= 25;
 
-  title("1. Geltungsbereich");
-  para("Diese Allgemeinen Gesch\u00E4ftsbedingungen gelten f\u00FCr alle Bestellungen \u00FCber unseren Onlineshop.");
+  title("\u00A7 1 Geltungsbereich");
+  para("(1) Diese Allgemeinen Gesch\u00E4ftsbedingungen (nachfolgend \u201EAGB\u201C) gelten f\u00FCr alle Vertr\u00E4ge, die ein Verbraucher oder Unternehmer (nachfolgend \u201EKunde\u201C) mit FOKUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend \u201EAnbieter\u201C) \u00FCber den Onlineshop unter fokuswerk.de schlie\u00DFt.");
+  para("(2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdr\u00FCcklich schriftlich zu.");
+  para("(3) Verbraucher im Sinne dieser AGB ist jede nat\u00FCrliche Person, die ein Rechtsgesch\u00E4ft zu Zwecken abschlie\u00DFt, die \u00FCberwiegend weder ihrer gewerblichen noch ihrer selbst\u00E4ndigen beruflichen T\u00E4tigkeit zugerechnet werden k\u00F6nnen (\u00A7 13 BGB).");
 
-  title("2. Vertragsschluss");
-  para('Durch Klicken auf \u201EBestellung aufgeben\u201C gibst du ein verbindliches Angebot zum Kauf der Artikel in deinem Warenkorb ab. Die Bestellbest\u00E4tigung per E-Mail stellt die Annahme des Vertrags dar.');
+  title("\u00A7 2 Vertragsschluss");
+  para("(1) Die Darstellung der Produkte im Onlineshop stellt kein rechtlich bindendes Angebot, sondern eine unverbindliche Aufforderung zur Bestellung dar.");
+  para('(2) Durch Klicken auf \u201EBestellung aufgeben\u201C gibt der Kunde ein verbindliches Angebot zum Kauf der im Warenkorb befindlichen Artikel ab.');
+  para("(3) Der Vertrag kommt zustande, wenn der Anbieter das Angebot durch eine Bestellbest\u00E4tigung per E-Mail annimmt oder die Ware ausliefert.");
 
-  title("3. Preise & Zahlung");
-  para(`Alle Preise sind Endpreise. ${KU}`);
-  para("Akzeptierte Zahlungsmittel: Kreditkarte (Stripe), PayPal, Apple Pay, Google Pay.");
+  title("\u00A7 3 Preise und Zahlung");
+  para("(1) Alle angegebenen Preise sind Endpreise und enthalten keine Umsatzsteuer. Gem\u00E4\u00DF \u00A7 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).");
+  para("(2) Versandkosten werden vor Abschluss der Bestellung gesondert ausgewiesen. Der Versand innerhalb der EU ist kostenlos.");
+  para("(3) Die Zahlung erfolgt wahlweise per Kreditkarte (Stripe), PayPal, Apple Pay oder Google Pay. Die Zahlung wird unmittelbar nach Vertragsschluss f\u00E4llig.");
 
-  title("4. Lieferung");
-  para("Kostenloser Versand innerhalb der EU. Die Lieferzeit betr\u00E4gt 5\u20138 Werktage.");
+  title("\u00A7 4 Lieferung und Versand");
+  para("(1) Die Lieferung erfolgt an die vom Kunden angegebene Lieferadresse innerhalb der Europ\u00E4ischen Union.");
+  para("(2) Die voraussichtliche Lieferzeit betr\u00E4gt 5 bis 8 Werktage ab Vertragsschluss, sofern nicht anders angegeben.");
+  para("(3) Sollte die bestellte Ware nicht verf\u00FCgbar sein, ist der Anbieter zu Teillieferungen berechtigt, wenn dies f\u00FCr den Kunden zumutbar ist.");
 
-  title("5. Eigentumsvorbehalt");
-  para("Die Ware bleibt bis zur vollst\u00E4ndigen Bezahlung unser Eigentum.");
+  title("\u00A7 5 Eigentumsvorbehalt");
+  para("Die gelieferte Ware bleibt bis zur vollst\u00E4ndigen Bezahlung des Kaufpreises Eigentum des Anbieters.");
 
-  title("6. Schlussbestimmungen");
-  para("Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist Berlin.");
+  title("\u00A7 6 M\u00E4ngelhaftung / Gew\u00E4hrleistung");
+  para("(1) Es gelten die gesetzlichen M\u00E4ngelanspr\u00FCche. Die Verj\u00E4hrungsfrist f\u00FCr M\u00E4ngelanspr\u00FCche bei neuen Sachen betr\u00E4gt zwei Jahre ab Erhalt der Ware.");
+  para("(2) Offensichtliche M\u00E4ngel sind innerhalb von zwei Wochen nach Erhalt der Ware schriftlich anzuzeigen.");
+
+  title("\u00A7 7 Haftung");
+  para("(1) Der Anbieter haftet unbeschr\u00E4nkt f\u00FCr Vorsatz und grobe Fahrl\u00E4ssigkeit.");
+  para("(2) Bei leichter Fahrl\u00E4ssigkeit haftet der Anbieter nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten) und beschr\u00E4nkt auf den vertragstypischen, vorhersehbaren Schaden.");
+  para("(3) Die vorstehenden Haftungsbeschr\u00E4nkungen gelten nicht bei Verletzung von Leben, K\u00F6rper und Gesundheit.");
+
+  title("\u00A7 8 Datenschutz");
+  para("Informationen zur Verarbeitung personenbezogener Daten finden sich in der Datenschutzerkl\u00E4rung unter fokuswerk.de/datenschutz.");
+
+  title("\u00A7 9 Streitbeilegung");
+  para("Die Europ\u00E4ische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/. Der Anbieter ist weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.");
+
+  title("\u00A7 10 Schlussbestimmungen");
+  para("(1) Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.");
+  para("(2) Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der \u00FCbrigen Bestimmungen unber\u00FChrt.");
 
   y -= 20;
-  page.drawText("Stand: Februar 2026 \u2014 Platzhalter, durch rechtskonforme AGB ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText("Stand: Februar 2026", { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }
@@ -172,46 +225,62 @@ async function createReturnsPdf(): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
-  const page = doc.addPage([595.28, 841.89]);
+  let page = doc.addPage([595.28, 841.89]);
   const { height } = page.getSize();
   let y = height - 40;
   const lm = 50;
   const rm = 545;
   const maxW = 495;
 
-  // Logo
-  y = await drawPdfLogo(page, fontBold, y, lm, rm);
+  y = await drawPdfLogo(doc, page, fontBold, y, lm, rm);
 
-  const title = (t: string) => { page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18; };
+  const title = (t: string) => {
+    if (y < 80) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
+    page.drawText(t, { x: lm, y, size: 10, font: fontBold, color: BLACK }); y -= 18;
+  };
   const para = (t: string) => {
     const words = t.split(" ");
     let line = "";
     for (const w of words) {
       const test = line ? `${line} ${w}` : w;
       if (font.widthOfTextAtSize(test, 9) > maxW) {
+        if (y < 50) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
         page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13; line = w;
       } else { line = test; }
     }
-    if (line) { page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13; }
+    if (line) {
+      if (y < 50) { page = doc.addPage([595.28, 841.89]); y = height - 50; }
+      page.drawText(line, { x: lm, y, size: 9, font, color: BLACK }); y -= 13;
+    }
     y -= 6;
   };
 
-  page.drawText("Widerrufsbelehrung & R\u00FCckerstattungsrichtlinien", { x: lm, y, size: 14, font: fontBold, color: BLACK });
-  y -= 30;
+  page.drawText("Widerrufsbelehrung", { x: lm, y, size: 14, font: fontBold, color: BLACK });
+  y -= 10;
+  page.drawText(COMPANY_ADDR, { x: lm, y, size: 7, font, color: GREY });
+  y -= 25;
 
   title("Widerrufsrecht");
-  para("Du hast das Recht, binnen 14 Tagen ohne Angabe von Gr\u00FCnden diesen Vertrag zu widerrufen. Die Widerrufsfrist betr\u00E4gt 14 Tage ab dem Tag, an dem du oder ein von dir benannter Dritter die Ware in Besitz genommen hat.");
-  para("Um dein Widerrufsrecht auszu\u00FCben, musst du uns (kontakt@fokuswerk.de) mittels einer eindeutigen Erkl\u00E4rung \u00FCber deinen Entschluss informieren.");
+  para("Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gr\u00FCnden diesen Vertrag zu widerrufen.");
+  para("Die Widerrufsfrist betr\u00E4gt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Bef\u00F6rderer ist, die Waren in Besitz genommen haben bzw. hat.");
+  para("Um Ihr Widerrufsrecht auszu\u00FCben, m\u00FCssen Sie uns (FOKUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels, E-Mail: support@fokuswerk.com) mittels einer eindeutigen Erkl\u00E4rung (z. B. ein mit der Post versandter Brief oder E-Mail) \u00FCber Ihren Entschluss, diesen Vertrag zu widerrufen, informieren.");
+  para("Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung \u00FCber die Aus\u00FCbung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.");
 
   title("Folgen des Widerrufs");
-  para("Wenn du diesen Vertrag widerrufst, haben wir dir alle Zahlungen, die wir von dir erhalten haben, unverz\u00FCglich und sp\u00E4testens binnen 14 Tagen ab dem Tag zur\u00FCckzuzahlen, an dem die Mitteilung \u00FCber deinen Widerruf bei uns eingegangen ist.");
-  para("Die R\u00FCckzahlung erfolgt \u00FCber dasselbe Zahlungsmittel, das du bei der urspr\u00FCnglichen Transaktion eingesetzt hast.");
+  para("Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschlie\u00DFlich der Lieferkosten (mit Ausnahme der zus\u00E4tzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, g\u00FCnstigste Standardlieferung gew\u00E4hlt haben), unverz\u00FCglich und sp\u00E4testens binnen vierzehn Tagen ab dem Tag zur\u00FCckzuzahlen, an dem die Mitteilung \u00FCber Ihren Widerruf dieses Vertrags bei uns eingegangen ist.");
+  para("F\u00FCr diese R\u00FCckzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der urspr\u00FCnglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdr\u00FCcklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser R\u00FCckzahlung Entgelte berechnet.");
+  para("Wir k\u00F6nnen die R\u00FCckzahlung verweigern, bis wir die Waren wieder zur\u00FCckerhalten haben oder bis Sie den Nachweis erbracht haben, dass Sie die Waren zur\u00FCckgesandt haben, je nachdem, welches der fr\u00FChere Zeitpunkt ist.");
 
   title("R\u00FCcksendung");
-  para("Du hast die Waren unverz\u00FCglich und sp\u00E4testens binnen 14 Tagen ab dem Tag, an dem du uns \u00FCber den Widerruf unterrichtest, an uns zur\u00FCckzusenden. Die Kosten der R\u00FCcksendung tr\u00E4gst du.");
+  para("Sie haben die Waren unverz\u00FCglich und in jedem Fall sp\u00E4testens binnen vierzehn Tagen ab dem Tag, an dem Sie uns \u00FCber den Widerruf dieses Vertrags unterrichten, an uns (FOKUSWERK, BGM.-Scheller-Str 14, 96215 Lichtenfels) zur\u00FCckzusenden oder zu \u00FCbergeben. Die Frist ist gewahrt, wenn Sie die Waren vor Ablauf der Frist von vierzehn Tagen absenden.");
+  para("Sie tragen die unmittelbaren Kosten der R\u00FCcksendung der Waren.");
+  para("Sie m\u00FCssen f\u00FCr einen etwaigen Wertverlust der Waren nur aufkommen, wenn dieser Wertverlust auf einen zur Pr\u00FCfung der Beschaffenheit, Eigenschaften und Funktionsweise der Waren nicht notwendigen Umgang mit ihnen zur\u00FCckzuf\u00FChren ist.");
+
+  title("Ausschluss des Widerrufsrechts");
+  para("Das Widerrufsrecht besteht nicht bei Vertr\u00E4gen zur Lieferung versiegelter Waren, die aus Gr\u00FCnden des Gesundheitsschutzes oder der Hygiene nicht zur R\u00FCckgabe geeignet sind, wenn ihre Versiegelung nach der Lieferung entfernt wurde.");
 
   y -= 20;
-  page.drawText("Stand: Februar 2026 \u2014 Platzhalter, durch rechtskonforme Texte ersetzen.", { x: lm, y, size: 7, font, color: LIGHT });
+  page.drawText("Stand: Februar 2026", { x: lm, y, size: 7, font, color: LIGHT });
 
   return await doc.save();
 }

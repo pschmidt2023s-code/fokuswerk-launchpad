@@ -36,22 +36,73 @@ export const PrivacyPolicy = () => (
 
 export const TermsPage = () => (
   <LegalPage title="Allgemeine Geschäftsbedingungen">
-    <h2 className="text-sm font-semibold text-foreground">1. Geltungsbereich</h2>
-    <p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Bestellungen über unseren Onlineshop.</p>
-    <h2 className="mt-6 text-sm font-semibold text-foreground">2. Vertragsschluss</h2>
-    <p>Durch Klicken auf „Bestellung aufgeben" gibst du ein verbindliches Angebot zum Kauf der Artikel in deinem Warenkorb ab.</p>
-    <h2 className="mt-6 text-sm font-semibold text-foreground">3. Preise & Zahlung</h2>
-    <p>Alle Preise sind Endpreise inkl. MwSt. Versandkosten werden gesondert ausgewiesen.</p>
-    <p className="mt-8 text-xs">Platzhalter — durch rechtskonforme AGB ersetzen.</p>
+    <h2 className="text-sm font-semibold text-foreground">§ 1 Geltungsbereich</h2>
+    <p>(1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Verträge, die ein Verbraucher oder Unternehmer (nachfolgend „Kunde") mit FOKUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend „Anbieter") über den Onlineshop unter fokuswerk.de schließt.</p>
+    <p>(2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.</p>
+    <p>(3) Verbraucher im Sinne dieser AGB ist jede natürliche Person, die ein Rechtsgeschäft zu Zwecken abschließt, die überwiegend weder ihrer gewerblichen noch ihrer selbständigen beruflichen Tätigkeit zugerechnet werden können (§ 13 BGB).</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 2 Vertragsschluss</h2>
+    <p>(1) Die Darstellung der Produkte im Onlineshop stellt kein rechtlich bindendes Angebot, sondern eine unverbindliche Aufforderung zur Bestellung dar.</p>
+    <p>(2) Durch Klicken auf „Bestellung aufgeben" gibt der Kunde ein verbindliches Angebot zum Kauf der im Warenkorb befindlichen Artikel ab.</p>
+    <p>(3) Der Vertrag kommt zustande, wenn der Anbieter das Angebot durch eine Bestellbestätigung per E-Mail annimmt oder die Ware ausliefert.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 3 Preise und Zahlung</h2>
+    <p>(1) Alle angegebenen Preise sind Endpreise und enthalten keine Umsatzsteuer. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).</p>
+    <p>(2) Versandkosten werden vor Abschluss der Bestellung gesondert ausgewiesen. Der Versand innerhalb der EU ist kostenlos.</p>
+    <p>(3) Die Zahlung erfolgt wahlweise per Kreditkarte (Stripe), PayPal, Apple Pay oder Google Pay. Die Zahlung wird unmittelbar nach Vertragsschluss fällig.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 4 Lieferung und Versand</h2>
+    <p>(1) Die Lieferung erfolgt an die vom Kunden angegebene Lieferadresse innerhalb der Europäischen Union.</p>
+    <p>(2) Die voraussichtliche Lieferzeit beträgt 5 bis 8 Werktage ab Vertragsschluss, sofern nicht anders angegeben.</p>
+    <p>(3) Sollte die bestellte Ware nicht verfügbar sein, ist der Anbieter zu Teillieferungen berechtigt, wenn dies für den Kunden zumutbar ist.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 5 Eigentumsvorbehalt</h2>
+    <p>Die gelieferte Ware bleibt bis zur vollständigen Bezahlung des Kaufpreises Eigentum des Anbieters.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 6 Mängelhaftung / Gewährleistung</h2>
+    <p>(1) Es gelten die gesetzlichen Mängelansprüche. Die Verjährungsfrist für Mängelansprüche bei neuen Sachen beträgt zwei Jahre ab Erhalt der Ware.</p>
+    <p>(2) Offensichtliche Mängel sind innerhalb von zwei Wochen nach Erhalt der Ware schriftlich anzuzeigen.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 7 Haftung</h2>
+    <p>(1) Der Anbieter haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit.</p>
+    <p>(2) Bei leichter Fahrlässigkeit haftet der Anbieter nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten) und beschränkt auf den vertragstypischen, vorhersehbaren Schaden.</p>
+    <p>(3) Die vorstehenden Haftungsbeschränkungen gelten nicht bei Verletzung von Leben, Körper und Gesundheit.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 8 Datenschutz</h2>
+    <p>Informationen zur Verarbeitung personenbezogener Daten finden sich in der Datenschutzerklärung unter fokuswerk.de/datenschutz.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 9 Streitbeilegung</h2>
+    <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" className="underline text-foreground" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>. Der Anbieter ist weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">§ 10 Schlussbestimmungen</h2>
+    <p>(1) Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.</p>
+    <p>(2) Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+
+    <p className="mt-8 text-xs">Stand: Februar 2026</p>
   </LegalPage>
 );
 
 export const ReturnsPage = () => (
   <LegalPage title="Widerrufsbelehrung">
     <h2 className="text-sm font-semibold text-foreground">Widerrufsrecht</h2>
-    <p>Du hast das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
+    <p>Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
+    <p>Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die Waren in Besitz genommen haben bzw. hat.</p>
+    <p>Um Ihr Widerrufsrecht auszuüben, müssen Sie uns (FOKUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels, E-Mail: support@fokuswerk.com) mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren.</p>
+    <p>Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.</p>
+
     <h2 className="mt-6 text-sm font-semibold text-foreground">Folgen des Widerrufs</h2>
-    <p>Wenn du diesen Vertrag widerrufst, haben wir dir alle Zahlungen, die wir von dir erhalten haben, unverzüglich und spätestens binnen 14 Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über deinen Widerruf bei uns eingegangen ist.</p>
-    <p className="mt-8 text-xs">Platzhalter — durch rechtskonforme Widerrufsbelehrung ersetzen.</p>
+    <p>Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben), unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist.</p>
+    <p>Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte berechnet.</p>
+    <p>Wir können die Rückzahlung verweigern, bis wir die Waren wieder zurückerhalten haben oder bis Sie den Nachweis erbracht haben, dass Sie die Waren zurückgesandt haben, je nachdem, welches der frühere Zeitpunkt ist.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">Rücksendung</h2>
+    <p>Sie haben die Waren unverzüglich und in jedem Fall spätestens binnen vierzehn Tagen ab dem Tag, an dem Sie uns über den Widerruf dieses Vertrags unterrichten, an uns (FOKUSWERK, BGM.-Scheller-Str 14, 96215 Lichtenfels) zurückzusenden oder zu übergeben. Die Frist ist gewahrt, wenn Sie die Waren vor Ablauf der Frist von vierzehn Tagen absenden.</p>
+    <p>Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.</p>
+    <p>Sie müssen für einen etwaigen Wertverlust der Waren nur aufkommen, wenn dieser Wertverlust auf einen zur Prüfung der Beschaffenheit, Eigenschaften und Funktionsweise der Waren nicht notwendigen Umgang mit ihnen zurückzuführen ist.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">Ausschluss des Widerrufsrechts</h2>
+    <p>Das Widerrufsrecht besteht nicht bei Verträgen zur Lieferung versiegelter Waren, die aus Gründen des Gesundheitsschutzes oder der Hygiene nicht zur Rückgabe geeignet sind, wenn ihre Versiegelung nach der Lieferung entfernt wurde.</p>
+
+    <p className="mt-8 text-xs">Stand: Februar 2026</p>
   </LegalPage>
 );
