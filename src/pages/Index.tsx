@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Maximize2, MousePointer, ShieldCheck, Layers, Square } from "lucide-react";
 import deskMatHero from "@/assets/desk-mat-hero.png";
+import deskBefore from "@/assets/desk-before.png";
 import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -65,10 +66,8 @@ const Index = () => {
 
         {/* Before/After */}
         <div className="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
-          <div className="border border-border bg-muted p-8">
-            <div className="flex aspect-[4/3] items-center justify-center text-sm text-muted-foreground">
-              Vorher — Unordentlicher Schreibtisch
-            </div>
+          <div className="border border-border overflow-hidden">
+            <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch" className="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div className="border border-foreground bg-card p-8">
             <div className="flex aspect-[4/3] items-center justify-center text-sm text-foreground">
