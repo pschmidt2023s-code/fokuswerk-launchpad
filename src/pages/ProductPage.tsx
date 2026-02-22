@@ -193,21 +193,6 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Sticky mobile ATC */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background px-4 py-2 md:hidden">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold text-foreground">{variant.price},00 €</p>
-          </div>
-          <Button onClick={handleAddToCart} size="sm" className="rounded-none px-6 text-[10px] uppercase tracking-wider">
-            <ShoppingBag className="mr-1.5 h-3 w-3" /> Warenkorb
-          </Button>
-        </div>
-      </div>
-
-      {/* Bottom spacer for mobile sticky */}
-      <div className="h-20 md:hidden" />
     </div>
   );
 };
