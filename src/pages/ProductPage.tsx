@@ -4,6 +4,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Check, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 import shop1 from "@/assets/shop-1.png";
 import shop2 from "@/assets/shop-2.png";
 import shop3 from "@/assets/shop-3.png";
@@ -73,6 +74,27 @@ const ProductPage = () => {
 
   return (
     <div>
+      <SEOHead
+        title="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage kaufen"
+        description="FOCUSWERK DESK MAT 01: 90x45 cm Premium-Schreibtischunterlage. Tiefes Mattschwarz, Anti-Rutsch-Basis, 4mm Dicke. Jetzt vorbestellen — Versand ab 07.04.2026."
+        canonical="https://focuswerk.de/shop"
+        type="product"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description,
+          brand: { "@type": "Brand", name: "FOCUSWERK" },
+          offers: {
+            "@type": "Offer",
+            price: variant.price,
+            priceCurrency: "EUR",
+            availability: "https://schema.org/PreOrder",
+            url: "https://focuswerk.de/shop",
+          },
+          aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", reviewCount: "4" },
+        }}
+      />
       <div className="container py-12 md:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Gallery */}

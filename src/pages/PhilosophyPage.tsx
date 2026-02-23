@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import SEOHead from "@/components/SEOHead";
 
 const PhilosophyPage = () => (
   <div>
+    <SEOHead
+      title="Philosophie — FOCUSWERK | Fokus wird gebaut"
+      description="FOCUSWERK-Philosophie: Struktur ist Freiheit. Jedes Detail dient einem Zweck — Kontrolle über deinen Arbeitsplatz."
+      canonical="https://focuswerk.de/philosophy"
+    />
     <section className="section-dark">
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-24 text-center">
         <p className="text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
