@@ -10,8 +10,23 @@ import { products, faqData, reviewsData } from "@/data/products";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
 
 const product = products[0];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    ...faqData.produkt,
+    ...faqData.versand,
+    ...faqData.rueckgabe,
+  ].map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
 
 const features = [
   { icon: Maximize2, title: "90x45 cm Vollflächig", desc: "Bedeckt deinen gesamten Arbeitsplatz" },
@@ -24,7 +39,12 @@ const features = [
 const Index = () => {
   return (
     <div>
-      {/* Hero */}
+      <SEOHead
+        title="FOCUSWERK — Premium-Schreibtischunterlage | 90x45 cm"
+        description="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage für Klarheit und Kontrolle. 90x45 cm. Tiefes Mattschwarz. Kostenloser Versand EU."
+        canonical="https://focuswerk.de/"
+        jsonLd={faqJsonLd}
+      />
       <section className="section-dark">
         <div className="container flex min-h-[90vh] flex-col items-center justify-center py-24 text-center">
           <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
@@ -80,12 +100,12 @@ const Index = () => {
         <div className="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
           <ScrollReveal delay={100}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch" className="w-full h-full object-cover aspect-[4/3]" />
+              <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch ohne FOCUSWERK Desk Mat" loading="lazy" className="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </ScrollReveal>
           <ScrollReveal delay={250}>
             <div className="border border-foreground overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskAfter} alt="Nachher — FOCUSWERK Setup" className="w-full h-full object-cover aspect-[4/3]" />
+              <img src={deskAfter} alt="Nachher — Aufgeräumter Schreibtisch mit FOCUSWERK Desk Mat" loading="lazy" className="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </ScrollReveal>
         </div>
@@ -121,12 +141,12 @@ const Index = () => {
         <div className="grid gap-6 md:grid-cols-2">
           <ScrollReveal delay={0}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskFullcover} alt="Vollflächige Abdeckung" className="w-full aspect-square object-cover" />
+              <img src={deskFullcover} alt="FOCUSWERK Desk Mat vollflächige Schreibtischabdeckung" loading="lazy" className="w-full aspect-square object-cover" />
             </div>
           </ScrollReveal>
           <ScrollReveal delay={150}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskTexture} alt="Textur-Nahaufnahme" className="w-full aspect-square object-cover" />
+              <img src={deskTexture} alt="FOCUSWERK Mikrofaser-Oberflächentextur Nahaufnahme" loading="lazy" className="w-full aspect-square object-cover" />
             </div>
           </ScrollReveal>
         </div>
@@ -158,7 +178,7 @@ const Index = () => {
         <ScrollReveal>
           <div className="mx-auto grid max-w-4xl items-center gap-12 md:grid-cols-2">
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskMatProduct} alt="FOCUSWERK DESK MAT 01" className="w-full aspect-square object-contain bg-white" />
+              <img src={deskMatProduct} alt="FOCUSWERK DESK MAT 01 Produktansicht" loading="lazy" className="w-full aspect-square object-contain bg-white" />
             </div>
             <div>
               <div className="flex items-center gap-3">

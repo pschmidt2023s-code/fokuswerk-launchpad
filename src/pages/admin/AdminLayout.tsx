@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Menu } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, Menu, AlertTriangle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -11,6 +11,7 @@ const links = [
   { to: "/admin/orders", icon: ShoppingCart, label: "Bestellungen" },
   { to: "/admin/products", icon: Package, label: "Produkte" },
   { to: "/admin/contacts", icon: MessageSquare, label: "Kontakt" },
+  { to: "/admin/errors", icon: AlertTriangle, label: "Fehler" },
 ];
 
 const SidebarContent = ({ onNavigate, onSignOut }: { onNavigate?: () => void; onSignOut: () => void }) => (

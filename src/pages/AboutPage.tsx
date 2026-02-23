@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
 
 const AboutPage = () => (
   <div>
-    {/* Hero */}
+    <SEOHead
+      title="Über uns — FOCUSWERK | Premium-Arbeitsplatz-Essentials"
+      description="FOCUSWERK: Reduktion statt Ablenkung. Erfahre warum wir Premium-Schreibtischunterlagen für fokussiertes Arbeiten entwickeln."
+      canonical="https://focuswerk.de/about"
+    />
     <section className="section-dark">
       <div className="container flex min-h-[50vh] flex-col items-center justify-center py-24 text-center">
         <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">

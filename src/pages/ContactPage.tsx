@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Mail, Clock, MessageSquare, CheckCircle } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
 
 const ContactPage = () => {
   const [sending, setSending] = useState(false);
@@ -41,6 +42,11 @@ const ContactPage = () => {
 
   return (
     <div>
+      <SEOHead
+        title="Kontakt — FOCUSWERK | Schreib uns"
+        description="Kontaktiere FOCUSWERK — Fragen, Feedback oder Ideen? Wir antworten persönlich innerhalb von 24 Stunden."
+        canonical="https://focuswerk.de/contact"
+      />
       {/* Hero */}
       <section className="section-dark">
         <div className="container flex min-h-[40vh] flex-col items-center justify-center py-20 text-center">

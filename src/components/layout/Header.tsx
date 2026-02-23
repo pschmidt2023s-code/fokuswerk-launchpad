@@ -26,6 +26,7 @@ const Header = () => {
 
   return (
     <header
+      role="banner"
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "border-b border-border bg-background/95 backdrop-blur-md"
@@ -38,7 +39,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Hauptnavigation" className="hidden items-center gap-8 md:flex">
           {navLinks.map((l) => (
             <Link
               key={l.href}
@@ -48,11 +49,11 @@ const Header = () => {
               {l.label}
             </Link>
           ))}
-          <Link to={user ? "/account" : "/auth"} className="text-muted-foreground transition-colors hover:text-foreground">
-            <User className="h-5 w-5" strokeWidth={1.5} />
+          <Link to={user ? "/account" : "/auth"} className="text-muted-foreground transition-colors hover:text-foreground" aria-label={user ? "Mein Konto" : "Anmelden"}>
+            <User className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
           </Link>
-          <Link to="/cart" className="relative text-foreground">
-            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
+          <Link to="/cart" className="relative text-foreground" aria-label={`Warenkorb${totalItems > 0 ? ` (${totalItems} Artikel)` : ""}`}>
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
             {totalItems > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[10px] font-bold text-background">
                 {totalItems}
@@ -74,8 +75,8 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="text-foreground">
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <button onClick={() => setMenuOpen(!menuOpen)} className="text-foreground" aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"} aria-expanded={menuOpen}>
+            {menuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
         </div>
       </div>
