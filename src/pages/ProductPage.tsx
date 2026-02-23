@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,7 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const variant = product.variants[0];
 
   const handleAddToCart = () => {
@@ -70,6 +72,7 @@ const ProductPage = () => {
       quantity
     );
     toast({ title: "Zum Warenkorb hinzugefügt", description: `${product.name} x${quantity}` });
+    navigate("/cart");
   };
 
   return (
