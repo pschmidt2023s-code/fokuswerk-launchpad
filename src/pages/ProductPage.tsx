@@ -54,6 +54,7 @@ const StockBar = ({ stock }: { stock: number }) => {
 const ProductPage = () => {
   const [mainImage, setMainImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [transitioning, setTransitioning] = useState(false);
   const { addItem } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -72,11 +73,12 @@ const ProductPage = () => {
       quantity
     );
     toast({ title: "Zum Warenkorb hinzugefügt", description: `${product.name} x${quantity}` });
-    navigate("/cart");
+    setTransitioning(true);
+    setTimeout(() => navigate("/cart"), 400);
   };
 
   return (
-    <div>
+    <div className={`transition-opacity duration-400 ${transitioning ? "opacity-0 scale-[0.98] transition-all" : "opacity-100"}`}>
       <SEOHead
         title="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage kaufen"
         description="FOCUSWERK DESK MAT 01: 90x45 cm Premium-Schreibtischunterlage. Tiefes Mattschwarz, Anti-Rutsch-Basis, 4mm Dicke. Jetzt vorbestellen — Versand ab 07.04.2026."
