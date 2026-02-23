@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Trash2, Minus, Plus, ArrowRight, Tag, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import PageTransition from "@/components/PageTransition";
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity, subtotal, shippingCost, total, discount, discountCode, applyDiscount, removeDiscount } = useCart();
@@ -35,6 +36,7 @@ const CartPage = () => {
   }
 
   return (
+    <PageTransition>
     <div className="container py-12">
       <h1 className="text-2xl font-bold text-foreground">Warenkorb</h1>
 
@@ -147,6 +149,7 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 

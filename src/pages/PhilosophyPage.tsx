@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import PageTransition from "@/components/PageTransition";
 
 const PhilosophyPage = () => (
-  <div>
+  <PageTransition>
     <SEOHead
       title="Philosophie — FOCUSWERK | Fokus wird gebaut"
       description="FOCUSWERK-Philosophie: Struktur ist Freiheit. Jedes Detail dient einem Zweck — Kontrolle über deinen Arbeitsplatz."
@@ -55,7 +56,7 @@ const PhilosophyPage = () => (
         </Button>
       </div>
     </section>
-  </div>
+  </PageTransition>
 );
 
 export default PhilosophyPage;

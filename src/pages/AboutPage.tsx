@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
+import PageTransition from "@/components/PageTransition";
 
 const AboutPage = () => (
-  <div>
+  <PageTransition>
     <SEOHead
       title="Über uns — FOCUSWERK | Premium-Arbeitsplatz-Essentials"
       description="FOCUSWERK: Reduktion statt Ablenkung. Erfahre warum wir Premium-Schreibtischunterlagen für fokussiertes Arbeiten entwickeln."
@@ -192,7 +193,7 @@ const AboutPage = () => (
         </div>
       </ScrollReveal>
     </section>
-  </div>
+  </PageTransition>
 );
 
 export default AboutPage;

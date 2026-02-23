@@ -1,41 +1,96 @@
-const LegalPage = ({ title, children }: { title: string; children: React.ReactNode }) => (
+import { Link } from "react-router-dom";
+import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
+import PageTransition from "@/components/PageTransition";
+
+const LegalPage = ({ title, children, seoTitle, seoDesc }: { title: string; children: React.ReactNode; seoTitle?: string; seoDesc?: string }) => (
+  <PageTransition>
   <div className="container py-12 md:py-20">
+    {seoTitle && <SEOHead title={seoTitle} description={seoDesc || ""} />}
     <div className="mx-auto max-w-2xl">
-      <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-      <div className="mt-8 space-y-4 text-sm leading-relaxed text-muted-foreground">
-        {children}
-      </div>
+      <ScrollReveal>
+        <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+      </ScrollReveal>
+      <ScrollReveal delay={100}>
+        <div className="mt-8 space-y-4 text-sm leading-relaxed text-muted-foreground">
+          {children}
+        </div>
+      </ScrollReveal>
     </div>
   </div>
+  </PageTransition>
 );
 
 export const LegalNotice = () => (
-  <LegalPage title="Impressum">
+  <LegalPage title="Impressum" seoTitle="Impressum — FOCUSWERK" seoDesc="Impressum von FOCUSWERK. Angaben gemäß § 5 TMG.">
     <p><strong className="text-foreground">FOCUSWERK</strong></p>
     <p>FOCUSWERK<br />BGM.-Scheller-Str 14<br />96215 Lichtenfels<br />Deutschland</p>
     <p>Vertreten durch: Patric-Maurice Schmidt</p>
-    <p>E-Mail: support@focuswerk.com<br /></p>
+    <p>E-Mail: support@focuswerk.com</p>
     <p className="text-xs"></p>
   </LegalPage>
 );
 
 export const PrivacyPolicy = () => (
-  <LegalPage title="Datenschutzerklärung">
+  <LegalPage title="Datenschutzerklärung" seoTitle="Datenschutz — FOCUSWERK" seoDesc="Datenschutzerklärung von FOCUSWERK. Informationen zur Verarbeitung personenbezogener Daten.">
     <p>Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Im Folgenden informieren wir dich darüber, wie wir personenbezogene Daten bei der Nutzung unserer Website erheben und verwenden.</p>
+
     <h2 className="mt-6 text-sm font-semibold text-foreground">1. Verantwortlicher</h2>
-    <p>Muster GmbH, Musterstraße 1, 10115 Berlin. E-Mail: hello@focuswerk.com</p>
-    <h2 className="mt-6 text-sm font-semibold text-foreground">2. Datenerhebung</h2>
-    <p>Bei der Nutzung unserer Website werden automatisch Daten erhoben (Server-Logfiles): IP-Adresse, Datum und Uhrzeit, Browsertyp, Betriebssystem, Referrer-URL.</p>
+    <p>FOCUSWERK<br />Patric-Maurice Schmidt<br />BGM.-Scheller-Str 14<br />96215 Lichtenfels<br />Deutschland<br />E-Mail: support@focuswerk.com</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">2. Datenerhebung beim Besuch der Website</h2>
+    <p>Bei der Nutzung unserer Website werden automatisch technische Daten erhoben (Server-Logfiles): IP-Adresse (anonymisiert), Datum und Uhrzeit des Zugriffs, Browsertyp und -version, Betriebssystem, Referrer-URL, aufgerufene Seiten. Diese Daten dienen der Sicherstellung eines reibungslosen Verbindungsaufbaus, der komfortablen Nutzung unserer Website sowie der Systemsicherheit.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).</p>
+
     <h2 className="mt-6 text-sm font-semibold text-foreground">3. Cookies</h2>
-    <p>Wir verwenden technisch notwendige Cookies. Details folgen in einem Cookie-Banner.</p>
-    <h2 className="mt-6 text-sm font-semibold text-foreground">4. Bestellungen</h2>
-    <p>Bei Bestellungen speichern wir deine Lieferadresse, E-Mail-Adresse und Bestelldetails zur Vertragserfüllung.</p>
-    <p className="mt-8 text-xs">Platzhalter — durch rechtskonforme Texte ersetzen.</p>
+    <p>Wir verwenden ausschließlich technisch notwendige Cookies, die für den Betrieb der Website erforderlich sind (z. B. Session-Cookies für den Warenkorb und die Authentifizierung). Diese Cookies werden nach Beendigung der Browser-Sitzung gelöscht. Eine gesonderte Einwilligung ist hierfür nicht erforderlich.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">4. Bestellungen und Vertragsabwicklung</h2>
+    <p>Bei einer Bestellung erheben wir folgende Daten zur Vertragserfüllung: Vor- und Nachname, E-Mail-Adresse, Lieferadresse (Straße, PLZ, Stadt, Land), Bestelldetails (Produkte, Menge, Preis), Zahlungsinformationen (werden ausschließlich vom jeweiligen Zahlungsdienstleister verarbeitet).</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Die Daten werden nach Ablauf der steuerrechtlichen Aufbewahrungsfristen (10 Jahre) gelöscht.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">5. Kontaktformular</h2>
+    <p>Wenn du uns über das Kontaktformular kontaktierst, speichern wir deinen Namen, deine E-Mail-Adresse und deine Nachricht zur Bearbeitung deiner Anfrage. Diese Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet wurde, es sei denn, gesetzliche Aufbewahrungsfristen stehen dem entgegen.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">6. Newsletter</h2>
+    <p>Mit deiner Einwilligung kannst du unseren Newsletter abonnieren. Wir speichern hierzu deine E-Mail-Adresse. Du kannst den Newsletter jederzeit abbestellen. Die Abmeldung ist über einen Link in jedem Newsletter möglich oder per E-Mail an support@focuswerk.com.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">7. Zahlungsdienstleister</h2>
+    <p>Wir nutzen folgende Zahlungsdienstleister:</p>
+    <p><strong className="text-foreground">Stripe</strong> — Stripe Payments Europe Ltd., 1 Grand Canal Street Lower, Dublin 2, Irland. Datenschutzerklärung: <a href="https://stripe.com/de/privacy" className="underline text-foreground" target="_blank" rel="noopener noreferrer">stripe.com/de/privacy</a></p>
+    <p><strong className="text-foreground">PayPal</strong> — PayPal (Europe) S.à r.l. et Cie, S.C.A., 22-24 Boulevard Royal, L-2449 Luxemburg. Datenschutzerklärung: <a href="https://www.paypal.com/de/webapps/mpp/ua/privacy-full" className="underline text-foreground" target="_blank" rel="noopener noreferrer">paypal.com/privacy</a></p>
+    <p>Die Verarbeitung der Zahlungsdaten erfolgt ausschließlich durch den jeweiligen Zahlungsdienstleister. Wir erhalten keine vollständigen Kreditkarten- oder Kontodaten.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">8. Hosting</h2>
+    <p>Unsere Website wird gehostet von externen Dienstleistern. Personenbezogene Daten, die auf dieser Website verarbeitet werden, werden auf den Servern des Hosters gespeichert. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO und eines Auftragsverarbeitungsvertrags gemäß Art. 28 DSGVO.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">9. Deine Rechte</h2>
+    <p>Du hast gegenüber uns folgende Rechte hinsichtlich deiner personenbezogenen Daten:</p>
+    <ul className="list-disc pl-6 space-y-1">
+      <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+      <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+      <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+      <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Recht auf Widerspruch (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Zur Ausübung deiner Rechte kannst du dich jederzeit an support@focuswerk.com wenden.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">10. Beschwerderecht</h2>
+    <p>Du hast das Recht, dich bei einer Datenschutzaufsichtsbehörde über die Verarbeitung deiner personenbezogenen Daten zu beschweren. Die zuständige Aufsichtsbehörde ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach.</p>
+
+    <h2 className="mt-6 text-sm font-semibold text-foreground">11. Änderungen</h2>
+    <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte rechtliche Rahmenbedingungen oder Änderungen unseres Dienstes anzupassen. Die aktuelle Version findest du stets auf dieser Seite.</p>
+
+    <p className="mt-8 text-xs">Stand: Februar 2026</p>
   </LegalPage>
 );
 
 export const TermsPage = () => (
-  <LegalPage title="Allgemeine Geschäftsbedingungen">
+  <LegalPage title="Allgemeine Geschäftsbedingungen" seoTitle="AGB — FOCUSWERK" seoDesc="Allgemeine Geschäftsbedingungen von FOCUSWERK für den Onlineshop focuswerk.de.">
     <h2 className="text-sm font-semibold text-foreground">§ 1 Geltungsbereich</h2>
     <p>(1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Verträge, die ein Verbraucher oder Unternehmer (nachfolgend „Kunde") mit FOCUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend „Anbieter") über den Onlineshop unter focuswerk.de schließt.</p>
     <p>(2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.</p>
@@ -69,7 +124,7 @@ export const TermsPage = () => (
     <p>(3) Die vorstehenden Haftungsbeschränkungen gelten nicht bei Verletzung von Leben, Körper und Gesundheit.</p>
 
     <h2 className="mt-6 text-sm font-semibold text-foreground">§ 8 Datenschutz</h2>
-    <p>Informationen zur Verarbeitung personenbezogener Daten finden sich in der Datenschutzerklärung unter focuswerk.de/datenschutz.</p>
+    <p>Informationen zur Verarbeitung personenbezogener Daten finden sich in der <Link to="/privacy" className="underline text-foreground">Datenschutzerklärung</Link>.</p>
 
     <h2 className="mt-6 text-sm font-semibold text-foreground">§ 9 Streitbeilegung</h2>
     <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" className="underline text-foreground" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>. Der Anbieter ist weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
@@ -83,7 +138,7 @@ export const TermsPage = () => (
 );
 
 export const ReturnsPage = () => (
-  <LegalPage title="Widerrufsbelehrung">
+  <LegalPage title="Widerrufsbelehrung" seoTitle="Widerruf — FOCUSWERK" seoDesc="Widerrufsbelehrung von FOCUSWERK. 14 Tage Rückgaberecht.">
     <h2 className="text-sm font-semibold text-foreground">Widerrufsrecht</h2>
     <p>Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
     <p>Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die Waren in Besitz genommen haben bzw. hat.</p>
