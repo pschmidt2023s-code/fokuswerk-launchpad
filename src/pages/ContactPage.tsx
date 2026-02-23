@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Mail, Clock, MessageSquare, CheckCircle } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
+import PageTransition from "@/components/PageTransition";
 
 const ContactPage = () => {
   const [sending, setSending] = useState(false);
@@ -41,7 +42,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div>
+    <PageTransition>
       <SEOHead
         title="Kontakt — FOCUSWERK | Schreib uns"
         description="Kontaktiere FOCUSWERK — Fragen, Feedback oder Ideen? Wir antworten persönlich innerhalb von 24 Stunden."
@@ -136,7 +137,7 @@ const ContactPage = () => {
           )}
         </div>
       </section>
-    </div>
+    </PageTransition>
   );
 };
 

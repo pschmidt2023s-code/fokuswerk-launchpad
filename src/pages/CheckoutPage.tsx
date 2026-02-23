@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { CreditCard, User, Tag, X, AlertCircle } from "lucide-react";
+import PageTransition from "@/components/PageTransition";
 
 const EU_COUNTRIES = [
   "Deutschland", "Österreich", "Schweiz", "Frankreich", "Italien", "Spanien",
@@ -168,6 +169,7 @@ const CheckoutPage = () => {
   }
 
   return (
+    <PageTransition>
     <div className="container py-12">
       <h1 className="text-2xl font-bold text-foreground">Kasse</h1>
 
@@ -345,6 +347,7 @@ const CheckoutPage = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 
