@@ -93,6 +93,10 @@ export const faqData = {
       question: "Warum produziert ihr nur 25 Stück?",
       answer: "Wir produzieren bewusst in kleinen Stückzahlen. So können wir Qualität, Material und Verarbeitung kompromisslos kontrollieren. Jede Charge wird geprüft, bevor sie weitergeführt wird. Fokus entsteht nicht durch Masse – sondern durch Präzision.",
     },
+    {
+      question: "Wo wird produziert?",
+      answer: "Unsere Produkte werden in Zusammenarbeit mit spezialisierten Produktionspartnern gefertigt und anschließend in Deutschland geprüft und versendet.",
+    },
   ],
   versand: [
     {
