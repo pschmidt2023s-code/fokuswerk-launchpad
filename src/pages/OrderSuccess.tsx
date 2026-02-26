@@ -3,6 +3,7 @@ import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { useEffect } from "react";
+import SEOHead from "@/components/SEOHead";
 
 const OrderSuccess = () => {
   const { clearCart } = useCart();
@@ -13,6 +14,7 @@ const OrderSuccess = () => {
 
   return (
     <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+      <SEOHead title="Bestellung erfolgreich — FOCUSWERK" description="Deine FOCUSWERK-Bestellung ist eingegangen. Versand ab 07.04.2026." noindex />
       <CheckCircle className="mb-6 h-12 w-12 text-foreground" strokeWidth={1.5} />
       <h1 className="text-2xl font-bold text-foreground">Vielen Dank für deine Vorbestellung.</h1>
       <p className="mt-3 max-w-md text-sm text-muted-foreground">

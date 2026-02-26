@@ -8,7 +8,7 @@ const AboutPage = () => (
   <PageTransition>
     <SEOHead
       title="Über FOCUSWERK — Premium Workspace Essentials aus Deutschland"
-      description="FOCUSWERK: Premium desk accessories designed in Germany. Reduktion statt Ablenkung — erfahre warum wir minimalist workspace mats für fokussiertes Arbeiten entwickeln."
+      description="FOCUSWERK: Premium Schreibtischunterlagen, designed in Germany. Reduktion statt Ablenkung — erfahre, warum wir minimalistische Workspace-Produkte für fokussiertes Arbeiten entwickeln."
       canonical="https://focuswerk.de/about"
     />
     <section className="section-dark">

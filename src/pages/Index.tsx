@@ -14,6 +14,15 @@ import SEOHead from "@/components/SEOHead";
 
 const product = products[0];
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "FOCUSWERK",
+  url: "https://focuswerk.de",
+  description: "Premium-Schreibtischunterlagen für fokussiertes Arbeiten. Designed in Germany.",
+  inLanguage: "de-DE",
+};
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -91,11 +100,11 @@ const Index = () => {
   return (
     <div>
       <SEOHead
-        title="FOCUSWERK — Premium Desk Mat aus Deutschland | 90×45 cm"
-        description="FOCUSWERK DESK MAT 01: Minimalist premium desk pad, 90×45 cm, deep matte black. Anti-slip base, 4 mm thick. Free EU shipping. Designed in Germany."
+        title="FOCUSWERK — Premium Schreibtischunterlage aus Deutschland | 90×45 cm"
+        description="FOCUSWERK DESK MAT 01: Premium Schreibtischunterlage für fokussiertes Arbeiten. 90×45 cm, minimalistisch, Mattschwarz. Kostenloser Versand EU. Designed in Germany."
         canonical="https://focuswerk.de/"
         image="https://focuswerk.de/logo.png"
-        jsonLd={[organizationJsonLd, faqJsonLd, productJsonLd]}
+        jsonLd={[websiteJsonLd, organizationJsonLd, faqJsonLd, productJsonLd]}
       />
 
       {/* Hero */}
@@ -261,7 +270,7 @@ const Index = () => {
       <section className="border-y border-border" aria-label="Kundenbewertungen">
         <div className="container py-24">
           <ScrollReveal>
-            <h2 className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
+            <h2 className="text-center text-2xl font-bold tracking-tight text-foreground md:text-3xl">
               Das sagen unsere Kunden
             </h2>
           </ScrollReveal>

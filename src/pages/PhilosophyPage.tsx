@@ -8,7 +8,7 @@ const PhilosophyPage = () => (
   <PageTransition>
     <SEOHead
       title="Philosophie — FOCUSWERK | Struktur ist Freiheit"
-      description="Die FOCUSWERK-Philosophie: Minimalism meets function. Jedes Detail dient einem Zweck — Kontrolle über deinen Arbeitsplatz. Designed in Germany."
+      description="Die FOCUSWERK-Philosophie: Minimalismus trifft Funktion. Jedes Detail unserer Premium-Schreibtischunterlage dient einem Zweck — Kontrolle über deinen Workspace. Designed in Germany."
       canonical="https://focuswerk.de/philosophy"
     />
     <section className="section-dark">
