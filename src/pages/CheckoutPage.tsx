@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { CreditCard, User, Tag, X, AlertCircle } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
+import SEOHead from "@/components/SEOHead";
 
 const EU_COUNTRIES = [
   "Deutschland", "Österreich", "Schweiz", "Frankreich", "Italien", "Spanien",
@@ -23,7 +24,6 @@ const validateAddress = (form: { address: string; zip: string; city: string; cou
   if (!/^\d{4,5}$/.test(form.zip.trim())) errors.push("PLZ muss 4-5 Ziffern enthalten.");
   if (!form.city.trim() || form.city.trim().length < 2) errors.push("Bitte gib einen gültigen Ort ein.");
   if (!EU_COUNTRIES.includes(form.country)) errors.push("Versand nur innerhalb der EU möglich.");
-  // Check street has number
   if (form.address.trim() && !/\d/.test(form.address)) errors.push("Bitte Hausnummer angeben.");
   return errors;
 };
@@ -45,12 +45,10 @@ const CheckoutPage = () => {
     return { firstName: "", lastName: "", email: "", address: "", zip: "", city: "", country: "Deutschland" };
   });
 
-  // Persist form to sessionStorage
   useEffect(() => {
     sessionStorage.setItem("checkout_form", JSON.stringify(form));
   }, [form]);
 
-  // Pre-fill from profile if logged in
   const { data: profile } = useQuery({
     queryKey: ["profile", user?.id],
     queryFn: async () => {
@@ -62,7 +60,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     if (profile) {
-      setForm((f) => ({
+      setForm((f: typeof form) => ({
         firstName: profile.first_name || f.firstName,
         lastName: profile.last_name || f.lastName,
         email: user?.email || f.email,
@@ -72,11 +70,10 @@ const CheckoutPage = () => {
         country: profile.country || f.country,
       }));
     } else if (user) {
-      setForm((f) => ({ ...f, email: user.email || f.email }));
+      setForm((f: typeof form) => ({ ...f, email: user.email || f.email }));
     }
   }, [profile, user]);
 
-  // Abandoned cart: save when user fills email and leaves
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (form.email && items.length > 0 && !abandonedSaved.current) {
@@ -98,7 +95,7 @@ const CheckoutPage = () => {
   }, [form.email, form.firstName, form.lastName, items, total]);
 
   const update = (field: string, value: string) => {
-    setForm((f) => ({ ...f, [field]: value }));
+    setForm((f: typeof form) => ({ ...f, [field]: value }));
     setAddressErrors([]);
   };
 
@@ -160,6 +157,7 @@ const CheckoutPage = () => {
   if (items.length === 0) {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+        <SEOHead title="Kasse — FOCUSWERK" description="Checkout bei FOCUSWERK." noindex />
         <p className="text-lg font-semibold text-foreground">Dein Warenkorb ist leer</p>
         <Button asChild className="mt-6 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
           <Link to="/shop">Zurück zum Shop</Link>
@@ -170,10 +168,10 @@ const CheckoutPage = () => {
 
   return (
     <PageTransition>
+      <SEOHead title="Kasse — FOCUSWERK" description="Sichere Bezahlung bei FOCUSWERK. Kreditkarte, PayPal, Apple Pay." noindex />
     <div className="container py-12">
       <h1 className="text-2xl font-bold text-foreground">Kasse</h1>
 
-      {/* Account hint */}
       {!user && (
         <div className="mt-4 flex items-center gap-3 border border-border p-4">
           <User className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
@@ -189,7 +187,6 @@ const CheckoutPage = () => {
 
       <div className="mt-8 grid gap-12 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          {/* Personal info */}
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground mb-4">Kontaktdaten</p>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -208,7 +205,6 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Shipping address */}
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground mb-4">Lieferadresse</p>
             <div className="space-y-4">
@@ -232,7 +228,6 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            {/* Address errors */}
             {addressErrors.length > 0 && (
               <div className="mt-3 space-y-1 border border-destructive/30 bg-destructive/5 p-3">
                 {addressErrors.map((err, i) => (
@@ -245,7 +240,6 @@ const CheckoutPage = () => {
             )}
           </div>
 
-          {/* Payment Methods */}
           <div className="space-y-3">
             <p className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Zahlungsmethode</p>
             
@@ -275,7 +269,6 @@ const CheckoutPage = () => {
           </p>
         </div>
 
-        {/* Order summary */}
         <div className="border border-border p-6 h-fit">
           <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Bestellübersicht</p>
           <div className="mt-4 divide-y divide-border">
@@ -283,7 +276,7 @@ const CheckoutPage = () => {
               <div key={item.variantId} className="flex items-center gap-3 py-3">
                 {item.image && (
                   <div className="h-12 w-12 shrink-0 border border-border overflow-hidden">
-                    <img src={item.image} alt={item.name} className="h-full w-full object-contain bg-white" />
+                    <img src={item.image} alt={item.name} className="h-full w-full object-contain bg-white" loading="lazy" />
                   </div>
                 )}
                 <div className="flex-1 text-sm">
@@ -295,7 +288,6 @@ const CheckoutPage = () => {
             ))}
           </div>
 
-          {/* Coupon */}
           <div className="mt-4 border-t border-border pt-4">
             {discountCode ? (
               <div className="flex items-center justify-between rounded-none border border-green-200 bg-green-50 px-3 py-2">
@@ -303,7 +295,7 @@ const CheckoutPage = () => {
                   <Tag className="h-3.5 w-3.5 text-green-700" />
                   <span className="text-xs font-medium text-green-800">{discountCode} (−10 %)</span>
                 </div>
-                <button onClick={removeDiscount} className="text-green-600 hover:text-green-800">
+                <button onClick={removeDiscount} className="text-green-600 hover:text-green-800" aria-label="Rabatt entfernen">
                   <X className="h-3.5 w-3.5" />
                 </button>
               </div>

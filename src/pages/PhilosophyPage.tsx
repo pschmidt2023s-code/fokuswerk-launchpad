@@ -7,8 +7,8 @@ import PageTransition from "@/components/PageTransition";
 const PhilosophyPage = () => (
   <PageTransition>
     <SEOHead
-      title="Philosophie — FOCUSWERK | Fokus wird gebaut"
-      description="FOCUSWERK-Philosophie: Struktur ist Freiheit. Jedes Detail dient einem Zweck — Kontrolle über deinen Arbeitsplatz."
+      title="Philosophie — FOCUSWERK | Struktur ist Freiheit"
+      description="Die FOCUSWERK-Philosophie: Minimalism meets function. Jedes Detail dient einem Zweck — Kontrolle über deinen Arbeitsplatz. Designed in Germany."
       canonical="https://focuswerk.de/philosophy"
     />
     <section className="section-dark">
@@ -32,9 +32,7 @@ const PhilosophyPage = () => (
           Wir glauben, dass jedes Objekt auf deinem Schreibtisch seinen Platz verdienen muss. Jede Oberfläche
           sollte einen Zweck erfüllen. Jedes Detail sollte deine Fähigkeit unterstützen, tiefe, bedeutungsvolle Arbeit zu leisten.
         </p>
-        <p className="font-medium text-foreground">
-          Struktur ist keine Einschränkung. Struktur ist Freiheit.
-        </p>
+        <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Struktur ist Freiheit</h2>
         <p>
           Wenn dein Arbeitsplatz bewusst gestaltet ist, wird deine Arbeit bewusst. Wenn Ablenkungen
           entfernt werden, bleibt Klarheit. Und Klarheit ist das Fundament von allem,

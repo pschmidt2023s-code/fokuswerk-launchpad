@@ -3,10 +3,10 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
 import PageTransition from "@/components/PageTransition";
 
-const LegalPage = ({ title, children, seoTitle, seoDesc }: { title: string; children: React.ReactNode; seoTitle?: string; seoDesc?: string }) => (
+const LegalPage = ({ title, children, seoTitle, seoDesc, canonical }: { title: string; children: React.ReactNode; seoTitle?: string; seoDesc?: string; canonical?: string }) => (
   <PageTransition>
   <div className="container py-12 md:py-20">
-    {seoTitle && <SEOHead title={seoTitle} description={seoDesc || ""} />}
+    {seoTitle && <SEOHead title={seoTitle} description={seoDesc || ""} canonical={canonical} />}
     <div className="mx-auto max-w-2xl">
       <ScrollReveal>
         <h1 className="text-2xl font-bold text-foreground">{title}</h1>
@@ -22,7 +22,7 @@ const LegalPage = ({ title, children, seoTitle, seoDesc }: { title: string; chil
 );
 
 export const LegalNotice = () => (
-  <LegalPage title="Impressum" seoTitle="Impressum — FOCUSWERK" seoDesc="Impressum von FOCUSWERK. Angaben gemäß § 5 TMG.">
+  <LegalPage title="Impressum" seoTitle="Impressum — FOCUSWERK" seoDesc="Impressum von FOCUSWERK. Angaben gemäß § 5 TMG. Verantwortlich: Patric-Maurice Schmidt, Lichtenfels, Deutschland." canonical="https://focuswerk.de/legal-notice">
     <p><strong className="text-foreground">FOCUSWERK</strong></p>
     <p>FOCUSWERK<br />BGM.-Scheller-Str 14<br />96215 Lichtenfels<br />Deutschland</p>
     <p>Vertreten durch: Patric-Maurice Schmidt</p>
@@ -32,7 +32,7 @@ export const LegalNotice = () => (
 );
 
 export const PrivacyPolicy = () => (
-  <LegalPage title="Datenschutzerklärung" seoTitle="Datenschutz — FOCUSWERK" seoDesc="Datenschutzerklärung von FOCUSWERK. Informationen zur Verarbeitung personenbezogener Daten.">
+  <LegalPage title="Datenschutzerklärung" seoTitle="Datenschutz — FOCUSWERK" seoDesc="Datenschutzerklärung von FOCUSWERK. Informationen zur Verarbeitung personenbezogener Daten gemäß DSGVO." canonical="https://focuswerk.de/privacy">
     <p>Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Im Folgenden informieren wir dich darüber, wie wir personenbezogene Daten bei der Nutzung unserer Website erheben und verwenden.</p>
 
     <h2 className="mt-6 text-sm font-semibold text-foreground">1. Verantwortlicher</h2>
@@ -90,7 +90,7 @@ export const PrivacyPolicy = () => (
 );
 
 export const TermsPage = () => (
-  <LegalPage title="Allgemeine Geschäftsbedingungen" seoTitle="AGB — FOCUSWERK" seoDesc="Allgemeine Geschäftsbedingungen von FOCUSWERK für den Onlineshop focuswerk.de.">
+  <LegalPage title="Allgemeine Geschäftsbedingungen" seoTitle="AGB — FOCUSWERK" seoDesc="Allgemeine Geschäftsbedingungen von FOCUSWERK für den Onlineshop focuswerk.de." canonical="https://focuswerk.de/terms">
     <h2 className="text-sm font-semibold text-foreground">§ 1 Geltungsbereich</h2>
     <p>(1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Verträge, die ein Verbraucher oder Unternehmer (nachfolgend „Kunde") mit FOCUSWERK, Patric-Maurice Schmidt, BGM.-Scheller-Str 14, 96215 Lichtenfels (nachfolgend „Anbieter") über den Onlineshop unter focuswerk.de schließt.</p>
     <p>(2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.</p>
@@ -138,7 +138,7 @@ export const TermsPage = () => (
 );
 
 export const ReturnsPage = () => (
-  <LegalPage title="Widerrufsbelehrung" seoTitle="Widerruf — FOCUSWERK" seoDesc="Widerrufsbelehrung von FOCUSWERK. 14 Tage Rückgaberecht.">
+  <LegalPage title="Widerrufsbelehrung" seoTitle="Widerruf & Rückgabe — FOCUSWERK" seoDesc="Widerrufsbelehrung von FOCUSWERK. 14 Tage Rückgaberecht für alle Bestellungen." canonical="https://focuswerk.de/returns">
     <h2 className="text-sm font-semibold text-foreground">Widerrufsrecht</h2>
     <p>Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
     <p>Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die Waren in Besitz genommen haben bzw. hat.</p>
