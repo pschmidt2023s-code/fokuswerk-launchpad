@@ -132,8 +132,8 @@ const ProductPage = () => {
   return (
     <div className={`transition-opacity duration-400 ${transitioning ? "opacity-0 scale-[0.98] transition-all" : "opacity-100"}`}>
       <SEOHead
-        title="FOCUSWERK DESK MAT 01 kaufen — Premium Desk Pad 90×45 cm"
-        description="FOCUSWERK DESK MAT 01: Minimalist premium desk pad, 90×45 cm, deep matte black. Anti-slip rubber base, 4 mm thick. €55 — free EU shipping. Pre-order now."
+        title="FOCUSWERK DESK MAT 01 — Premium Schreibtischunterlage 90×45 cm"
+        description="FOCUSWERK DESK MAT 01: Premium Schreibtischunterlage aus Deutschland. 90×45 cm, Mattschwarz, Anti-Rutsch-Gummibasis, 4 mm dick. Ab 55 € — kostenloser EU-Versand. Jetzt vorbestellen."
         canonical="https://focuswerk.de/shop"
         type="product"
         image="https://focuswerk.de/logo.png"
@@ -183,8 +183,8 @@ const ProductPage = () => {
             </div>
 
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-              Kein Gaming-Mousepad. Ein Fundament für Fokus. Das FOCUSWERK DESK MAT 01 ist eine minimalist premium desk pad 
-              für professionelle Arbeitsplätze — 90×45 cm, tiefes Mattschwarz, designed in Germany.
+              Kein Gaming-Mousepad. Ein Fundament für Fokus. Das FOCUSWERK DESK MAT 01 ist eine Premium-Schreibtischunterlage 
+              für professionelle Arbeitsplätze — 90×45 cm, tiefes Mattschwarz, minimalistisch und funktional. Designed in Germany.
             </p>
 
             {variant.stock <= 25 && <StockBar stock={variant.stock} />}
@@ -297,6 +297,49 @@ const ProductPage = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            {/* Material & Verarbeitung */}
+            <div className="mt-8 border-t border-border pt-8">
+              <h2 className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Material & Verarbeitung</h2>
+              <div className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <p>
+                  Die Oberfläche des FOCUSWERK DESK MAT 01 besteht aus hochdichter Mikrofaser — ultra-glatt, schmutzabweisend 
+                  und optimiert für präzises Maus-Tracking. Ob optische oder Laser-Maus: Die Oberfläche bietet gleichmäßige 
+                  Kontrolle über die gesamte Fläche von 90×45 cm.
+                </p>
+                <p>
+                  Die Unterseite ist aus einer Anti-Rutsch-Gummibasis gefertigt, die das Desk Mat sicher auf jedem Schreibtisch 
+                  fixiert — auch auf glatten Oberflächen wie Glas oder lackiertem Holz. Mit 4 mm Dicke bietet die 
+                  Schreibtischunterlage optimalen Komfort für ganztägiges Arbeiten, ohne dabei wulstig oder instabil zu wirken.
+                </p>
+                <p>
+                  Jedes FOCUSWERK Desk Mat wird in Zusammenarbeit mit spezialisierten Produktionspartnern gefertigt. 
+                  Vor dem Versand wird jede Charge in Deutschland geprüft — Materialqualität, Verarbeitung, Maßhaltigkeit. 
+                  Kein Produkt verlässt unser Lager ohne Qualitätskontrolle. Das dezente tonale Logo wird präzise aufgebracht 
+                  und fügt sich nahtlos in das minimalistische Design ein.
+                </p>
+              </div>
+            </div>
+
+            {/* Versand & Rückgabe */}
+            <div className="mt-8 border-t border-border pt-8">
+              <h2 className="text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">Versand & Rückgabe</h2>
+              <div className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Kostenloser Versand</strong> in alle EU-Länder. Der Versand erfolgt aus Deutschland 
+                  mit einer Lieferzeit von 5–8 Werktagen nach Versandbeginn.
+                </p>
+                <p>
+                  <strong className="text-foreground">Pre-Order:</strong> Der Versand beginnt ab dem 07.04.2026. Du sicherst dir 
+                  dein Produkt jetzt zum aktuellen Preis.
+                </p>
+                <p>
+                  <strong className="text-foreground">14 Tage Rückgaberecht</strong> — ohne Angabe von Gründen. Das Produkt muss 
+                  unbenutzt und in der Originalverpackung zurückgesendet werden. Details findest du in unserer{" "}
+                  <Link to="/returns" className="underline underline-offset-4 hover:text-foreground">Widerrufsbelehrung</Link>.
+                </p>
+              </div>
             </div>
 
             <div className="mt-8 border-t border-border pt-8">

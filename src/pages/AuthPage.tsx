@@ -3,8 +3,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 
 const AuthPage = () => {
   const { signIn, signUp } = useAuth();
@@ -42,6 +43,12 @@ const AuthPage = () => {
 
   return (
     <div className="container flex min-h-[60vh] items-center justify-center py-12">
+      <SEOHead
+        title="Anmelden — FOCUSWERK | Konto & Bestellungen"
+        description="Melde dich bei FOCUSWERK an oder erstelle ein Konto. Bestellungen verwalten, Adresse speichern und schneller bestellen."
+        canonical="https://focuswerk.de/auth"
+        noindex
+      />
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
           <h1 className="text-xl font-bold text-foreground">

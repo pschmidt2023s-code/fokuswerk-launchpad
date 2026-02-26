@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
 
 const OrderCancel = () => (
   <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+    <SEOHead title="Bestellung abgebrochen — FOCUSWERK" description="Deine Bestellung wurde nicht abgeschlossen." noindex />
     <XCircle className="mb-6 h-12 w-12 text-muted-foreground" strokeWidth={1.5} />
     <h1 className="text-2xl font-bold text-foreground">Bestellung abgebrochen</h1>
     <p className="mt-3 max-w-md text-sm text-muted-foreground">

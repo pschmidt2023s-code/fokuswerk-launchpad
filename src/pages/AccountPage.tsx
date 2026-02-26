@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Package, Truck, CheckCircle, Clock, ExternalLink, RotateCcw } from "lucide-react";
+import SEOHead from "@/components/SEOHead";
 import {
   Dialog,
   DialogContent,
@@ -163,6 +164,7 @@ const AccountPage = () => {
 
   return (
     <div className="container py-12 md:py-20">
+      <SEOHead title="Mein Konto — FOCUSWERK" description="Verwalte dein FOCUSWERK-Konto, Bestellungen und Lieferadresse." noindex />
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between">
           <div>
