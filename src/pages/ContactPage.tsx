@@ -9,6 +9,7 @@ import { Mail, Clock, MessageSquare, CheckCircle } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
 import PageTransition from "@/components/PageTransition";
+import { Link } from "react-router-dom";
 
 const ContactPage = () => {
   const [sending, setSending] = useState(false);
@@ -44,11 +45,10 @@ const ContactPage = () => {
   return (
     <PageTransition>
       <SEOHead
-        title="Kontakt — FOCUSWERK | Schreib uns"
-        description="Kontaktiere FOCUSWERK — Fragen, Feedback oder Ideen? Wir antworten persönlich innerhalb von 24 Stunden."
+        title="Kontakt — FOCUSWERK | Fragen & Support"
+        description="Kontaktiere FOCUSWERK — Fragen zu deiner Bestellung, zum Desk Mat oder Feedback? Wir antworten persönlich innerhalb von 24 Stunden."
         canonical="https://focuswerk.de/contact"
       />
-      {/* Hero */}
       <section className="section-dark">
         <div className="container flex min-h-[40vh] flex-col items-center justify-center py-20 text-center">
           <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
@@ -63,7 +63,6 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Info Cards */}
       <section className="container -mt-12 pb-12">
         <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
           {[
@@ -73,7 +72,7 @@ const ContactPage = () => {
           ].map((item, i) => (
             <ScrollReveal key={item.title} delay={i * 100}>
               <div className="border border-border bg-card p-6 text-center transition-all duration-300 hover:border-foreground/20 hover:shadow-sm">
-                <item.icon className="mx-auto h-5 w-5 text-foreground" strokeWidth={1.5} />
+                <item.icon className="mx-auto h-5 w-5 text-foreground" strokeWidth={1.5} aria-hidden="true" />
                 <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-foreground">{item.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
               </div>
@@ -82,7 +81,6 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Form */}
       <section className="container py-12 md:py-20">
         <div className="mx-auto max-w-lg">
           {sent ? (
@@ -130,7 +128,7 @@ const ContactPage = () => {
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
                   Durch das Absenden stimmst du unserer{" "}
-                  <a href="/datenschutz" className="underline transition-colors hover:text-foreground">Datenschutzerklärung</a> zu.
+                  <Link to="/privacy" className="underline transition-colors hover:text-foreground">Datenschutzerklärung</Link> zu.
                 </p>
               </form>
             </ScrollReveal>

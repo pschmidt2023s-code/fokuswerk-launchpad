@@ -6,6 +6,7 @@ import { Trash2, Minus, Plus, ArrowRight, Tag, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import PageTransition from "@/components/PageTransition";
+import SEOHead from "@/components/SEOHead";
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity, subtotal, shippingCost, total, discount, discountCode, applyDiscount, removeDiscount } = useCart();
@@ -26,6 +27,7 @@ const CartPage = () => {
   if (items.length === 0) {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+        <SEOHead title="Warenkorb — FOCUSWERK" description="Dein FOCUSWERK-Warenkorb ist leer. Entdecke unsere Premium-Schreibtischunterlage." noindex />
         <p className="text-lg font-semibold text-foreground">Dein Warenkorb ist leer</p>
         <p className="mt-2 text-sm text-muted-foreground">Entdecke unsere Produkte und finde deine Essentials.</p>
         <Button asChild className="mt-6 rounded-none px-8 text-sm uppercase tracking-[0.15em]">
@@ -37,6 +39,7 @@ const CartPage = () => {
 
   return (
     <PageTransition>
+      <SEOHead title="Warenkorb — FOCUSWERK" description="Dein FOCUSWERK-Warenkorb. Überprüfe deine Bestellung und gehe zur Kasse." noindex />
     <div className="container py-12">
       <h1 className="text-2xl font-bold text-foreground">Warenkorb</h1>
 
@@ -47,7 +50,7 @@ const CartPage = () => {
               <div key={item.variantId} className="flex items-center gap-4 py-6">
                 <div className="h-20 w-20 shrink-0 border border-border overflow-hidden">
                   {item.image ? (
-                    <img src={item.image} alt={item.name} className="h-full w-full object-contain bg-white" />
+                    <img src={item.image} alt={item.name} className="h-full w-full object-contain bg-white" loading="lazy" />
                   ) : (
                     <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">IMG</div>
                   )}
@@ -59,6 +62,7 @@ const CartPage = () => {
                     <button
                       onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
                       className="flex h-8 w-8 items-center justify-center text-foreground hover:bg-muted"
+                      aria-label="Menge verringern"
                     >
                       <Minus className="h-3 w-3" />
                     </button>
@@ -68,6 +72,7 @@ const CartPage = () => {
                     <button
                       onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
                       className="flex h-8 w-8 items-center justify-center text-foreground hover:bg-muted"
+                      aria-label="Menge erhöhen"
                     >
                       <Plus className="h-3 w-3" />
                     </button>
@@ -77,7 +82,7 @@ const CartPage = () => {
                   <p className="text-sm font-semibold text-foreground">
                     {(item.price * item.quantity).toFixed(2).replace(".", ",")} &euro;
                   </p>
-                  <button onClick={() => removeItem(item.variantId)} className="mt-2 text-muted-foreground hover:text-foreground">
+                  <button onClick={() => removeItem(item.variantId)} className="mt-2 text-muted-foreground hover:text-foreground" aria-label="Artikel entfernen">
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
@@ -86,7 +91,6 @@ const CartPage = () => {
           </div>
         </div>
 
-        {/* Summary */}
         <div className="border border-border p-6 h-fit">
           <p className="text-xs font-medium uppercase tracking-[0.15em] text-foreground">Bestellübersicht</p>
           <div className="mt-6 space-y-3 text-sm">
@@ -113,7 +117,6 @@ const CartPage = () => {
             </div>
           </div>
 
-          {/* Coupon */}
           <div className="mt-6">
             {discountCode ? (
               <div className="flex items-center justify-between border border-green-200 bg-green-50 px-3 py-2">
@@ -121,7 +124,7 @@ const CartPage = () => {
                   <Tag className="h-3.5 w-3.5 text-green-700" />
                   <span className="text-xs font-medium text-green-800">{discountCode} (−10 %)</span>
                 </div>
-                <button onClick={removeDiscount} className="text-green-600 hover:text-green-800">
+                <button onClick={removeDiscount} className="text-green-600 hover:text-green-800" aria-label="Rabatt entfernen">
                   <X className="h-3.5 w-3.5" />
                 </button>
               </div>

@@ -7,8 +7,8 @@ import PageTransition from "@/components/PageTransition";
 const AboutPage = () => (
   <PageTransition>
     <SEOHead
-      title="Über uns — FOCUSWERK | Premium-Arbeitsplatz-Essentials"
-      description="FOCUSWERK: Reduktion statt Ablenkung. Erfahre warum wir Premium-Schreibtischunterlagen für fokussiertes Arbeiten entwickeln."
+      title="Über FOCUSWERK — Premium Workspace Essentials aus Deutschland"
+      description="FOCUSWERK: Premium desk accessories designed in Germany. Reduktion statt Ablenkung — erfahre warum wir minimalist workspace mats für fokussiertes Arbeiten entwickeln."
       canonical="https://focuswerk.de/about"
     />
     <section className="section-dark">

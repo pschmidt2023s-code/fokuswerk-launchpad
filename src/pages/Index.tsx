@@ -14,6 +14,28 @@ import SEOHead from "@/components/SEOHead";
 
 const product = products[0];
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "FOCUSWERK",
+  url: "https://focuswerk.de",
+  logo: "https://focuswerk.de/logo.png",
+  description: "Premium-Arbeitsplatz-Essentials für Klarheit und Kontrolle. Designed in Germany.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "BGM.-Scheller-Str 14",
+    addressLocality: "Lichtenfels",
+    postalCode: "96215",
+    addressCountry: "DE",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "support@focuswerk.com",
+    contactType: "customer service",
+    availableLanguage: ["German", "English"],
+  },
+};
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -28,8 +50,37 @@ const faqJsonLd = {
   })),
 };
 
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "FOCUSWERK DESK MAT 01",
+  description: "Premium-Schreibtischunterlage 90×45 cm. Tiefes Mattschwarz, Anti-Rutsch-Gummibasis, 4 mm Komfort-Dicke. Designed for deep work.",
+  brand: { "@type": "Brand", name: "FOCUSWERK" },
+  image: "https://focuswerk.de/logo.png",
+  offers: {
+    "@type": "Offer",
+    price: "55.00",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/PreOrder",
+    url: "https://focuswerk.de/shop",
+    shippingDetails: {
+      "@type": "OfferShippingDetails",
+      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "EUR" },
+      shippingDestination: { "@type": "DefinedRegion", addressCountry: "DE" },
+      deliveryTime: { "@type": "ShippingDeliveryTime", handlingTime: { "@type": "QuantitativeValue", minValue: 5, maxValue: 8, unitCode: "DAY" } },
+    },
+  },
+  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", reviewCount: "4", bestRating: "5" },
+  review: reviewsData.map(r => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: r.name },
+    reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5 },
+    reviewBody: r.text,
+  })),
+};
+
 const features = [
-  { icon: Maximize2, title: "90x45 cm Vollflächig", desc: "Bedeckt deinen gesamten Arbeitsplatz" },
+  { icon: Maximize2, title: "90×45 cm Vollflächig", desc: "Bedeckt deinen gesamten Arbeitsplatz" },
   { icon: MousePointer, title: "Präzise Tracking-Oberfläche", desc: "Ultra-glatte Mikrofaser" },
   { icon: ShieldCheck, title: "Anti-Rutsch-Gummibasis", desc: "Bleibt genau dort, wo du sie platzierst" },
   { icon: Layers, title: "4 mm Komfort-Dicke", desc: "Entwickelt für ganztägige Nutzung" },
@@ -40,11 +91,14 @@ const Index = () => {
   return (
     <div>
       <SEOHead
-        title="FOCUSWERK — Premium-Schreibtischunterlage | 90x45 cm"
-        description="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage für Klarheit und Kontrolle. 90x45 cm. Tiefes Mattschwarz. Kostenloser Versand EU."
+        title="FOCUSWERK — Premium Desk Mat aus Deutschland | 90×45 cm"
+        description="FOCUSWERK DESK MAT 01: Minimalist premium desk pad, 90×45 cm, deep matte black. Anti-slip base, 4 mm thick. Free EU shipping. Designed in Germany."
         canonical="https://focuswerk.de/"
-        jsonLd={faqJsonLd}
+        image="https://focuswerk.de/logo.png"
+        jsonLd={[organizationJsonLd, faqJsonLd, productJsonLd]}
       />
+
+      {/* Hero */}
       <section className="section-dark">
         <div className="container flex min-h-[90vh] flex-col items-center justify-center py-24 text-center">
           <p className="animate-fade-in text-xs font-medium uppercase tracking-[0.4em] text-[hsl(var(--section-dark-muted))]">
@@ -54,10 +108,9 @@ const Index = () => {
             Kontrolle beginnt auf<br />deinem Schreibtisch.
           </h1>
           <p className="mt-6 max-w-lg animate-fade-in text-base text-[hsl(var(--section-dark-muted))] md:text-lg" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
-            90×45 cm kompromisslose Struktur für deinen Arbeitsplatz.
+            Die Premium-Schreibtischunterlage für fokussiertes Arbeiten. 90×45 cm kompromisslose Struktur — designed in Germany.
           </p>
 
-          {/* Pre-Order Hint */}
           <div className="mt-4 animate-fade-in inline-flex items-center gap-2 border border-amber-400/40 bg-amber-400/10 px-4 py-2" style={{ animationDelay: "375ms", animationFillMode: "both" }}>
             <Clock className="h-3.5 w-3.5 text-amber-300" strokeWidth={2} />
             <span className="text-xs font-medium text-amber-200">Pre-Order — Versand ab 07.04.2026</span>
@@ -77,6 +130,9 @@ const Index = () => {
               src={deskMatHero}
               alt="FOCUSWERK DESK MAT 01 — Premium-Schreibtischunterlage auf einem minimalistischen Schreibtisch"
               className="w-full"
+              width={900}
+              height={600}
+              loading="eager"
             />
           </div>
         </div>
@@ -90,8 +146,7 @@ const Index = () => {
               Dein Arbeitsplatz spiegelt deinen Fokus.
             </h2>
             <div className="mt-8 space-y-2 text-base text-muted-foreground md:text-lg">
-              <p>Die meisten Schreibtische sind chaotisch.</p>
-              <p>Kabel. Lärm. Ablenkung.</p>
+              <p>Die meisten Schreibtische sind chaotisch. Kabel. Lärm. Ablenkung.</p>
               <p className="font-medium text-foreground">Fokus beginnt mit Struktur.</p>
             </div>
           </div>
@@ -100,19 +155,19 @@ const Index = () => {
         <div className="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
           <ScrollReveal delay={100}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch ohne FOCUSWERK Desk Mat" loading="lazy" className="w-full h-full object-cover aspect-[4/3]" />
+              <img src={deskBefore} alt="Vorher — Unordentlicher Schreibtisch ohne FOCUSWERK Desk Mat" loading="lazy" width={600} height={450} className="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </ScrollReveal>
           <ScrollReveal delay={250}>
             <div className="border border-foreground overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskAfter} alt="Nachher — Aufgeräumter Schreibtisch mit FOCUSWERK Desk Mat" loading="lazy" className="w-full h-full object-cover aspect-[4/3]" />
+              <img src={deskAfter} alt="Nachher — Aufgeräumter Schreibtisch mit FOCUSWERK Premium Desk Mat" loading="lazy" width={600} height={450} className="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </ScrollReveal>
         </div>
       </section>
 
       {/* Features */}
-      <section className="border-y border-border">
+      <section className="border-y border-border" aria-label="Produkteigenschaften">
         <div className="container py-24">
           <ScrollReveal>
             <p className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
@@ -126,7 +181,7 @@ const Index = () => {
             {features.map((f, i) => (
               <ScrollReveal key={f.title} delay={i * 100}>
                 <div className="text-center transition-transform duration-300 hover:-translate-y-1">
-                  <f.icon className="mx-auto mb-4 h-6 w-6 text-foreground" strokeWidth={1.5} />
+                  <f.icon className="mx-auto mb-4 h-6 w-6 text-foreground" strokeWidth={1.5} aria-hidden="true" />
                   <p className="text-sm font-semibold text-foreground">{f.title}</p>
                   <p className="mt-2 text-xs text-muted-foreground">{f.desc}</p>
                 </div>
@@ -137,16 +192,16 @@ const Index = () => {
       </section>
 
       {/* Product Showcase */}
-      <section className="container py-24">
+      <section className="container py-24" aria-label="Produktbilder">
         <div className="grid gap-6 md:grid-cols-2">
           <ScrollReveal delay={0}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskFullcover} alt="FOCUSWERK Desk Mat vollflächige Schreibtischabdeckung" loading="lazy" className="w-full aspect-square object-cover" />
+              <img src={deskFullcover} alt="FOCUSWERK Desk Mat vollflächige Schreibtischabdeckung 90x45cm" loading="lazy" width={600} height={600} className="w-full aspect-square object-cover" />
             </div>
           </ScrollReveal>
           <ScrollReveal delay={150}>
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskTexture} alt="FOCUSWERK Mikrofaser-Oberflächentextur Nahaufnahme" loading="lazy" className="w-full aspect-square object-cover" />
+              <img src={deskTexture} alt="FOCUSWERK Mikrofaser-Oberflächentextur Nahaufnahme — Premium Desk Pad" loading="lazy" width={600} height={600} className="w-full aspect-square object-cover" />
             </div>
           </ScrollReveal>
         </div>
@@ -161,8 +216,7 @@ const Index = () => {
                 Fokus wird gebaut.
               </h2>
               <div className="mt-8 space-y-4 text-base text-[hsl(var(--section-dark-muted))] md:text-lg">
-                <p>FOCUSWERK wurde geschaffen, um Ablenkung zu eliminieren.</p>
-                <p>Jedes Detail dient einem Zweck: Kontrolle.</p>
+                <p>FOCUSWERK wurde geschaffen, um Ablenkung zu eliminieren. Jedes Detail dient einem Zweck: Kontrolle.</p>
                 <p className="font-medium text-white">Dein Arbeitsplatz sollte deine Ambitionen unterstützen.</p>
               </div>
               <Button asChild variant="outline" size="lg" className="mt-10 rounded-none border-white/20 bg-transparent px-10 text-sm uppercase tracking-[0.15em] text-white hover:bg-white/10">
@@ -174,11 +228,11 @@ const Index = () => {
       </section>
 
       {/* Product Card */}
-      <section className="container py-24">
+      <section className="container py-24" aria-label="Produkt bestellen">
         <ScrollReveal>
           <div className="mx-auto grid max-w-4xl items-center gap-12 md:grid-cols-2">
             <div className="border border-border overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
-              <img src={deskMatProduct} alt="FOCUSWERK DESK MAT 01 Produktansicht" loading="lazy" className="w-full aspect-square object-contain bg-white" />
+              <img src={deskMatProduct} alt="FOCUSWERK DESK MAT 01 — Premium Workspace Mat Produktansicht" loading="lazy" width={600} height={600} className="w-full aspect-square object-contain bg-white" />
             </div>
             <div>
               <div className="flex items-center gap-3">
@@ -186,7 +240,7 @@ const Index = () => {
                   Pre-Order
                 </p>
                 <span className="inline-flex items-center gap-1 border border-amber-400/50 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-800">
-                  <Clock className="h-3 w-3" /> Ab 07.04.2026
+                  <Clock className="h-3 w-3" aria-hidden="true" /> Ab 07.04.2026
                 </span>
               </div>
               <h3 className="mt-3 text-2xl font-bold text-foreground">{product.name}</h3>
@@ -194,7 +248,7 @@ const Index = () => {
               <p className="mt-6 text-3xl font-bold text-foreground">
                 {product.variants[0].price},00 &euro;
               </p>
-              <p className="mt-1 text-xs text-muted-foreground">Kostenloser Versand EU. 14 Tage Rückgabe.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Kostenloser Versand EU · 14 Tage Rückgabe · Versand aus Deutschland</p>
               <Button asChild size="lg" className="mt-8 rounded-none px-10 text-sm uppercase tracking-[0.15em]">
                 <Link to="/shop">Jetzt vorbestellen</Link>
               </Button>
@@ -204,20 +258,20 @@ const Index = () => {
       </section>
 
       {/* Reviews */}
-      <section className="border-y border-border">
+      <section className="border-y border-border" aria-label="Kundenbewertungen">
         <div className="container py-24">
           <ScrollReveal>
-            <p className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
+            <h2 className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
               Das sagen unsere Kunden
-            </p>
+            </h2>
           </ScrollReveal>
           <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
             {reviewsData.map((r, i) => (
               <ScrollReveal key={i} delay={i * 100}>
-                <div className="border border-border p-8 transition-all duration-300 hover:border-foreground/30 hover:shadow-sm">
-                  <div className="mb-4 flex gap-1">
+                <article className="border border-border p-8 transition-all duration-300 hover:border-foreground/30 hover:shadow-sm">
+                  <div className="mb-4 flex gap-1" aria-label={`${r.rating} von 5 Sternen`}>
                     {Array.from({ length: r.rating }).map((_, j) => (
-                      <Star key={j} className="h-3.5 w-3.5 fill-foreground text-foreground" />
+                      <Star key={j} className="h-3.5 w-3.5 fill-foreground text-foreground" aria-hidden="true" />
                     ))}
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">„{r.text}"</p>
@@ -225,48 +279,103 @@ const Index = () => {
                     <p className="text-xs font-semibold text-foreground">{r.name}</p>
                     <p className="text-xs text-muted-foreground">{r.date}</p>
                   </div>
-                </div>
+                </article>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* SEO Content Block */}
       <section className="container py-24">
         <ScrollReveal>
-          <p className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
-            FAQ
-          </p>
-          <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-foreground">
-            Häufige Fragen
-          </h2>
-        </ScrollReveal>
-        <ScrollReveal delay={150}>
-          <div className="mx-auto mt-12 max-w-2xl space-y-12">
-            {([
-              { title: "Produkt", items: faqData.produkt },
-              { title: "Versand", items: faqData.versand },
-              { title: "Rückgabe", items: faqData.rueckgabe },
-            ] as const).map((section) => (
-              <div key={section.title}>
-                <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">{section.title}</p>
-                <Accordion type="single" collapsible className="mt-4">
-                  {section.items.map((f, i) => (
-                    <AccordionItem key={i} value={`${section.title}-${i}`} className="border-border">
-                      <AccordionTrigger className="text-sm text-foreground hover:no-underline">
-                        {f.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-sm text-muted-foreground">
-                        {f.answer}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
-            ))}
+          <div className="mx-auto max-w-2xl space-y-6 text-sm leading-relaxed text-muted-foreground">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+              Die Premium-Schreibtischunterlage für fokussiertes Arbeiten
+            </h2>
+            <p>
+              Das FOCUSWERK DESK MAT 01 ist mehr als eine Schreibtischunterlage — es ist ein Fundament für konzentrierte Arbeit. 
+              Mit 90×45 cm bedeckt das minimalist desk mat deinen gesamten Arbeitsplatz und schafft eine einheitliche, ablenkungsfreie Oberfläche. 
+              Die ultra-glatte Mikrofaser bietet präzises Tracking für jede Maus, während die Anti-Rutsch-Gummibasis das Premium Desk Pad 
+              sicher an seinem Platz hält.
+            </p>
+            <p>
+              Designed in Germany, steht FOCUSWERK für kompromisslose Qualität in jedem Detail. Das tiefe Mattschwarz mit dezentem 
+              tonalen Logo fügt sich nahtlos in jedes professionelle Setup ein — ob Home Office, Studio oder Büro. Mit 4 mm 
+              Komfort-Dicke ist das Workspace Mat für ganztägige Nutzung entwickelt und bietet optimalen Komfort für Handgelenk und Unterarm.
+            </p>
+            <p>
+              Kostenloser Versand innerhalb der EU, 14 Tage Rückgaberecht und sichere Zahlung über Stripe und PayPal. 
+              Limitierte Stückzahl — jede Charge wird geprüft, bevor sie versendet wird. 
+              <Link to="/philosophy" className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/80"> Erfahre mehr über unsere Philosophie</Link> 
+              {" "}oder{" "}
+              <Link to="/shop" className="font-medium text-foreground underline underline-offset-4 hover:text-foreground/80">bestelle jetzt dein DESK MAT 01</Link>.
+            </p>
           </div>
         </ScrollReveal>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-t border-border" aria-label="Häufige Fragen">
+        <div className="container py-24">
+          <ScrollReveal>
+            <p className="text-center text-xs font-medium uppercase tracking-[0.4em] text-muted-foreground">
+              FAQ
+            </p>
+            <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-foreground">
+              Häufige Fragen
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={150}>
+            <div className="mx-auto mt-12 max-w-2xl space-y-12">
+              {([
+                { title: "Produkt", items: faqData.produkt },
+                { title: "Versand", items: faqData.versand },
+                { title: "Rückgabe", items: faqData.rueckgabe },
+              ] as const).map((section) => (
+                <div key={section.title}>
+                  <h3 className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">{section.title}</h3>
+                  <Accordion type="single" collapsible className="mt-4">
+                    {section.items.map((f, i) => (
+                      <AccordionItem key={i} value={`${section.title}-${i}`} className="border-border">
+                        <AccordionTrigger className="text-sm text-foreground hover:no-underline">
+                          {f.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-sm text-muted-foreground">
+                          {f.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Shipping & Trust Summary */}
+      <section className="border-t border-border" aria-label="Versand und Vertrauen">
+        <div className="container py-16">
+          <div className="mx-auto grid max-w-4xl gap-8 text-center sm:grid-cols-4">
+            <div>
+              <p className="text-sm font-semibold text-foreground">Kostenloser Versand</p>
+              <p className="mt-1 text-xs text-muted-foreground">Innerhalb der EU</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">14 Tage Rückgabe</p>
+              <p className="mt-1 text-xs text-muted-foreground">Ohne Angabe von Gründen</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">Sichere Zahlung</p>
+              <p className="mt-1 text-xs text-muted-foreground">Stripe · PayPal · Apple Pay</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">Versand aus Deutschland</p>
+              <p className="mt-1 text-xs text-muted-foreground">5–8 Werktage Lieferzeit</p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );

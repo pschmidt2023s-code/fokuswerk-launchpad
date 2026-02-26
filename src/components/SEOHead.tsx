@@ -6,10 +6,11 @@ interface SEOHeadProps {
   canonical?: string;
   type?: "website" | "product";
   image?: string;
-  jsonLd?: Record<string, unknown>;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const SEOHead = ({ title, description, canonical, type = "website", image, jsonLd }: SEOHeadProps) => {
+const SEOHead = ({ title, description, canonical, type = "website", image, jsonLd, noindex = false }: SEOHeadProps) => {
   useEffect(() => {
     document.title = title;
 
@@ -27,11 +28,18 @@ const SEOHead = ({ title, description, canonical, type = "website", image, jsonL
     setMeta("og:title", title, "property");
     setMeta("og:description", description, "property");
     setMeta("og:type", type, "property");
+    setMeta("og:url", canonical || window.location.href, "property");
     if (image) setMeta("og:image", image, "property");
+    setMeta("og:locale", "de_DE", "property");
+    setMeta("og:site_name", "FOCUSWERK", "property");
     setMeta("twitter:card", "summary_large_image");
     setMeta("twitter:title", title);
     setMeta("twitter:description", description);
     if (image) setMeta("twitter:image", image);
+
+    // Robots
+    const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+    setMeta("robots", robotsContent);
 
     // Canonical
     let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -46,22 +54,23 @@ const SEOHead = ({ title, description, canonical, type = "website", image, jsonL
       link.remove();
     }
 
-    // JSON-LD
-    const existingScript = document.querySelector('script[data-seo-jsonld]');
-    if (existingScript) existingScript.remove();
-    if (jsonLd) {
+    // JSON-LD (support multiple)
+    const existingScripts = document.querySelectorAll('script[data-seo-jsonld]');
+    existingScripts.forEach(s => s.remove());
+    
+    const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+    schemas.forEach((schema) => {
       const script = document.createElement("script");
       script.type = "application/ld+json";
       script.setAttribute("data-seo-jsonld", "true");
-      script.textContent = JSON.stringify(jsonLd);
+      script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
-    }
+    });
 
     return () => {
-      const s = document.querySelector('script[data-seo-jsonld]');
-      if (s) s.remove();
+      document.querySelectorAll('script[data-seo-jsonld]').forEach(s => s.remove());
     };
-  }, [title, description, canonical, type, image, jsonLd]);
+  }, [title, description, canonical, type, image, jsonLd, noindex]);
 
   return null;
 };
